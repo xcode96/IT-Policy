@@ -14,9 +14,11 @@ interface PolicyDetailProps {
   isStaticContent: boolean;
   error: string | null;
   isAdmin: boolean;
+  isAiInitialized: boolean;
   onSave: (policyId: number, newContent: string) => void;
   onExportSingleJson: (policyId: number) => void;
   isExportingSingleJson: boolean;
+  onSettingsClick: () => void;
 }
 
 const PolicyDetail: React.FC<PolicyDetailProps> = ({ 
@@ -26,9 +28,11 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     isStaticContent, 
     error, 
     isAdmin, 
+    isAiInitialized,
     onSave, 
     onExportSingleJson,
-    isExportingSingleJson
+    isExportingSingleJson,
+    onSettingsClick,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState('');
@@ -71,6 +75,11 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
           <div className="bg-red-50 border border-red-200 text-red-700 p-6 rounded-lg max-w-lg" role="alert">
             <h3 className="font-bold text-lg text-red-800">Error Generating Policy</h3>
             <p className="mt-2 text-sm">{error}</p>
+            {isAdmin && error.includes('API Key') && (
+                <button onClick={onSettingsClick} className="mt-4 px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-md hover:bg-red-700">
+                    Go to Settings
+                </button>
+            )}
           </div>
         </div>
       );
@@ -85,7 +94,13 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                  </svg>
               </div>
               <h3 className="mt-8 text-2xl font-semibold text-textPrimary">Welcome to the Policy Portal</h3>
-              <p className="mt-2 max-w-md text-textSecondary">Select a policy from the list on the left to view its details. As an administrator, you can also edit and add new policies.</p>
+              <p className="mt-2 max-w-md text-textSecondary">Select a policy from the list on the left to view its details.
+                {isAdmin && !isAiInitialized && (
+                    <span className="block mt-2 font-semibold text-primary">
+                        To enable AI features, please set your API key in the <button onClick={onSettingsClick} className="underline">Settings</button> panel.
+                    </span>
+                )}
+              </p>
             </div>
           );
     }

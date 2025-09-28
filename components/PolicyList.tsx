@@ -6,6 +6,7 @@ interface PolicyListProps {
   selectedPolicyId: number | undefined;
   onSelectPolicy: (policy: Policy) => void;
   isAdmin: boolean;
+  isAiInitialized: boolean;
   onAddPolicyClick: () => void;
   onImportJsonFile: (file: File) => void;
   isImporting: boolean;
@@ -15,7 +16,7 @@ interface PolicyListProps {
   syncStatus: SyncStatus;
 }
 
-const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onSelectPolicy, isAdmin, onAddPolicyClick, onImportJsonFile, isImporting, onExportAllJson, isExportingJson, onLiveSyncClick, syncStatus }) => {
+const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onSelectPolicy, isAdmin, isAiInitialized, onAddPolicyClick, onImportJsonFile, isImporting, onExportAllJson, isExportingJson, onLiveSyncClick, syncStatus }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isActionInProgress = isImporting || isExportingJson;
 
@@ -28,7 +29,6 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
     if (file) {
       onImportJsonFile(file);
     }
-    // Reset the input value to allow re-uploading the same file
     if(event.target) {
       event.target.value = '';
     }
@@ -84,8 +84,9 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={onAddPolicyClick}
-              disabled={isActionInProgress}
-              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-primary text-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary shadow-sm disabled:bg-slate-400 disabled:cursor-wait"
+              disabled={isActionInProgress || !isAiInitialized}
+              title={!isAiInitialized ? 'Please set your API key in Settings to add a policy' : 'Add a new policy'}
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-primary text-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary shadow-sm disabled:bg-slate-400 disabled:cursor-not-allowed"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />

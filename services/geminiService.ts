@@ -1,13 +1,33 @@
-
 import { GoogleGenAI } from "@google/genai";
 
-if (!process.env.API_KEY) {
-    throw new Error("API_KEY environment variable not set");
-}
+let ai: GoogleGenAI | null = null;
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const geminiClient = {
+  initialize: (apiKey: string): boolean => {
+    if (!apiKey) {
+      console.error("Attempted to initialize AI client without an API key.");
+      ai = null;
+      return false;
+    }
+    try {
+      ai = new GoogleGenAI({ apiKey });
+      return true;
+    } catch (error) {
+        console.error("Failed to initialize GoogleGenAI client:", error);
+        ai = null;
+        return false;
+    }
+  },
 
-export async function generatePolicyContent(policyName: string): Promise<string> {
+  isInitialized: (): boolean => {
+    return ai !== null;
+  },
+
+  generatePolicyContent: async (policyName: string): Promise<string> => {
+    if (!ai) {
+      throw new Error("AI Client has not been initialized. Please configure the API Key in Settings.");
+    }
+    
     const prompt = `
         Act as an IT policy expert and corporate writer.
         Generate a comprehensive and professionally formatted document for the following IT policy: "${policyName}".
@@ -28,14 +48,20 @@ export async function generatePolicyContent(policyName: string): Promise<string>
     `;
 
     try {
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-        });
-
-        return response.text;
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+      });
+      return response.text;
     } catch (error) {
-        console.error("Error generating content from Gemini API:", error);
-        throw new Error("Failed to communicate with the AI model.");
+      console.error("Error generating content from Gemini API:", error);
+      // Pass a more specific error message up
+      if (error instanceof Error && error.message.includes('API key not valid')) {
+          throw new Error("The provided API key is not valid. Please check it in Settings.");
+      }
+      throw new Error("Failed to communicate with the AI model.");
     }
-}
+  }
+};
+
+export default geminiClient;

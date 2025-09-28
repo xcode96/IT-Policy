@@ -6,10 +6,13 @@ import PolicyDetail from './components/PolicyDetail';
 import LoginModal from './components/LoginModal';
 import AddPolicyModal from './components/AddPolicyModal';
 import LiveSyncModal from './components/LiveSyncModal';
+import SettingsModal from './components/SettingsModal';
 import { INITIAL_POLICIES } from './constants';
 import { STATIC_POLICIES } from './staticPolicies';
 import { type Policy, type SyncStatus } from './types';
-import { generatePolicyContent } from './services/geminiService';
+import geminiClient from './services/geminiService';
+
+const API_KEY_STORAGE_KEY = 'it-policy-portal-api-key';
 
 const App: React.FC = () => {
   const [policies, setPolicies] = useState<Policy[]>([]);
@@ -23,6 +26,7 @@ const App: React.FC = () => {
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showAddPolicyModal, setShowAddPolicyModal] = useState<boolean>(false);
   const [showLiveSyncModal, setShowLiveSyncModal] = useState<boolean>(false);
+  const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
   
   const [editedContentCache, setEditedContentCache] = useState<Map<number, string>>(new Map());
   const [isExportingJson, setIsExportingJson] = useState<boolean>(false);
@@ -32,8 +36,16 @@ const App: React.FC = () => {
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('not-connected');
   const [syncUrl, setSyncUrl] = useState<string>('');
 
+  const [isAiInitialized, setIsAiInitialized] = useState<boolean>(false);
+  const [apiKey, setApiKey] = useState<string>('');
 
   useEffect(() => {
+    // Load API key from local storage on initial load
+    const storedApiKey = localStorage.getItem(API_KEY_STORAGE_KEY);
+    if (storedApiKey) {
+      handleSaveSettings(storedApiKey);
+    }
+
     // Initialize policies with an ID
     const policiesWithIds = INITIAL_POLICIES.map((name, index) => ({
       id: index + 1,
@@ -49,13 +61,16 @@ const App: React.FC = () => {
     if (STATIC_POLICIES.has(policy.name)) {
         return STATIC_POLICIES.get(policy.name)!;
     }
+    if (!isAiInitialized) {
+        throw new Error("AI Client has not been initialized. Please configure the API Key in Settings.");
+    }
     try {
-        return await generatePolicyContent(policy.name);
+        return await geminiClient.generatePolicyContent(policy.name);
     } catch (err) {
         console.error(`Failed to generate content for ${policy.name}`, err);
-        return `Error: Could not generate content for this policy.`;
+        throw err; // Re-throw the specific error from the service
     }
-  }, [editedContentCache]);
+  }, [editedContentCache, isAiInitialized]);
 
   const handleSelectPolicy = useCallback(async (policy: Policy) => {
     if (selectedPolicy?.id === policy.id && policyContent && !editedContentCache.has(policy.id)) {
@@ -86,16 +101,22 @@ const App: React.FC = () => {
     
     // 3. Fallback to generating content via AI
     setIsStaticContent(false);
+    if (!isAiInitialized) {
+      setError("Cannot generate policy. Please set your Google AI API Key in the Settings panel.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const content = await generatePolicyContent(policy.name);
+      const content = await geminiClient.generatePolicyContent(policy.name);
       setPolicyContent(content);
     } catch (err) {
       console.error(err);
-      setError('Failed to generate policy content. Please check your API key and try again.');
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
       setIsLoading(false);
     }
-  }, [selectedPolicy, policyContent, editedContentCache]);
+  }, [selectedPolicy, policyContent, editedContentCache, isAiInitialized]);
 
   const handleLogin = (success: boolean) => {
     if (success) {
@@ -128,6 +149,23 @@ const App: React.FC = () => {
     setPolicyContent(newContent); // Update view immediately
   };
 
+  const handleSaveSettings = (newApiKey: string) => {
+    const success = geminiClient.initialize(newApiKey);
+    setIsAiInitialized(success);
+    setApiKey(newApiKey);
+    if (success) {
+        localStorage.setItem(API_KEY_STORAGE_KEY, newApiKey);
+        setShowSettingsModal(false);
+        // If a policy was selected and failed due to no key, retry
+        if (selectedPolicy && error) {
+            handleSelectPolicy(selectedPolicy);
+        }
+    } else {
+        localStorage.removeItem(API_KEY_STORAGE_KEY);
+        // Optionally, you can show an error in the settings modal itself
+    }
+  }
+
   const triggerDownload = (filename: string, content: string, mimeType: string) => {
     const blob = new Blob([content], { type: mimeType });
     const link = document.createElement('a');
@@ -145,12 +183,14 @@ const App: React.FC = () => {
     const exportData = [];
 
     for (const policy of sortedPolicies) {
-        const content = await getPolicyContent(policy);
-        exportData.push({
-            id: policy.id,
-            name: policy.name,
-            content: content
-        });
+        try {
+            const content = await getPolicyContent(policy);
+            exportData.push({ id: policy.id, name: policy.name, content: content });
+        } catch(e) {
+            // If AI is not configured, we can still export cached/static policies
+            const content = editedContentCache.get(policy.id) || STATIC_POLICIES.get(policy.name) || `Could not generate content. AI not configured.`;
+            exportData.push({ id: policy.id, name: policy.name, content: content });
+        }
     }
 
     triggerDownload('it_policies_export.json', JSON.stringify(exportData, null, 2), 'application/json');
@@ -162,16 +202,16 @@ const App: React.FC = () => {
     if (!policy) return;
 
     setIsExportingSingleJson(policy.id);
-    const content = await getPolicyContent(policy);
-    const exportData = {
-        id: policy.id,
-        name: policy.name,
-        content: content
-    };
-
-    const filename = `${policy.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_policy.json`;
-    triggerDownload(filename, JSON.stringify(exportData, null, 2), 'application/json');
-    setIsExportingSingleJson(null);
+    try {
+        const content = await getPolicyContent(policy);
+        const exportData = { id: policy.id, name: policy.name, content: content };
+        const filename = `${policy.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_policy.json`;
+        triggerDownload(filename, JSON.stringify(exportData, null, 2), 'application/json');
+    } catch (e) {
+        alert(e instanceof Error ? e.message : 'An unknown error occurred during export.');
+    } finally {
+        setIsExportingSingleJson(null);
+    }
   };
 
 
@@ -203,18 +243,12 @@ const App: React.FC = () => {
                 const existingPolicyIndex = updatedPolicies.findIndex(p => p.id === importedPolicy.id);
 
                 if (existingPolicyIndex > -1) {
-                    // Policy exists, update it
-                    updatedPolicies[existingPolicyIndex] = {
-                        id: importedPolicy.id,
-                        name: importedPolicy.name,
-                    };
+                    updatedPolicies[existingPolicyIndex] = { id: importedPolicy.id, name: importedPolicy.name };
                 } else {
-                    // New policy, add it, ensuring ID is unique
                     const newId = updatedPolicies.some(p => p.id === importedPolicy.id) ? ++maxId : importedPolicy.id;
                     updatedPolicies.push({ id: newId, name: importedPolicy.name });
                     if (newId > maxId) maxId = newId;
                 }
-                // Update cache for both new and existing
                 newCache.set(importedPolicy.id, importedPolicy.content);
             });
 
@@ -261,16 +295,15 @@ const App: React.FC = () => {
 
         setPolicies(newPolicies.sort((a, b) => a.name.localeCompare(b.name)));
         setEditedContentCache(newCache);
-        setSelectedPolicy(null); // Deselect current policy
-        setPolicyContent(''); // Clear content panel
+        setSelectedPolicy(null);
+        setPolicyContent('');
         setSyncStatus('connected');
         setShowLiveSyncModal(false);
 
     } catch (error) {
         console.error('Sync failed:', error);
         setSyncStatus('failed');
-        // Do not clear the URL, so the user can retry
-        throw error; // Rethrow to be caught in the modal
+        throw error;
     }
   };
 
@@ -288,6 +321,7 @@ const App: React.FC = () => {
             selectedPolicyId={selectedPolicy?.id}
             onSelectPolicy={handleSelectPolicy}
             isAdmin={isAdmin}
+            isAiInitialized={isAiInitialized}
             onAddPolicyClick={() => setShowAddPolicyModal(true)}
             onImportJsonFile={handleImportJsonFile}
             isImporting={isImporting}
@@ -303,6 +337,7 @@ const App: React.FC = () => {
               isAdmin={isAdmin}
               onLoginClick={() => setShowLoginModal(true)}
               onLogout={handleLogout}
+              onSettingsClick={() => setShowSettingsModal(true)}
             />
             <main className="flex-grow p-6 md:p-8 lg:p-10 overflow-y-auto">
               <PolicyDetail
@@ -312,9 +347,11 @@ const App: React.FC = () => {
                 isStaticContent={isStaticContent}
                 error={error}
                 isAdmin={isAdmin}
+                isAiInitialized={isAiInitialized}
                 onSave={handleSavePolicyContent}
                 onExportSingleJson={handleExportSingleJson}
                 isExportingSingleJson={isExportingSingleJson === selectedPolicy?.id}
+                onSettingsClick={() => setShowSettingsModal(true)}
               />
             </main>
             <Footer />
@@ -330,6 +367,13 @@ const App: React.FC = () => {
             onDisconnect={handleDisconnect}
             syncStatus={syncStatus}
             syncUrl={syncUrl}
+        />
+      )}
+      {showSettingsModal && (
+        <SettingsModal
+          onClose={() => setShowSettingsModal(false)}
+          onSave={handleSaveSettings}
+          currentApiKey={apiKey}
         />
       )}
     </>
