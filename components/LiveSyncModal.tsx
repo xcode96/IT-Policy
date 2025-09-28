@@ -62,17 +62,27 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
                     </div>
                     <button onClick={onClose} className="text-textMuted hover:text-textSecondary transition-colors text-2xl">&times;</button>
                 </div>
+
+                <div className="text-sm text-textSecondary bg-slate-50 p-4 rounded-md border border-border mb-6">
+                    <h3 className="font-semibold text-textPrimary mb-2">How It Works:</h3>
+                    <ol className="list-decimal list-inside space-y-1">
+                        <li>Make changes in the app and use the <strong>"Export All JSON"</strong> button.</li>
+                        <li>Manually upload the exported file to your server (like a GitHub repository).</li>
+                        <li>Get the <strong>"Raw" URL</strong> for the uploaded JSON file.</li>
+                        <li>Paste the URL below and click <strong>"Connect & Sync"</strong> to load your policies.</li>
+                    </ol>
+                </div>
                 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label htmlFor="syncUrl" className="block text-sm font-medium text-textSecondary mb-2">Server URL</label>
+                        <label htmlFor="syncUrl" className="block text-sm font-medium text-textSecondary mb-2">Server "Raw" URL</label>
                         <input
                             type="url"
                             id="syncUrl"
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                             className="w-full px-4 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary disabled:bg-slate-100"
-                            placeholder="https://your-server.com/policies.json"
+                            placeholder="https://raw.githubusercontent.com/..."
                             required
                             disabled={currentStatus === 'connecting' || currentStatus === 'connected'}
                         />

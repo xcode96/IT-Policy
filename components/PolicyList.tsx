@@ -74,6 +74,12 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
       </nav>
       {isAdmin && (
         <div className="px-4 py-4 mt-auto border-t border-border flex-shrink-0 space-y-3">
+           <div className="p-3 mb-3 text-xs text-blue-800 bg-blue-50 border border-blue-200 rounded-md">
+            <p className="font-semibold">Workflow Reminder:</p>
+            <p className="mt-1">
+              Exported JSON files are saved to your computer's **Downloads folder**. Manually upload that file to your GitHub or server.
+            </p>
+           </div>
            <input
             type="file"
             ref={fileInputRef}
