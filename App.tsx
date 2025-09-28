@@ -5,6 +5,7 @@ import PolicyDetail from './components/PolicyDetail';
 import AddPolicyModal from './components/AddPolicyModal';
 import LiveSyncModal from './components/LiveSyncModal';
 import LoginModal from './components/LoginModal';
+import DeletePolicyModal from './components/DeletePolicyModal';
 import { type Policy, type SyncStatus } from './types';
 import LoadingSpinner from './components/LoadingSpinner';
 
@@ -23,6 +24,7 @@ const App: React.FC = () => {
   const [showAddPolicyModal, setShowAddPolicyModal] = useState<boolean>(false);
   const [showLiveSyncModal, setShowLiveSyncModal] = useState<boolean>(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [policyToDelete, setPolicyToDelete] = useState<Policy | null>(null);
   const [loginError, setLoginError] = useState<string>('');
   
   const [isExportingJson, setIsExportingJson] = useState<boolean>(false);
@@ -54,7 +56,6 @@ const App: React.FC = () => {
             });
             setEditedContentCache(contentCache);
             
-            // On desktop, select the first policy by default. On mobile, show the list first.
             if (window.innerWidth >= 768 && loadedPolicies.length > 0) {
               const firstPolicy = loadedPolicies[0];
               setSelectedPolicy(firstPolicy);
@@ -99,7 +100,6 @@ const App: React.FC = () => {
   };
 
   const handleLogin = (username: string, password: string) => {
-    // NOTE: In a real application, this would be an API call to a secure backend.
     if (username === 'admin' && password === 'password') {
         setIsAdmin(true);
         setShowLoginModal(false);
@@ -125,6 +125,47 @@ const App: React.FC = () => {
         setShowAddPolicyModal(false);
         handleSelectPolicy(newPolicy);
     }
+  };
+
+  const handleUpdatePolicyName = (policyId: number, newName: string) => {
+    const trimmedName = newName.trim();
+    if (!trimmedName) return;
+
+    const updatedPolicies = policies.map(p => 
+        p.id === policyId ? { ...p, name: trimmedName } : p
+    ).sort((a, b) => a.name.localeCompare(b.name));
+    
+    setPolicies(updatedPolicies);
+
+    if (selectedPolicy?.id === policyId) {
+        setSelectedPolicy(prev => prev ? { ...prev, name: trimmedName } : null);
+    }
+  };
+
+  const handleDeletePolicy = (policyId: number) => {
+    if (!policyToDelete || policyToDelete.id !== policyId) return;
+
+    const originalPolicies = [...policies];
+    const newPolicies = policies.filter(p => p.id !== policyId);
+    setPolicies(newPolicies);
+
+    const newCache = new Map(editedContentCache);
+    newCache.delete(policyId);
+    setEditedContentCache(newCache);
+
+    if (selectedPolicy?.id === policyId) {
+        const currentIndex = originalPolicies.findIndex(p => p.id === policyId);
+        if (newPolicies.length === 0) {
+            setSelectedPolicy(null);
+        } else if (currentIndex >= newPolicies.length) {
+            // If last item was deleted, select the new last item
+            handleSelectPolicy(newPolicies[newPolicies.length - 1]);
+        } else {
+            // Otherwise, select the item at the same index
+            handleSelectPolicy(newPolicies[currentIndex]);
+        }
+    }
+    setPolicyToDelete(null);
   };
 
   const handleSavePolicyContent = (policyId: number, newContent: string) => {
@@ -200,17 +241,14 @@ const App: React.FC = () => {
                 const existingPolicyIndex = updatedPolicies.findIndex(p => p.id === policyToProcess.id);
 
                 if (existingPolicyIndex > -1) {
-                    // Update existing policy
                     updatedPolicies[existingPolicyIndex] = { id: policyToProcess.id, name: policyToProcess.name };
                 } else {
-                    // Add new policy, checking for ID collision first
                     if (updatedPolicies.some(p => p.id === policyToProcess.id)) {
                         policyToProcess.id = ++maxId;
                     }
                     updatedPolicies.push({ id: policyToProcess.id, name: policyToProcess.name });
                     if (policyToProcess.id > maxId) maxId = policyToProcess.id;
                 }
-                // Set cache using the final ID, whether it was original or newly generated
                 newCache.set(policyToProcess.id, policyToProcess.content);
             });
 
@@ -318,6 +356,8 @@ const App: React.FC = () => {
             onLogout={handleLogout}
             onLoginClick={() => setShowLoginModal(true)}
             onBackClick={handleMobileBack}
+            onUpdateName={handleUpdatePolicyName}
+            onDeleteClick={(policy) => setPolicyToDelete(policy)}
           />
            <Footer />
         </main>
@@ -337,6 +377,13 @@ const App: React.FC = () => {
             onClose={() => { setShowLoginModal(false); setLoginError(''); }}
             onLogin={handleLogin}
             error={loginError}
+        />
+      )}
+      {policyToDelete && (
+        <DeletePolicyModal
+            policy={policyToDelete}
+            onClose={() => setPolicyToDelete(null)}
+            onConfirm={() => handleDeletePolicy(policyToDelete.id)}
         />
       )}
     </>

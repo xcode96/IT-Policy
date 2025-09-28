@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { type Policy } from '../types';
 import LoadingSpinner from './LoadingSpinner';
+import { generatePolicyContent } from '../services/geminiService';
 
 // Use the global 'marked' object from the script tag in index.html
 declare const marked: {
@@ -19,6 +20,8 @@ interface PolicyDetailProps {
   onLogout: () => void;
   onLoginClick: () => void;
   onBackClick: () => void;
+  onUpdateName: (policyId: number, newName: string) => void;
+  onDeleteClick: (policy: Policy) => void;
 }
 
 const SecurityShieldIcon: React.FC<{ className?: string }> = ({ className = "h-8 w-8 text-primary" }) => (
@@ -39,13 +42,23 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     isExportingSingleJson,
     onLogout,
     onLoginClick,
-    onBackClick
+    onBackClick,
+    onUpdateName,
+    onDeleteClick,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState('');
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editedName, setEditedName] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+
 
   useEffect(() => {
     setIsEditing(false);
+    setIsEditingName(false);
+    if (policy) {
+        setEditedName(policy.name);
+    }
   }, [content, policy]);
 
   const handleEditClick = () => {
@@ -63,6 +76,27 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
   const handleCancelClick = () => {
     setIsEditing(false);
     setEditedContent('');
+  };
+
+  const handleSaveName = () => {
+    if (policy && editedName.trim()) {
+        onUpdateName(policy.id, editedName.trim());
+        setIsEditingName(false);
+    }
+  };
+
+  const handleGenerateContent = async () => {
+    if (!policy) return;
+    setIsGenerating(true);
+    try {
+        const generatedContent = await generatePolicyContent(policy.name);
+        setEditedContent(generatedContent);
+        setIsEditing(true);
+    } catch (e) {
+        alert(e instanceof Error ? e.message : 'An unknown error occurred during AI content generation.');
+    } finally {
+        setIsGenerating(false);
+    }
   };
 
   const headerContent = (
@@ -170,8 +204,44 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     return (
       <div className="mx-auto px-6 md:px-8 lg:px-10 py-8">
           <div className="flex justify-between items-start mb-8">
-              <h1 className="text-3xl font-bold text-textPrimary tracking-tight">{policy.name}</h1>
-              {isAdmin && (
+            {!isEditingName ? (
+                <h1 className="text-3xl font-bold text-textPrimary tracking-tight flex items-center gap-3">
+                    <span>{policy.name}</span>
+                    {isAdmin && (
+                        <button
+                            onClick={() => setIsEditingName(true)}
+                            title="Edit policy name"
+                            className="p-1 rounded-full text-textSecondary hover:bg-slate-700 hover:text-textPrimary transition-colors"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
+                            </svg>
+                        </button>
+                    )}
+                </h1>
+            ) : (
+                <div className="flex-grow flex items-center gap-3 mr-4">
+                    <input
+                        type="text"
+                        value={editedName}
+                        onChange={(e) => setEditedName(e.target.value)}
+                        className="w-full text-3xl font-bold bg-transparent border-b-2 border-primary focus:outline-none text-textPrimary"
+                        autoFocus
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') handleSaveName();
+                            if (e.key === 'Escape') setIsEditingName(false);
+                        }}
+                    />
+                    <button onClick={handleSaveName} className="px-4 py-1 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark transition-colors">
+                        Save
+                    </button>
+                    <button onClick={() => setIsEditingName(false)} className="px-4 py-1 text-sm font-semibold text-textSecondary hover:text-textPrimary transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            )}
+              {isAdmin && !isEditingName && (
                   <div className="flex items-center gap-3 flex-shrink-0 pl-4">
                       <button
                           onClick={() => onExportSingleJson(policy.id)}
@@ -205,6 +275,16 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                           </svg>
                           Edit Policy
                       </button>
+                       <button 
+                            onClick={() => onDeleteClick(policy)}
+                            title="Delete policy"
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-red-400 bg-red-900/20 rounded-lg hover:bg-red-900/40 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-red-500"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clipRule="evenodd" />
+                            </svg>
+                            Delete
+                        </button>
                   </div>
               )}
           </div>
@@ -214,18 +294,42 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                 dangerouslySetInnerHTML={{ __html: marked.parse(content) }} 
               />
           ) : (
-              <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-border rounded-lg bg-background mt-8">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                  </svg>
-                  <h3 className="mt-4 font-semibold text-lg text-textPrimary">This policy has no content.</h3>
-                  {isAdmin ? (
-                      <p className="mt-1 max-w-md text-textSecondary text-sm">Click the "Edit Policy" button to add content.</p>
-                  ) : (
-                      <p className="mt-1 max-w-md text-textSecondary text-sm">Content has not yet been defined for this policy.</p>
-                  )}
-              </div>
-          )}
+            <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-border rounded-lg bg-background mt-8">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                <h3 className="mt-4 font-semibold text-lg text-textPrimary">This policy has no content.</h3>
+                {isAdmin ? (
+                    <>
+                      <p className="mt-1 max-w-md text-textSecondary text-sm">Click "Edit Policy" to add content manually, or generate it with AI.</p>
+                       <button
+                          onClick={handleGenerateContent}
+                          disabled={isGenerating}
+                          className="mt-6 flex items-center justify-center gap-2.5 px-5 py-2.5 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark disabled:bg-slate-600 disabled:text-slate-400 disabled:cursor-wait transition-all duration-200"
+                      >
+                          {isGenerating ? (
+                              <>
+                                  <svg className="animate-spin -ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                  </svg>
+                                  <span>Generating...</span>
+                              </>
+                          ) : (
+                              <>
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                      <path d="M9.401 2.657a.75.75 0 011.198 0l.28 1.402a.75.75 0 001.298.44l1.156-.867a.75.75 0 01.962 1.073l-.867 1.156a.75.75 0 00.44 1.298l1.402.28a.75.75 0 010 1.198l-1.402.28a.75.75 0 00-.44 1.298l.867 1.156a.75.75 0 01-1.073.962l-1.156-.867a.75.75 0 00-1.298.44l-.28 1.402a.75.75 0 01-1.198 0l-.28-1.402a.75.75 0 00-1.298-.44l-1.156.867a.75.75 0 01-.962-1.073l.867-1.156a.75.75 0 00-.44-1.298l-1.402-.28a.75.75 0 010-1.198l1.402-.28a.75.75 0 00.44-1.298l-.867-1.156a.75.75 0 011.073-.962l1.156.867a.75.75 0 001.298-.44l.28-1.402zM9.998 12a2 2 0 100-4 2 2 0 000 4z" />
+                                  </svg>
+                                  <span>Generate with AI</span>
+                              </>
+                          )}
+                      </button>
+                    </>
+                ) : (
+                    <p className="mt-1 max-w-md text-textSecondary text-sm">Content has not yet been defined for this policy.</p>
+                )}
+            </div>
+        )}
       </div>
     );
   }

@@ -49,6 +49,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose, error }) => {
                             placeholder="admin"
                             required
                             autoFocus
+                            autoComplete="username"
                         />
                     </div>
                     <div className="mb-6">
@@ -61,6 +62,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose, error }) => {
                             className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary"
                             placeholder="password"
                             required
+                            autoComplete="current-password"
                         />
                     </div>
                     

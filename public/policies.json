@@ -2,251 +2,251 @@
   {
     "id": 1,
     "name": "Acceptable Encryption Policy",
-    "content": "### Consensus Policy Resource Community\n> **Free Use Disclaimer:** This policy was created by or for the SANS Institute for the Internet community. All or parts of this policy can be freely used for your organization. There is no prior approval required. If you would like to contribute a new policy or updated version of this policy, please send email to policy-resources@sans.org.\n\n**Last Update Status:** Updated June 2014\n\n### 1. Overview\nSee Purpose.\n\n### 2. Purpose\nThe purpose of this policy is to provide guidance that limits the use of encryption to those algorithms that have received substantial public review and have been proven to work effectively. Additionally, this policy provides direction to ensure that Federal regulations are followed, and legal authority is granted for the dissemination and use of encryption technologies outside of the United States.\n\n### 3. Scope\nThis policy applies to all `<Company Name>` employees and affiliates.\n\n### 4. Policy\n\n**4.1 Algorithm Requirements**\n\n*   **4.1.1** Ciphers in use must meet or exceed the set defined as \"AES-compatible\" or \"partially AES-compatible\" according to the IETF/IRTF Cipher Catalog, or the set defined for use in the United States National Institute of Standards and Technology (NIST) publication FIPS 140-2, or any superseding documents according to the date of implementation. The use of the Advanced Encryption Standard (AES) is strongly recommended for symmetric encryption.\n\n*   **4.1.2** Algorithms in use must meet the standards defined for use in NIST publication FIPS 140-2 or any superseding document, according to date of implementation. The use of the RSA and Elliptic Curve Cryptography (ECC) algorithms is strongly recommended for asymmetric encryption.\n\n*   **4.1.3 Signature Algorithms**\n\n| Algorithm | Key Length (min) | Additional Comment |\n| --- | --- | --- |\n| ECDSA | P-256 | Consider RFC6090 to avoid patent infringement. |\n| RSA | 2048 | Must use a secure padding scheme. PKCS#7 padding scheme is recommended. Message hashing required. |\n| LDWM | SHA256 | Refer to LDWM Hash-based Signatures Draft |\n\n**4.2 Hash Function Requirements**\n\nIn general, `<Company Name>` adheres to the NIST Policy on Hash Functions.\n\n**4.3 Key Agreement and Authentication**\n\n*   **4.3.1** Key exchanges must use one of the following cryptographic protocols: Diffie-Hellman, IKE, or Elliptic curve Diffie-Hellman (ECDH).\n*   **4.3.2** End points must be authenticated prior to the exchange or derivation of session keys.\n*   **4.3.3** Public keys used to establish trust must be authenticated prior to use. Examples of authentication include transmission via cryptographically signed message or manual verification of the public key hash.\n*   **4.3.4** All servers used for authentication (for example, RADIUS or TACACS) must have installed a valid certificate signed by a known trusted provider.\n*   **4.3.5** All servers and applications using SSL or TLS must have the certificates signed by a known, trusted provider.\n\n**4.4 Key Generation**\n\n*   **4.4.1** Cryptographic keys must be generated and stored in a secure manner that prevents loss, theft, or compromise.\n*   **4.4.2** Key generation must be seeded from an industry standard random number generator (RNG). For examples, see NIST Annex C: Approved Random Number Generators for FIPS PUB 140-2.\n\n### 5. Policy Compliance\n\n**5.1 Compliance Measurement**\n\nThe Infosec team will verify compliance to this policy through various methods, including but not limited to, business tool reports, internal and external audits, and feedback to the policy owner.\n\n**5.2 Exceptions**\n\nAny exception to the policy must be approved by the Infosec team in advance.\n\n**5.3 Non-Compliance**\n\nAn employee found to have violated this policy may be subject to disciplinary action, up to and including termination of employment.\n\n### 6. Related Standards, Policies and Processes\n\n*   National Institute of Standards and Technology (NIST) publication FIPS 140-2\n*   NIST Policy on Hash Functions\n\n### 7. Definitions and Terms\n\nThe following definition and terms can be found in the SANS Glossary located at: https://www.sans.org/security-resources/glossary-of-terms/\n\n*   Proprietary Encryption\n\n### 8. Revision History\n\n| Date of Change | Responsible | Summary of Change |\n| --- | --- | --- |\n| June 2014 | SANS Policy Team | Updated and converted to new format. |"
+    "content": ""
   },
   {
     "id": 2,
     "name": "Acceptable Use Policy",
-    "content": "### 1. Purpose\nThis policy outlines the acceptable use of company information systems and resources. Its purpose is to protect both the employee and the company from illegal or damaging actions by individuals, either knowingly or unknowingly.\n\n### 2. Scope\nThis policy applies to all employees, contractors, volunteers, and other workers at `<Company Name>` and its subsidiaries who have access to company systems and data.\n\n### 3. Policy\n- **General Use and Ownership:** Company computing resources are to be used for business purposes in serving the interests of the company, and of our clients and customers. Occasional personal use is permitted, but it must not interfere with work performance or violate any other policies.\n- **Unacceptable Use:** The following activities are strictly prohibited:\n    - Violation of the rights of any person or company protected by copyright, trade secret, patent or other intellectual property, or similar laws or regulations.\n    - Introduction of malicious programs into the network or server (e.g., viruses, worms, Trojan horses, etc.).\n    - Effecting security breaches or disruptions of network communication.\n    - Sending unsolicited email messages, including the sending of \"junk mail\" or other advertising material to individuals who did not specifically request such material (email spam).\n    - Engaging in any activity that is illegal under local, state, federal, or international law."
+    "content": ""
   },
   {
     "id": 3,
     "name": "Acquisition Assessment Policy",
-    "content": "### 1. Purpose\nThis policy establishes the requirements for conducting security and compliance assessments of potential company acquisitions to identify and evaluate risks before integration.\n\n### 2. Scope\nThis policy applies to all personnel involved in the due diligence process for mergers and acquisitions (M&A).\n\n### 3. Policy\n- A formal risk assessment must be conducted on the target company's IT infrastructure, security posture, and compliance standing.\n- The assessment must cover areas including, but not limited to, data protection, network security, application security, and regulatory compliance.\n- Findings from the assessment must be documented and presented to the M&A steering committee to inform the acquisition decision.\n- A plan for mitigating identified risks must be developed as part of the post-acquisition integration strategy."
+    "content": ""
   },
   {
     "id": 4,
     "name": "Analog ISDN Line Security Policy",
-    "content": "### 1. Purpose\nTo establish security standards for the use of analog and ISDN lines to prevent unauthorized access and protect the company's telecommunications infrastructure.\n\n### 2. Scope\nThis policy applies to all analog and ISDN lines connected to the company network, including those used for voice, fax, and modem communications.\n\n### 3. Policy\n- All analog and ISDN lines must be approved by the IT Department before installation.\n- Modems connected to the network must be configured with strong authentication and callback features where applicable.\n- Unused lines must be disconnected and physically terminated to prevent unauthorized connections.\n- Regular audits of all active analog and ISDN lines will be conducted to identify unauthorized or insecure devices."
+    "content": ""
   },
   {
     "id": 5,
     "name": "Anti-Virus Guidelines",
-    "content": "### 1. Purpose\nTo provide guidelines for the use and management of anti-virus software to protect company computing assets from malware, including viruses, worms, and Trojans.\n\n### 2. Scope\nThese guidelines apply to all company-owned servers, workstations, laptops, and mobile devices.\n\n### 3. Guidelines\n- All company computing devices must have company-approved anti-virus software installed.\n- Anti-virus software and signature files must be kept up-to-date automatically.\n- Real-time scanning must be enabled on all devices.\n- Users must not disable or uninstall the anti-virus software.\n- Any detected threats must be reported to the IT Help Desk immediately."
+    "content": ""
   },
   {
     "id": 6,
     "name": "Automatically Forwarded Email Policy",
-    "content": "### 1. Purpose\nTo govern the automatic forwarding of company email to external email systems, in order to prevent data leakage and ensure the security and confidentiality of company information.\n\n### 2. Scope\nThis policy applies to all employees and contractors with a company email account.\n\n### 3. Policy\n- Automatic forwarding of email from a company account to a personal, non-company email address (e.g., Gmail, Yahoo) is strictly prohibited.\n- Forwarding to approved third-party business partners may be permitted with explicit approval from management and the IT Department.\n- All approved automatic forwarding rules must be documented and reviewed periodically.\n- This policy does not prohibit the manual forwarding of individual emails as required for legitimate business purposes, provided such forwarding complies with the Data Classification Policy."
+    "content": ""
   },
   {
     "id": 7,
     "name": "Bluetooth Baseline Requirements Policy",
-    "content": "### 1. Purpose\nTo establish minimum security requirements for the use of Bluetooth technology on company-owned devices to protect against unauthorized access and data exposure.\n\n### 2. Scope\nThis policy applies to all company-owned laptops, mobile phones, and other devices equipped with Bluetooth capabilities.\n\n### 3. Policy\n- Bluetooth must be disabled on all devices when not in active use.\n- When enabled, devices must be set to \"non-discoverable\" or \"hidden\" mode.\n- All Bluetooth pairings must use a strong, non-default PIN or passcode.\n- Sensitive company data must not be transferred over Bluetooth unless an encrypted channel is used and the transfer is approved.\n- Users must not accept pairing requests from unknown or unsolicited devices."
+    "content": ""
   },
   {
     "id": 8,
     "name": "Clean Desk Policy",
-    "content": "### 1. Purpose\nTo establish a standard for maintaining a clean and orderly workspace to reduce the risk of unauthorized access, loss, or damage to company information.\n\n### 2. Scope\nThis policy applies to all employees, contractors, and affiliates in the company's physical office locations.\n\n### 3. Policy\n- Sensitive and confidential information, in both paper and electronic form, must be secured when unattended and at the end of the workday.\n- Laptops, mobile devices, and removable media must be locked away or taken off-site when not in use.\n- Passwords must not be written down and left in plain sight.\n- Printers and fax machines should be cleared of sensitive documents immediately after printing."
+    "content": ""
   },
   {
     "id": 9,
     "name": "Communications Equipment Policy",
-    "content": "### 1. Purpose\nTo define the acceptable use and security requirements for all company-provided communications equipment, including desk phones, mobile phones, and video conferencing systems.\n\n### 2. Scope\nThis policy applies to all employees and contractors who are issued or use company communications equipment.\n\n### 3. Policy\n- Company-provided communications equipment is intended for business use. Limited personal use is acceptable, provided it is not excessive and does not violate other policies.\n- Users are responsible for the physical security of the equipment assigned to them.\n- All company-provided mobile devices must be protected with a strong passcode or biometric lock.\n- Confidential business conversations should not be held in public areas where they can be overheard."
+    "content": ""
   },
   {
     "id": 10,
     "name": "Data Breach Response Policy",
-    "content": "### 1. Purpose\nTo establish a formal plan for responding to and managing a data breach in a timely and effective manner, in order to minimize risk, damage, and financial loss.\n\n### 2. Scope\nThis policy applies to all personnel and systems involved in the handling, processing, and storage of company data.\n\n### 3. Policy\n- A dedicated Cyber Security Incident Response Team (CSIRT) is established to manage all data breach incidents.\n- All suspected data breaches must be immediately reported to the CSIRT or the IT Help Desk.\n- The CSIRT will follow a formal incident response lifecycle: Preparation, Identification, Containment, Eradication, Recovery, and Lessons Learned.\n- Communication with external parties, including customers, regulators, and law enforcement, will be managed by a designated communications lead in coordination with legal counsel."
+    "content": ""
   },
   {
     "id": 11,
     "name": "Database Credentials Policy",
-    "content": "### 1. Purpose\nTo secure company databases by establishing strict controls over the creation, use, and management of database credentials.\n\n### 2. Scope\nThis policy applies to all database administrators, developers, and applications that connect to company databases.\n\n### 3. Policy\n- The principle of least privilege must be applied to all database accounts. Users and applications should only have the permissions necessary to perform their functions.\n- Shared database accounts are prohibited. Each user must have a unique login credential.\n- Default database administrator passwords must be changed immediately upon installation.\n- Database credentials must not be hard-coded in application source code, scripts, or configuration files. They must be stored in a secure, encrypted vault.\n- All database account passwords must comply with the company's Password Protection Policy."
+    "content": ""
   },
   {
     "id": 12,
     "name": "Dial-In Access Policy",
-    "content": "### 1. Purpose\nTo define security standards for remote access to the company network via dial-in connections, such as modems.\n\n### 2. Scope\nThis policy applies to all employees and third parties requiring dial-in access to the company's network.\n\n### 3. Policy\n- All requests for dial-in access must be formally approved by the user's manager and the IT Department.\n- Multi-factor authentication is required for all dial-in connections.\n- Callback verification systems should be used where possible, where the system disconnects the initial call and calls the user back at a pre-authorized number.\n- Dial-in access will be automatically terminated after a period of inactivity.\n- All dial-in access will be logged and monitored for suspicious activity."
+    "content": ""
   },
   {
     "id": 13,
     "name": "Digital Signature Acceptance Policy",
-    "content": "### 1. Purpose\nTo establish the validity and legal equivalence of digital signatures with handwritten signatures for company business processes and transactions.\n\n### 2. Scope\nThis policy applies to all business units, employees, and external parties who use digital signatures in transactions with the company.\n\n### 3. Policy\n- A digital signature that is generated by an approved and certified technology is considered to be a legally binding equivalent of a traditional handwritten signature.\n- The company will use Public Key Infrastructure (PKI) with certificates from a trusted Certificate Authority (CA) as the standard for digital signatures.\n- The identity of the signer must be verified before a digital certificate is issued.\n- Each user is responsible for the security of their private key and must not share it."
+    "content": ""
   },
   {
     "id": 14,
     "name": "Disaster Recovery Plan Policy",
-    "content": "### 1. Purpose\nTo ensure the timely and effective recovery of critical IT systems and business operations in the event of a disaster.\n\n### 2. Scope\nThis policy applies to all critical business functions and the IT infrastructure that supports them.\n\n### 3. Policy\n- The company will maintain a formal Disaster Recovery (DR) Plan that is aligned with the Business Continuity Plan (BCP).\n- The DR Plan must identify critical systems, define Recovery Time Objectives (RTOs) and Recovery Point Objectives (RPOs), and outline specific recovery procedures.\n- The DR Plan must be tested at least annually to ensure its effectiveness and to familiarize staff with their roles and responsibilities.\n- A designated DR team is responsible for maintaining the plan and executing it during a disaster."
+    "content": ""
   },
   {
     "id": 15,
     "name": "DMZ Lab Security Policy",
-    "content": "### 1. Purpose\nTo define the security requirements for any laboratory or testing environment that resides within the network's Demilitarized Zone (DMZ).\n\n### 2. Scope\nThis policy applies to all hardware, software, and personnel associated with the DMZ lab environment.\n\n### 3. Policy\n- The DMZ lab must be logically and physically isolated from the internal corporate network.\n- All connections between the DMZ lab and the internal network must be strictly controlled and pass through a firewall.\n- Systems within the DMZ lab must be hardened according to company security standards, even if they are for testing purposes.\n- No production data is allowed within the DMZ lab environment without explicit approval and data masking controls.\n- Access to the DMZ lab must be restricted to authorized personnel only."
+    "content": ""
   },
   {
     "id": 16,
     "name": "Email Policy",
-    "content": "### 1. Purpose\nTo ensure the proper use of the company's email system and to protect the confidentiality, integrity, and availability of information transmitted via email.\n\n### 2. Scope\nThis policy applies to all users of the company email system.\n\n### 3. Policy\n- The company email system is for business-related communications. Incidental and occasional personal use is permitted but should be kept to a minimum.\n- Users must not send confidential or sensitive company information to external parties without proper authorization and encryption.\n- Sending or forwarding emails that contain offensive, harassing, or discriminatory content is strictly prohibited.\n- Users should be cautious of phishing emails and must not click on suspicious links or open unexpected attachments. All suspicious emails should be reported to the IT Department."
+    "content": ""
   },
   {
     "id": 17,
     "name": "Email Retention Policy",
-    "content": "### 1. Purpose\nTo establish a systematic process for the retention and disposal of email records to meet business needs, optimize storage, and comply with legal and regulatory requirements.\n\n### 2. Scope\nThis policy applies to all emails and their attachments stored on the company's email systems.\n\n### 3. Policy\n- A standard retention period of [e.g., 7 years] is applied to all emails unless they are subject to a legal hold or specific regulatory requirements.\n- Emails that are subject to a legal hold must not be deleted until the hold is officially released by the Legal Department.\n- After the retention period expires, emails will be automatically and permanently deleted from the system.\n- Employees are responsible for archiving important business records from their email to the appropriate company repository."
+    "content": ""
   },
   {
     "id": 18,
     "name": "Employee Internet Use Monitoring and Filtering Policy",
-    "content": "### 1. Purpose\nTo inform employees that their use of the company's internet resources may be monitored and to outline the company's approach to web content filtering.\n\n### 2. Scope\nThis policy applies to all employees and contractors who access the internet using the company's network.\n\n### 3. Policy\n- The company reserves the right to monitor all internet usage on its network to ensure compliance with company policies and for security purposes. Employees should have no expectation of privacy when using company internet resources.\n- The company will use web filtering software to block access to categories of websites that are deemed inappropriate, illegal, or a security risk.\n- Attempts to bypass the web filter are strictly prohibited.\n- Requests for access to a blocked site for legitimate business purposes can be submitted to the IT Department for review."
+    "content": ""
   },
   {
     "id": 19,
     "name": "End User Encryption Key Protection Policy",
-    "content": "### 1. Purpose\nTo ensure that encryption keys used by end-users for tasks such as file encryption or secure email are properly protected to maintain the confidentiality of encrypted data.\n\n### 2. Scope\nThis policy applies to all employees who are issued or generate encryption keys as part of their job responsibilities.\n\n### 3. Policy\n- Private encryption keys must be protected with a strong, unique passphrase.\n- Passphrases for encryption keys must not be written down or stored in an insecure location.\n- Users must not share their private encryption keys with anyone.\n- A secure backup and recovery process for encryption keys must be in place, managed by the IT Department, to prevent data loss if a key is lost or corrupted.\n- Lost or compromised keys must be reported to the IT Department immediately."
+    "content": ""
   },
   {
     "id": 20,
     "name": "Ethics Policy",
-    "content": "### 1. Purpose\nTo set clear expectations for employee conduct and to ensure all business is conducted with the highest standards of integrity, honesty, and fairness.\n\n### 2. Scope\nThis policy applies to all employees, officers, and directors of the company.\n\n### 3. Policy\n- All employees must comply with all applicable laws and regulations.\n- Conflicts of interest, or the appearance of them, must be avoided. Employees must disclose any potential conflicts to their manager or HR.\n- Company assets must be used for legitimate business purposes only and protected from theft, waste, or abuse.\n- Bribes, kickbacks, or any other form of improper payment are strictly prohibited.\n- Employees are encouraged to report any suspected violations of this policy through the appropriate channels without fear of retaliation."
+    "content": ""
   },
   {
     "id": 21,
     "name": "Extranet Policy",
-    "content": "### 1. Purpose\nTo define the security and access control requirements for the company's extranet, which provides access to internal resources for authorized third parties such as customers, partners, and vendors.\n\n### 2. Scope\nThis policy applies to all third-party users of the company extranet and the internal teams responsible for its management.\n\n### 3. Policy\n- Access to the extranet will be granted based on the principle of least privilege. Third-party users will only be given access to the information and systems necessary for their business relationship.\n- All extranet accounts require strong authentication, including compliance with the company's password policy. Multi-factor authentication is required where possible.\n- All third-party access to the extranet must be sponsored by an internal business owner and formally requested through the IT Department.\n- Extranet user accounts must be reviewed regularly, and access must be revoked promptly when the business relationship ends."
+    "content": ""
   },
   {
     "id": 22,
     "name": "Information Logging Standard",
-    "content": "### 1. Purpose\nTo establish a standard for the consistent logging of security and operational events across the company's IT infrastructure to facilitate monitoring, troubleshooting, and incident response.\n\n### 2. Scope\nThis standard applies to all servers, network devices, applications, and security systems within the company network.\n\n### 3. Policy\n- All critical systems must be configured to generate logs for key events, including user logins (successful and failed), administrative actions, system errors, and security alerts.\n- Logs must be centrally collected and stored in a secure, tamper-evident log management system.\n- System clocks must be synchronized with a central, authoritative time source to ensure consistent timestamps across all logs.\n- Logs must be retained for a minimum period of [e.g., one year] to comply with regulatory requirements and to support forensic investigations."
+    "content": ""
   },
   {
     "id": 23,
     "name": "Internet DMZ Equipment Policy",
-    "content": "### 1. Purpose\nTo define the security standards for all equipment deployed in the network's Demilitarized Zone (DMZ) to protect the internal network from external threats.\n\n### 2. Scope\nThis policy applies to all servers, firewalls, and other network devices located in the DMZ.\n\n### 3. Policy\n- All systems deployed in the DMZ must be hardened according to a documented security baseline before being connected to the network.\n- Only essential services and ports should be enabled on DMZ systems. All unnecessary services, ports, and accounts must be disabled.\n- Direct connections from the DMZ to the internal corporate network are strictly prohibited. All traffic must be proxied or pass through an application-layer firewall.\n- DMZ systems must be regularly patched and monitored for vulnerabilities and suspicious activity."
+    "content": ""
   },
   {
     "id": 24,
     "name": "Internet Usage Policy",
-    "content": "### 1. Purpose\nTo specify the acceptable and unacceptable uses of the company's internet access.\n\n### 2. Scope\nThis policy applies to all employees, contractors, and guests who access the internet through the company's network.\n\n### 3. Policy\n- Internet access is provided for business-related activities. Limited personal use is permitted, provided it is reasonable and does not interfere with work duties.\n- Use of the company's internet for illegal, obscene, harassing, or threatening purposes is strictly prohibited.\n- Downloading or distributing copyrighted material without proper licensing is forbidden.\n- All internet use is subject to monitoring and logging. Users should have no expectation of privacy."
+    "content": ""
   },
   {
     "id": 25,
     "name": "Lab Anti-Virus Policy",
-    "content": "### 1. Purpose\nTo define the specific anti-virus requirements for isolated lab and testing environments.\n\n### 2. Scope\nThis policy applies to all systems within designated research, development, and testing labs.\n\n### 3. Policy\n- All systems in lab environments must have anti-virus software installed, unless a specific exemption is granted for testing purposes (e.g., malware analysis).\n- In cases where live malware is being tested, the lab environment must be completely isolated from the corporate network with no physical or logical connections.\n- Anti-virus definitions for lab systems should be kept up-to-date where possible, without disrupting testing activities.\n- All equipment must be scanned and cleaned before being removed from an isolated lab environment."
+    "content": ""
   },
   {
     "id": 26,
     "name": "Lab Security Policy",
-    "content": "### 1. Purpose\nTo establish security controls for all research, development, and testing laboratory environments to protect intellectual property and prevent security breaches.\n\n### 2. Scope\nThis policy applies to all company lab environments, including the personnel and equipment within them.\n\n### 3. Policy\n- Physical access to lab environments must be restricted to authorized personnel only, using mechanisms like key card access.\n- Lab networks must be logically segmented from the main corporate network.\n- No production data is allowed in lab environments without formal approval and appropriate data sanitization.\n- All equipment must be inventoried and tracked. Equipment must not be removed from the lab without authorization.\n- Lab systems must be securely wiped or disposed of at the end of their lifecycle."
+    "content": ""
   },
   {
     "id": 27,
     "name": "Mobile Device Encryption Policy",
-    "content": "### 1. Purpose\nTo mandate the use of encryption on all company-owned and managed mobile devices to protect sensitive data in case of loss or theft.\n\n### 2. Scope\nThis policy applies to all company-issued laptops, smartphones, and tablets.\n\n### 3. Policy\n- Full-disk encryption must be enabled on all company laptops.\n- All company-managed smartphones and tablets must have device-level encryption enabled.\n- The encryption keys must be protected by a strong passcode or biometric authentication.\n- Users must report the loss or theft of any company mobile device to the IT Department immediately so that remote wipe procedures can be initiated."
+    "content": ""
   },
   {
     "id": 28,
     "name": "Mobile Employee Endpoint Responsibility Policy",
-    "content": "### 1. Purpose\nTo outline the responsibilities of mobile employees in securing the company-owned endpoint devices (laptops, phones) they use outside the office.\n\n### 2. Scope\nThis policy applies to all employees who work remotely or travel with company-owned endpoint devices.\n\n### 3. Policy\n- Employees are responsible for the physical security of their assigned devices at all times. Devices must not be left unattended in public places or unsecured locations.\n- Devices must be protected with a strong password/passcode and configured to auto-lock after a short period of inactivity.\n- Employees must only connect to trusted and secure Wi-Fi networks. The use of public, unsecured Wi-Fi for sensitive work is prohibited without using the company VPN.\n- Any loss, theft, or suspected compromise of a device must be reported to the IT Department immediately."
+    "content": ""
   },
   {
     "id": 29,
     "name": "Pandemic Response Planning Policy",
-    "content": "### 1. Purpose\nTo establish a framework for ensuring the health and safety of our employees and the continuity of critical business operations in the event of a pandemic.\n\n### 2. Scope\nThis policy applies to all company operations, employees, and facilities.\n\n### 3. Policy\n- The company will maintain a formal Pandemic Response Plan that aligns with guidance from public health authorities.\n- The plan will include procedures for employee communication, remote work enablement, facility sanitation, and potential modifications to business operations.\n- A cross-functional response team will be responsible for activating and managing the plan.\n- The company will ensure that IT infrastructure can support a large-scale shift to remote work, including sufficient VPN capacity and collaboration tools."
+    "content": ""
   },
   {
     "id": 30,
     "name": "Password Construction Guidelines",
-    "content": "### 1. Purpose\nTo provide clear guidelines for creating strong passwords to protect user accounts and company data from unauthorized access.\n\n### 2. Scope\nThese guidelines apply to all employees, contractors, and any other individuals with access to company systems.\n\n### 3. Guidelines\n- **Length:** Passwords must be a minimum of 12 characters long.\n- **Complexity:** Passwords must contain characters from at least three of the following four categories: uppercase letters, lowercase letters, numbers, and special characters (e.g., !@#$%).\n- **Uniqueness:** Passwords must not be reused across different systems. A unique password should be used for your company account.\n- **Passphrases:** Users are encouraged to use passphrases (e.g., `CorrectHorseBatteryStaple`) which are long, memorable, and secure.\n- **Prohibited:** Do not use easily guessable information like your name, family members' names, birthdays, or common dictionary words."
+    "content": ""
   },
   {
     "id": 31,
     "name": "Password Protection Policy",
-    "content": "### 1. Purpose\nTo establish rules for the secure handling and management of passwords to prevent compromise.\n\n### 2. Scope\nThis policy applies to all users of company IT systems.\n\n### 3. Policy\n- Users must not share their passwords with anyone, including IT staff or managers.\n- Passwords must not be written down and left in an unsecured location. If they must be stored, use an approved password manager.\n- Users must lock their screens or log off when leaving their workstations unattended.\n- Passwords must be changed immediately if a compromise is suspected.\n- The use of multi-factor authentication (MFA) is required for all critical systems and remote access."
+    "content": ""
   },
   {
     "id": 32,
     "name": "Personal Communication Devices and Voicemail Policy",
-    "content": "### 1. Purpose\nTo provide guidance on the use of personal communication devices (e.g., personal cell phones) at work and the secure management of company voicemail.\n\n### 2. Scope\nThis policy applies to all employees and contractors.\n\n### 3. Policy\n- **Personal Devices:** Use of personal devices for calls, messaging, and social media should be limited during work hours to avoid disruption. Employees must not use personal devices to store or transmit sensitive company data unless authorized through a BYOD (Bring Your Own Device) program.\n- **Voicemail:** The default PIN for company voicemail must be changed immediately.\n- The voicemail PIN should be complex and not easily guessable.\n- Employees should regularly check and delete old voicemail messages, especially those containing sensitive information."
+    "content": ""
   },
   {
     "id": 33,
     "name": "Remote Access Policy",
-    "content": "### 1. Purpose\nTo define the requirements and security controls for connecting to the company's internal network from any remote location.\n\n### 2. Scope\nThis policy applies to all employees, contractors, and third parties who require remote access to the corporate network.\n\n### 3. Policy\n- Remote access must be strictly controlled and granted only to authorized individuals.\n- All remote connections to the internal network must be made through the company's approved Virtual Private Network (VPN).\n- Multi-factor authentication (MFA) is mandatory for all remote access sessions.\n- The endpoint device used for remote access must be a company-managed device with up-to-date security software (anti-virus, patches).\n- Split tunneling is prohibited on the VPN connection to ensure all traffic from the remote device is routed through the company's security controls."
+    "content": ""
   },
   {
     "id": 34,
     "name": "Remote Access Tools Policy",
-    "content": "### 1. Purpose\nTo govern the use of remote access software and tools (e.g., RDP, SSH, TeamViewer) within the corporate environment.\n\n### 2. Scope\nThis policy applies to all IT administrators and users who use remote access tools.\n\n### 3. Policy\n- Only company-approved remote access tools are permitted for use.\n- The use of unauthorized or personal remote access software is strictly prohibited.\n- All remote access sessions must use strong authentication and encryption.\n- Access credentials for remote tools must not be shared.\n- Remote access sessions should be logged and monitored for security purposes."
+    "content": ""
   },
   {
     "id": 35,
     "name": "Remote Access, Mobile Computing, and Storage Policy",
-    "content": "### 1. Purpose\nThis policy provides a comprehensive framework for securing all aspects of remote work, including network access, mobile device use, and data storage.\n\n### 2. Scope\nThis policy applies to all remote workers and their use of company resources.\n\n### 3. Policy\n- **Remote Access:** All access to the internal network must be through the corporate VPN with multi-factor authentication.\n- **Mobile Computing:** Employees must ensure the physical security of their laptops and mobile devices. Devices must be encrypted and password-protected.\n- **Data Storage:** Sensitive company data must not be stored on local drives of remote computers. Data should be stored on company-approved cloud storage or network drives.\n- **Network:** Employees must use a secure, password-protected Wi-Fi network for remote work. Use of public Wi-Fi is discouraged, and required if using the VPN."
+    "content": ""
   },
   {
     "id": 36,
     "name": "Removable Media Policy",
-    "content": "### 1. Purpose\nTo control the use of removable media (e.g., USB drives, external hard drives, CDs/DVDs) to prevent data leakage and malware introduction.\n\n### 2. Scope\nThis policy applies to all employees and all removable media devices used with company computers.\n\n### 3. Policy\n- The use of unapproved or personal removable media on company computers is strictly prohibited.\n- All company-approved removable media used to store sensitive data must be encrypted.\n- Removable media ports may be disabled on certain high-security workstations.\n- All removable media should be scanned for malware before use.\n- Lost or stolen removable media containing company data must be reported to the IT Department immediately."
+    "content": ""
   },
   {
     "id": 37,
     "name": "Risk Assessment Policy",
-    "content": "### 1. Purpose\nTo establish a formal and continuous process for identifying, analyzing, and evaluating risks to the company's information assets.\n\n### 2. Scope\nThis policy applies to all company departments, business processes, and IT systems.\n\n### 3. Policy\n- The company will conduct formal risk assessments at least annually and whenever there are significant changes to the business or IT environment.\n- The risk assessment process will follow a standard methodology, which includes identifying assets, threats, vulnerabilities, and existing controls.\n- The results of the risk assessment will be used to prioritize risk mitigation efforts and inform the information security strategy.\n- A risk register will be maintained to track all identified risks and their corresponding treatment plans."
+    "content": ""
   },
   {
     "id": 38,
     "name": "Router and Switch Security Policy",
-    "content": "### 1. Purpose\nTo define the security standards for the configuration and management of all routers, switches, and other network infrastructure devices.\n\n### 2. Scope\nThis policy applies to all network administrators and all network devices on the corporate network.\n\n### 3. Policy\n- All network devices must be physically secured in a locked room or cabinet.\n- Default passwords must be changed immediately upon deployment. All administrative access must use strong, unique passwords and be secured with multi-factor authentication.\n- Unnecessary services and ports must be disabled on all network devices.\n- The configuration of network devices must be backed up regularly and stored securely.\n- Network device operating systems must be kept up-to-date with the latest security patches."
+    "content": ""
   },
   {
     "id": 39,
     "name": "Security Response Plan Policy",
-    "content": "### 1. Purpose\nTo outline the procedures for responding to security incidents in a structured and timely manner to minimize impact.\n\n### 2. Scope\nThis policy applies to all personnel involved in responding to security incidents.\n\n### 3. Policy\n- A formal Security Incident Response Team (SIRT) is established.\n- The response plan follows the NIST framework: Preparation, Detection & Analysis, Containment, Eradication & Recovery, and Post-Incident Activity.\n- All security incidents must be logged, tracked, and documented from detection to resolution.\n- The plan will be tested and reviewed at least annually."
+    "content": ""
   },
   {
     "id": 40,
     "name": "Server Audit Policy",
-    "content": "### 1. Purpose\nTo establish a requirement for regular auditing of servers to ensure they remain compliant with security policies and standards.\n\n### 2. Scope\nThis policy applies to all production servers within the company's environment.\n\n### 3. Policy\n- All servers will be subject to periodic security audits, conducted by both internal and external auditors.\n- Audits will review server configurations, patch levels, access controls, and security logs.\n- Audit findings will be documented, and remediation plans will be created and tracked to completion.\n- System administrators are responsible for providing access and support to auditors as needed."
+    "content": ""
   },
   {
     "id": 41,
     "name": "Server Malware Protection Policy",
-    "content": "### 1. Purpose\nTo ensure all servers are protected from malware infections.\n\n### 2. Scope\nThis policy applies to all company-owned servers.\n\n### 3. Policy\n- All servers must have company-approved anti-malware software installed.\n- Real-time protection must be enabled, and regular full scans must be scheduled during off-peak hours.\n- Anti-malware signatures must be updated automatically and daily.\n- Any malware detection alerts must be investigated immediately by the security team."
+    "content": ""
   },
   {
     "id": 42,
     "name": "Server Security Policy",
-    "content": "### 1. Purpose\nTo define the baseline security configuration for all servers to protect them from unauthorized access and compromise.\n\n### 2. Scope\nThis policy applies to all servers deployed in the company's data centers and cloud environments.\n\n### 3. Policy\n- All servers must be built from a hardened, standardized operating system image.\n- The principle of least privilege must be applied to all user and service accounts. Administrative access must be tightly controlled and monitored.\n- All servers must be kept up-to-date with the latest security patches.\n- Unnecessary software, services, and network ports must be disabled.\n- All servers must be monitored by the central logging and security monitoring system."
+    "content": ""
   },
   {
     "id": 43,
     "name": "Social Engineering Awareness Policy",
-    "content": "### 1. Purpose\nTo educate employees about the risks of social engineering and to establish guidelines for identifying and responding to such attacks.\n\n### 2. Scope\nThis policy applies to all employees and contractors.\n\n### 3. Policy\n- All employees must complete mandatory annual security awareness training, which includes a module on social engineering tactics like phishing, pretexting, and baiting.\n- Employees must be suspicious of unsolicited requests for sensitive information, whether by email, phone, or in person.\n- Always verify the identity of an individual before providing confidential data.\n- Any suspected social engineering attempt must be reported immediately to the IT Security Department."
+    "content": ""
   },
   {
     "id": 44,
     "name": "Software Installation Policy",
-    "content": "### 1. Purpose\nTo control the installation of software on company computers to prevent security risks, ensure license compliance, and maintain system stability.\n\n### 2. Scope\nThis policy applies to all company-owned workstations and servers.\n\n### 3. Policy\n- Users are not permitted to install any software on company computers without prior approval from the IT Department.\n- All software installed on company computers must be licensed appropriately.\n- The use of unauthorized or pirated software is strictly prohibited.\n- The IT Department will manage the installation of approved software through a centralized deployment system."
+    "content": ""
   },
   {
     "id": 45,
     "name": "Technology Equipment Disposal Policy",
-    "content": "### 1. Purpose\nTo ensure that all company technology equipment and the data stored on it are disposed of in a secure and environmentally responsible manner.\n\n### 2. Scope\nThis policy applies to all company-owned IT assets, including servers, computers, hard drives, and mobile devices.\n\n### 3. Policy\n- All storage media must be securely sanitized or physically destroyed before the equipment is disposed of or repurposed.\n- The IT Department will use an approved data destruction method that complies with standards like NIST SP 800-88.\n- The company will use certified vendors for the disposal and recycling of electronic waste.\n- A record of disposal, including a certificate of data destruction, must be maintained for all assets."
+    "content": ""
   },
   {
     "id": 46,
     "name": "Virtual Private Network (VPN) Policy",
-    "content": "### 1. Purpose\nTo define the secure use of the company's Virtual Private Network (VPN) for remote access.\n\n### 2. Scope\nThis policy applies to all users of the company VPN.\n\n### 3. Policy\n- The VPN is the only approved method for accessing the internal corporate network from a remote location.\n- All VPN users must authenticate using multi-factor authentication (MFA).\n- Users must disconnect from the VPN when it is not in active use.\n- The computer used to connect to the VPN must be a secure, company-managed device.\n- All traffic is logged while connected to the VPN."
+    "content": ""
   },
   {
     "id": 47,
     "name": "Web Application Security Policy",
-    "content": "### 1. Purpose\nTo establish security requirements for the development and maintenance of all company web applications to protect them from common vulnerabilities.\n\n### 2. Scope\nThis policy applies to all developers, system administrators, and business owners involved with company web applications.\n\n### 3. Policy\n- All web applications must be developed following secure coding best practices, such as the OWASP Top 10.\n- All applications must undergo regular vulnerability scanning and penetration testing.\n- Sensitive data must be encrypted both in transit (using TLS) and at rest.\n- Input validation must be performed on all user-supplied data to prevent injection attacks.\n- Access control mechanisms must be implemented to ensure users can only access data and functionality they are authorized for."
+    "content": ""
   },
   {
     "id": 48,
     "name": "Wireless Communication Policy",
-    "content": "### 1. Purpose\nTo establish security standards for all wireless networks and communications within the company.\n\n### 2. Scope\nThis policy applies to all company wireless networks and all devices connecting to them.\n\n### 3. Policy\n- The company will provide a secure, encrypted wireless network for employee use.\n- A separate, isolated guest wireless network will be provided for visitors. The guest network must not have access to the internal corporate network.\n- The installation of unauthorized wireless access points is strictly prohibited.\n- All company wireless networks must use strong encryption (e.g., WPA3)."
+    "content": ""
   },
   {
     "id": 49,
     "name": "Wireless Communication Standard",
-    "content": "### 1. Purpose\nTo define the specific technical standards for implementing and securing wireless networks.\n\n### 2. Scope\nThis standard is for network administrators responsible for the wireless infrastructure.\n\n### 3. Standard\n- **Encryption:** WPA3-Enterprise is the required standard for the corporate wireless network.\n- **Authentication:** IEEE 802.1X with EAP-TLS is the required authentication protocol.\n- **SSID:** The corporate SSID will not be broadcast. The guest SSID will be broadcast.\n- **Access Points:** Access points will be centrally managed, and their placement will be planned to minimize signal leakage outside the company premises."
+    "content": ""
   },
   {
     "id": 50,
     "name": "Workstation Security for HIPAA Policy",
-    "content": "### 1. Purpose\nTo define specific security controls for workstations that access, process, or store Protected Health Information (PHI) to ensure compliance with HIPAA regulations.\n\n### 2. Scope\nThis policy applies to all workforce members and workstations that handle PHI.\n\n### 3. Policy\n- All workstations handling PHI must have full-disk encryption enabled.\n- Workstations must be configured to automatically lock after a short period of inactivity (e.g., 5 minutes).\n- Access to systems containing PHI must be protected by a unique user ID and a strong password.\n- Workstation screens displaying PHI must be positioned away from public view.\n- Removable media usage on these workstations must be restricted and all media containing PHI must be encrypted."
+    "content": ""
   }
 ]
