@@ -30,7 +30,7 @@ Start the document with a level 3 markdown heading like this: '### Consensus Pol
       contents: prompt,
     });
     
-    return response.text;
+    return response.text ?? '';
   } catch (error) {
     console.error("Error generating policy content:", error);
     throw new Error("Failed to generate content from AI. Please check if your API key is configured correctly and try again.");
