@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Acceptable Encryption Policy",
-    "content": ""
+    "content": "# Acceptable Encryption Policy\n\n**Consensus Policy Resource Community**\n\n---\n\n## 📝 Free Use Disclaimer\n\nThis policy was created by or for the [SANS Institute](https://www.sans.org/) for the Internet community. All or parts of this policy can be freely used for your organization — no prior approval is required.\n\nTo contribute a new or updated version of this policy, email: [policy-resources@sans.org](mailto:policy-resources@sans.org)\n\n**Last Update Status:** June 2014\n\n---\n\n## 1. Overview\n\nSee section [2. Purpose](#2-purpose).\n\n---\n\n## 2. Purpose\n\nThis policy aims to:\n\n- Limit the use of encryption to algorithms that have undergone substantial public review and proven effective.\n- Ensure compliance with **Federal regulations** and that legal authority is granted for the dissemination and use of encryption technologies outside the United States.\n\n---\n\n## 3. Scope\n\nThis policy applies to **all \\<Company Name\\> employees and affiliates**.\n\n---\n\n## 4. Policy\n\n### 4.1 Algorithm Requirements\n\n- **4.1.1 Symmetric Encryption**  \n  Ciphers in use must meet or exceed those defined as **\"AES-compatible\"** or **\"partially AES-compatible\"** per:\n  - [IETF/IRTF Cipher Catalog](https://datatracker.ietf.org/)\n  - [NIST FIPS 140-2](https://csrc.nist.gov/publications/detail/fips/140/2/final)\n  - Superseding documents\n\n  ✅ Use of **Advanced Encryption Standard (AES)** is strongly recommended.\n\n- **4.1.2 Asymmetric Encryption**  \n  Algorithms must align with [FIPS 140-2](https://csrc.nist.gov/publications/detail/fips/140/2/final) or successor standards.\n\n  ✅ Use of **RSA** and **Elliptic Curve Cryptography (ECC)** is strongly recommended.\n\n#### 4.1.3 Signature Algorithms\n\n| Algorithm | Key Length (Min) | Additional Comment |\n|----------|------------------|--------------------|\n| ECDSA    | P-256            | Consider [RFC 6090](https://datatracker.ietf.org/doc/html/rfc6090) to avoid patent infringement |\n| RSA      | 2048             | Use a secure padding scheme (e.g., PKCS#7). Message hashing is required. |\n| LDWM     | SHA256           | Refer to **LDWM Hash-based Signatures Draft** (currently draft-only; see IRTF/Internet Drafts) |\n\n---\n\n### 4.2 Hash Function Requirements\n\nIn general, \\<Company Name\\> adheres to the [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions).\n\n---\n\n### 4.3 Key Agreement and Authentication\n\n- **4.3.1** Use one of the following key exchange protocols:\n  - [Diffie-Hellman (DH)](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)\n  - [Internet Key Exchange (IKE)](https://datatracker.ietf.org/wg/ipsec/about/)\n  - [Elliptic Curve Diffie-Hellman (ECDH)](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie–Hellman)\n\n- **4.3.2** Authenticate endpoints prior to exchanging or deriving session keys.\n\n- **4.3.3** Authenticate public keys before use:\n  - Example: via cryptographically signed messages\n  - Or: manual verification of public key hash\n\n- **4.3.4** Authentication servers (e.g., RADIUS, TACACS) must have certificates signed by a trusted provider.\n\n- **4.3.5** All applications and servers using **SSL/TLS** must use certificates signed by a trusted Certificate Authority (CA).\n\n---\n\n### 4.4 Key Generation\n\n- **4.4.1** Keys must be securely generated and stored to prevent loss, theft, or compromise.\n\n- **4.4.2** Key generation must use a standard [Random Number Generator (RNG)](https://csrc.nist.gov/publications/detail/sp/800-90a/rev-1/final), for example from:\n  - [NIST Annex C: Approved RNGs for FIPS PUB 140-2](https://csrc.nist.gov/publications/detail/fips/140/2/final)\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement\n\nThe **Infosec Team** will verify policy compliance through:\n\n- Business tool reports  \n- Internal and external audits  \n- Feedback to the policy owner  \n\n### 5.2 Exceptions\n\nAny exception to this policy must be pre-approved by the **Infosec Team**.\n\n### 5.3 Non-Compliance\n\nViolations may result in disciplinary action, up to and including **termination of employment**.\n\n---\n\n## 6. Related Standards, Policies, and Processes\n\n- [NIST FIPS 140-2 Publication](https://csrc.nist.gov/publications/detail/fips/140/2/final)\n- [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)\n\n---\n\n## 7. Definitions and Terms\n\nThe following definitions and terms can be found in the [SANS Glossary of Terms](https://www.sans.org/security-resources/glossary-of-terms/):\n\n- **Proprietary Encryption**\n\n---\n\n## 8. Revision History\n\n| Date       | Responsible     | Summary of Change                 |\n|------------|-----------------|----------------------------------|\n| June 2014  | SANS Policy Team| Updated and converted to new format |\n\n---\n\n© SANS Institute 2014 – All Rights Reserved\n"
   },
   {
     "id": 2,
@@ -225,11 +225,6 @@
     "content": ""
   },
   {
-    "id": 46,
-    "name": "Remote Access, Mobile Computing, and Storage Policy",
-    "content": ""
-  },
-  {
     "id": 47,
     "name": "Remote Access Policy",
     "content": ""
@@ -237,6 +232,11 @@
   {
     "id": 48,
     "name": "Remote Access Tools Policy",
+    "content": ""
+  },
+  {
+    "id": 46,
+    "name": "Remote Access, Mobile Computing, and Storage Policy",
     "content": ""
   },
   {
