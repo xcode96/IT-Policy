@@ -1,5 +1,6 @@
 
-import React, { useState, useCallback, useEffect } from 'react';
+
+import React, { useState, useCallback } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PolicyList from './components/PolicyList';
@@ -8,9 +9,21 @@ import LoginModal from './components/LoginModal';
 import AddPolicyModal from './components/AddPolicyModal';
 import LiveSyncModal from './components/LiveSyncModal';
 import { type Policy, type SyncStatus } from './types';
+import initialPoliciesData from './policies.json';
 
 const App: React.FC = () => {
-  const [policies, setPolicies] = useState<Policy[]>([]);
+  const [policies, setPolicies] = useState<Policy[]>(() => 
+    initialPoliciesData.map(({ id, name }) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name))
+  );
+  
+  const [editedContentCache, setEditedContentCache] = useState<Map<number, string>>(() => {
+    const contentCache = new Map<number, string>();
+    initialPoliciesData.forEach(({ id, content }) => {
+        contentCache.set(id, content);
+    });
+    return contentCache;
+  });
+
   const [selectedPolicy, setSelectedPolicy] = useState<Policy | null>(null);
   const [policyContent, setPolicyContent] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -21,41 +34,12 @@ const App: React.FC = () => {
   const [showAddPolicyModal, setShowAddPolicyModal] = useState<boolean>(false);
   const [showLiveSyncModal, setShowLiveSyncModal] = useState<boolean>(false);
   
-  const [editedContentCache, setEditedContentCache] = useState<Map<number, string>>(new Map());
   const [isExportingJson, setIsExportingJson] = useState<boolean>(false);
   const [isImporting, setIsImporting] = useState<boolean>(false);
   const [isExportingSingleJson, setIsExportingSingleJson] = useState<number | null>(null);
 
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('not-connected');
   const [syncUrl, setSyncUrl] = useState<string>('');
-
-  useEffect(() => {
-    const loadInitialPolicies = async () => {
-        setIsLoading(true);
-        try {
-            const response = await fetch('/policies.json');
-            if (!response.ok) {
-                throw new Error('Failed to fetch policies.json. Make sure the file exists in the public directory.');
-            }
-            const initialData: (Policy & { content: string })[] = await response.json();
-            
-            const policiesFromData = initialData.map(({ id, name }) => ({ id, name }));
-            const contentCache = new Map<number, string>();
-            initialData.forEach(({ id, content }) => {
-                contentCache.set(id, content);
-            });
-
-            setPolicies(policiesFromData.sort((a, b) => a.name.localeCompare(b.name)));
-            setEditedContentCache(contentCache);
-        } catch (err) {
-            console.error("Error loading initial policies:", err);
-            setError(err instanceof Error ? err.message : "Could not load initial set of policies.");
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    loadInitialPolicies();
-  }, []);
 
   const getPolicyContent = useCallback(async (policy: Policy): Promise<string> => {
     return editedContentCache.get(policy.id) || '';
