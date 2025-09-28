@@ -19,7 +19,10 @@ const App: React.FC = () => {
   const [policyContent, setPolicyContent] = useState<string>('');
   const [isLoadingContent, setIsLoadingContent] = useState<boolean>(false);
   
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('page') === 'admin';
+  });
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showAddPolicyModal, setShowAddPolicyModal] = useState<boolean>(false);
   const [showLiveSyncModal, setShowLiveSyncModal] = useState<boolean>(false);
@@ -53,6 +56,12 @@ const App: React.FC = () => {
             });
             setEditedContentCache(contentCache);
             
+            if (loadedPolicies.length > 0) {
+              const firstPolicy = loadedPolicies[0];
+              setSelectedPolicy(firstPolicy);
+              setPolicyContent(contentCache.get(firstPolicy.id) || '');
+            }
+
             setAppStatus('ready');
         } catch (e) {
             console.error("Failed to load policies:", e);
@@ -263,8 +272,8 @@ const App: React.FC = () => {
   if (appStatus === 'error') {
       return (
           <div className="flex h-screen items-center justify-center p-4 bg-background">
-              <div className="bg-red-50 border border-red-200 text-red-700 p-6 rounded-lg max-w-lg text-center shadow-md" role="alert">
-                <h3 className="font-bold text-lg text-red-800">An Error Occurred</h3>
+              <div className="bg-red-100 border border-red-400 text-red-700 p-6 rounded-lg max-w-lg text-center shadow-lg" role="alert">
+                <h3 className="font-bold text-lg">An Error Occurred</h3>
                 <p className="mt-2 text-sm">{appError}</p>
               </div>
           </div>

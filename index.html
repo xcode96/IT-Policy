@@ -2,13 +2,13 @@
 <html lang="en" class="font-sans">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjU5ZTBiIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNOSAxMi43NUwxMS4yNSAxNSAxNSA5Ljc1bS0zLTcuMDM2QTExLjk1OSAxMS45NTkgMCAwMTMuNTk4IDYgMTEuOTkgMTEuOTkgMCAwMDMgOS43NDljMCA1LjU5MiAzLjgyNCAxMC4yOSA5IDExLjYyMiA1LjE3Ni0xLjMzMiA5LTYuMDMgOS0xMS42MjIgMC0xLjMxLS4yMS0yLjU3MS0uNTk4LTMuNzUxaC0uMTUyYy0zLjE5NiAwLTYuMS0xLjI0OC04LjI1LTMuMjg2em0wIDEzLjAzNmgwLjAwOHYwLjAwOGgtLjAwOHYtLjAwOHoiIC8+PC9zdmc+">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0" />
     <title>IT Policy Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -22,12 +22,18 @@
                 light: '#fbbf24', // Amber 400
                 dark: '#d97706', // Amber 600
               },
-              background: '#f8f9fa', // A light, warm gray
-              surface: '#ffffff', // White
-              border: '#dee2e6', // A slightly darker gray for borders
-              textPrimary: '#212529', // A dark slate gray
-              textSecondary: '#495057', // A medium gray
-              textMuted: '#adb5bd', // A light gray for muted text
+              background: '#f8fafc', // Slate 50
+              surface: '#ffffff',   // White
+              border: '#e2e8f0',   // Slate 200
+              textPrimary: '#0f172a',   // Slate 900
+              textSecondary: '#64748b', // Slate 500
+              textMuted: '#94a3b8',   // Slate 400
+            },
+            boxShadow: {
+              sm: '0 1px 2px 0 rgb(0 0 0 / 0.03)',
+              DEFAULT: '0 1px 3px 0 rgb(0 0 0 / 0.07), 0 1px 2px -1px rgb(0 0 0 / 0.07)',
+              md: '0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07)',
+              lg: '0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07)',
             },
             keyframes: {
               'fade-in': {
@@ -45,21 +51,21 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
       body {
-        background-color: #f8f9fa;
+        background-color: #f8fafc;
       }
       ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #e9ecef;
+        background: #f1f5f9;
       }
       ::-webkit-scrollbar-thumb {
-        background: #ced4da;
+        background: #e2e8f0;
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #adb5bd;
+        background: #cbd5e1;
       }
     </style>
   <script type="importmap">
