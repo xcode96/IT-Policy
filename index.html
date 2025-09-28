@@ -17,15 +17,17 @@
               sans: ['Inter', 'sans-serif'],
             },
             colors: {
-              primary: '#2563eb', // Blue 600
-              'primary-light': '#3b82f6', // Blue 500
-              'primary-dark': '#1d4ed8', // Blue 700
-              background: '#f1f5f9', // Slate 100
+              primary: {
+                DEFAULT: '#f59e0b', // Amber 500
+                light: '#fbbf24', // Amber 400
+                dark: '#d97706', // Amber 600
+              },
+              background: '#f8f9fa', // A light, warm gray
               surface: '#ffffff', // White
-              border: '#e2e8f0', // Slate 200
-              textPrimary: '#1e293b', // Slate 800
-              textSecondary: '#64748b', // Slate 500
-              textMuted: '#94a3b8', // Slate 400,
+              border: '#dee2e6', // A slightly darker gray for borders
+              textPrimary: '#212529', // A dark slate gray
+              textSecondary: '#495057', // A medium gray
+              textMuted: '#adb5bd', // A light gray for muted text
             },
             keyframes: {
               'fade-in': {
@@ -42,20 +44,22 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-      /* Simple scrollbar styling for a modern light look */
+      body {
+        background-color: #f8f9fa;
+      }
       ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #e2e8f0; /* slate-200 */
+        background: #e9ecef;
       }
       ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; /* slate-300 */
+        background: #ced4da;
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; /* slate-400 */
+        background: #adb5bd;
       }
     </style>
   <script type="importmap">

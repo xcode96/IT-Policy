@@ -30,17 +30,15 @@ const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose }) => {
             onClick={onClose}
         >
             <div 
-                className="bg-surface rounded-lg shadow-xl p-8 w-full max-w-md animate-fade-in" 
+                className="bg-surface rounded-xl shadow-xl w-full max-w-md animate-fade-in overflow-hidden" 
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex justify-between items-start mb-6">
-                    <div>
-                        <h2 className="text-2xl font-bold text-textPrimary">Administrator Login</h2>
-                        <p className="text-sm text-textSecondary mt-1">Please enter your credentials to continue.</p>
-                    </div>
-                    <button onClick={onClose} className="text-textMuted hover:text-textSecondary transition-colors text-2xl">&times;</button>
+                <div className="p-8 border-b border-border relative">
+                    <h2 className="text-2xl font-bold text-textPrimary">Administrator Login</h2>
+                    <p className="text-sm text-textSecondary mt-1">Please enter your credentials to continue.</p>
+                    <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors text-3xl">&times;</button>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="p-8">
                     <div className="mb-4">
                         <label htmlFor="username" className="block text-sm font-medium text-textSecondary mb-2">Username</label>
                         <input
@@ -48,36 +46,36 @@ const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose }) => {
                             id="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="w-full px-4 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary"
+                            className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary"
                             required
                             autoFocus
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-6">
                         <label htmlFor="password" className="block text-sm font-medium text-textSecondary mb-2">Password</label>
                         <input
                             type="password"
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-2 border border-border rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary"
+                            className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary"
                             required
                         />
                     </div>
                     
-                    {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+                    {error && <p className="text-red-600 text-sm mb-4 text-center">{error}</p>}
 
-                    <div className="flex justify-end gap-3 mt-8">
+                    <div className="flex justify-end gap-3">
                          <button 
                             type="button"
                             onClick={onClose} 
-                            className="px-5 py-2 text-sm font-semibold text-textSecondary bg-slate-100 rounded-md hover:bg-slate-200 hover:text-textPrimary transition-all duration-300"
+                            className="px-5 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-gray-100 hover:text-textPrimary transition-colors duration-200"
                         >
                             Cancel
                         </button>
                         <button 
                             type="submit" 
-                            className="px-5 py-2 text-sm font-semibold text-white bg-primary rounded-md hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-sm transition-all duration-300"
+                            className="px-5 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-dark shadow-sm hover:shadow-md transition-all duration-200"
                         >
                             Login
                         </button>

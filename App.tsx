@@ -1,8 +1,4 @@
-
-
-
 import React, { useState, useCallback, useEffect } from 'react';
-import Header from './components/Header';
 import Footer from './components/Footer';
 import PolicyList from './components/PolicyList';
 import PolicyDetail from './components/PolicyDetail';
@@ -293,28 +289,21 @@ const App: React.FC = () => {
             syncStatus={syncStatus}
           />
         </aside>
-        <div className="flex flex-col flex-grow">
-          <div className="flex flex-col flex-grow bg-surface rounded-xl overflow-hidden border border-border shadow-sm">
-            <Header
-              isAdmin={isAdmin}
-              onLoginClick={() => setShowLoginModal(true)}
-              onLogout={handleLogout}
-            />
-            <main className="flex-grow p-6 md:p-8 lg:p-10 overflow-y-auto">
-              <PolicyDetail
-                policy={selectedPolicy}
-                content={policyContent}
-                isLoading={isLoadingContent}
-                error={null}
-                isAdmin={isAdmin}
-                onSave={handleSavePolicyContent}
-                onExportSingleJson={handleExportSingleJson}
-                isExportingSingleJson={isExportingSingleJson === selectedPolicy?.id}
-              />
-            </main>
-            <Footer />
-          </div>
-        </div>
+        <main className="flex flex-col flex-grow bg-surface rounded-xl overflow-y-auto border border-border shadow-sm">
+          <PolicyDetail
+            policy={selectedPolicy}
+            content={policyContent}
+            isLoading={isLoadingContent}
+            error={null}
+            isAdmin={isAdmin}
+            onSave={handleSavePolicyContent}
+            onExportSingleJson={handleExportSingleJson}
+            isExportingSingleJson={isExportingSingleJson === selectedPolicy?.id}
+            onLoginClick={() => setShowLoginModal(true)}
+            onLogout={handleLogout}
+          />
+           <Footer />
+        </main>
       </div>
       {showLoginModal && <LoginModal onLogin={handleLogin} onClose={() => setShowLoginModal(false)} />}
       {showAddPolicyModal && <AddPolicyModal onAdd={handleAddNewPolicy} onClose={() => setShowAddPolicyModal(false)} />}

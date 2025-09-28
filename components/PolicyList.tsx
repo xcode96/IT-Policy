@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { type Policy, type SyncStatus } from '../types';
 
@@ -35,16 +34,17 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
   };
   
   const getSyncStatusIndicator = () => {
+    const baseClasses = "absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full border-2 border-surface";
     switch (syncStatus) {
       case 'connected':
-        return <span className="absolute top-2 right-2 h-3 w-3 rounded-full bg-green-500 border-2 border-surface" title="Sync Connected"></span>;
+        return <span className={`${baseClasses} bg-green-500`} title="Sync Connected"></span>;
       case 'connecting':
-        return <span className="absolute top-2 right-2 h-3 w-3 rounded-full bg-yellow-500 border-2 border-surface animate-pulse" title="Sync Connecting..."></span>;
+        return <span className={`${baseClasses} bg-yellow-400 animate-pulse`} title="Sync Connecting..."></span>;
        case 'failed':
-         return <span className="absolute top-2 right-2 h-3 w-3 rounded-full bg-red-500 border-2 border-surface" title="Sync Failed"></span>;
+         return <span className={`${baseClasses} bg-red-500`} title="Sync Failed"></span>;
       case 'not-connected':
       default:
-        return <span className="absolute top-2 right-2 h-3 w-3 rounded-full bg-red-500 border-2 border-surface" title="Sync Not Connected"></span>;
+        return <span className={`${baseClasses} bg-gray-400`} title="Sync Not Connected"></span>;
     }
   };
 
@@ -60,12 +60,13 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
             <li key={policy.id}>
               <button
                 onClick={() => onSelectPolicy(policy)}
-                className={`w-full text-left p-3 my-1 text-sm rounded-md font-medium transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary ${
+                className={`w-full text-left p-3 my-1 text-sm rounded-lg font-medium transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark relative ${
                   selectedPolicyId === policy.id
-                    ? 'bg-primary text-white font-semibold shadow-sm'
-                    : 'text-textSecondary hover:bg-blue-50 hover:text-textPrimary'
+                    ? 'bg-amber-50 text-amber-800 font-semibold'
+                    : 'text-textSecondary hover:bg-gray-100 hover:text-textPrimary'
                 }`}
               >
+                {selectedPolicyId === policy.id && <span className="absolute left-0 top-2 bottom-2 w-1 bg-primary rounded-r-full"></span>}
                 {policy.name}
               </button>
             </li>
@@ -74,7 +75,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
       </nav>
       {isAdmin && (
         <div className="px-4 py-4 mt-auto border-t border-border flex-shrink-0 space-y-3">
-           <div className="p-3 mb-3 text-xs text-blue-800 bg-blue-50 border border-blue-200 rounded-md">
+           <div className="p-3 mb-3 text-xs text-amber-900 bg-amber-50 border border-amber-200 rounded-md">
             <p className="font-semibold">Workflow Reminder:</p>
             <p className="mt-1">
               Exported JSON files are saved to your computer's **Downloads folder**. Manually upload that file to your GitHub or server.
@@ -92,7 +93,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
               onClick={onAddPolicyClick}
               disabled={isActionInProgress}
               title={'Add a new policy'}
-              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-primary text-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary shadow-sm disabled:bg-slate-400 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-primary text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
@@ -102,7 +103,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
              <button
               onClick={onLiveSyncClick}
               disabled={isActionInProgress}
-              className="w-full relative flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-slate-100 text-slate-700 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-slate-400 shadow-sm disabled:bg-slate-300 disabled:cursor-wait"
+              className="w-full relative flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-gray-400 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               {getSyncStatusIndicator()}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -115,7 +116,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
             <button
               onClick={handleImportClick}
               disabled={isActionInProgress}
-              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-slate-100 text-slate-700 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-slate-400 shadow-sm disabled:bg-slate-300 disabled:cursor-wait"
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-gray-400 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               {isImporting ? (
                  <>
@@ -135,7 +136,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
             <button
               onClick={onExportAllJson}
               disabled={isActionInProgress}
-              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-slate-800 text-white hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-slate-600 shadow-sm disabled:bg-slate-400 disabled:cursor-wait"
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-textPrimary text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-gray-600 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               {isExportingJson ? (
                 <>
@@ -148,7 +149,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
               ) : (
                 <>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM4 8h5v2H4V8zm0 3h5v2H4v-2z" clipRule="evenodd" />
+                    <path fillRule="evenodd" d="M10.125 2.188a.75.75 0 00-1.25 0l-3.375 4.5a.75.75 0 00.625 1.125h2.25V12.5h-1.5a.75.75 0 000 1.5h1.5v.625a.75.75 0 001.5 0V14h1.5a.75.75 0 000-1.5h-1.5V7.813h2.25a.75.75 0 00.625-1.125l-3.375-4.5z" clipRule="evenodd" /><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM2 10a8 8 0 1116 0 8 8 0 01-16 0z" />
                   </svg>
                   <span>Export All JSON</span>
                 </>

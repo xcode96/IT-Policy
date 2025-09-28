@@ -1,5 +1,5 @@
 {
   "name": "IT Policy Portal",
-  "description": "A comprehensive portal to browse, view, and understand company IT policies. Each policy's content is generated on-demand by AI to provide up-to-date and detailed information.",
+  "description": "A portal for managing and viewing your organization's IT security and compliance policies. Edit, import, export, and sync your policies from a central JSON file.",
   "requestFramePermissions": []
 }
