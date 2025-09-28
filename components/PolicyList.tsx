@@ -34,7 +34,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
   };
   
   const getSyncStatusIndicator = () => {
-    const baseClasses = "absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full border-2 border-surface";
+    const baseClasses = "absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full border-2 border-slate-700";
     switch (syncStatus) {
       case 'connected':
         return <span className={`${baseClasses} bg-green-500`} title="Sync Connected"></span>;
@@ -44,12 +44,12 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
          return <span className={`${baseClasses} bg-red-500`} title="Sync Failed"></span>;
       case 'not-connected':
       default:
-        return <span className={`${baseClasses} bg-gray-400`} title="Sync Not Connected"></span>;
+        return <span className={`${baseClasses} bg-gray-500`} title="Sync Not Connected"></span>;
     }
   };
 
   return (
-    <div className="h-full bg-surface text-textPrimary flex flex-col rounded-xl border border-border shadow-sm overflow-hidden">
+    <div className="h-full bg-surface text-textPrimary flex flex-col md:rounded-xl border border-border overflow-hidden">
       <div className="p-6 flex-shrink-0 border-b border-border">
         <h2 className="text-xl font-bold text-textPrimary">All Policies</h2>
         <p className="text-sm text-textSecondary mt-1">Select a policy to view details</p>
@@ -62,8 +62,8 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
                 onClick={() => onSelectPolicy(policy)}
                 className={`w-full text-left p-3 my-1 text-sm rounded-lg font-medium transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark relative ${
                   selectedPolicyId === policy.id
-                    ? 'bg-amber-50 text-primary-dark font-semibold'
-                    : 'text-textSecondary hover:bg-slate-100 hover:text-textPrimary'
+                    ? 'bg-emerald-500/10 text-primary-light font-semibold'
+                    : 'text-textSecondary hover:bg-slate-700/50 hover:text-textPrimary'
                 }`}
               >
                 {selectedPolicyId === policy.id && <span className="absolute left-0 top-2 bottom-2 w-1 bg-primary rounded-r-full"></span>}
@@ -74,9 +74,9 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
         </ul>
       </nav>
       {isAdmin && (
-        <div className="px-4 py-4 mt-auto border-t border-border bg-slate-50 flex-shrink-0 space-y-3">
-           <div className="p-3 mb-3 text-xs text-amber-800 bg-amber-100 border border-amber-200 rounded-md">
-            <p className="font-semibold text-amber-900">Workflow Reminder:</p>
+        <div className="px-4 py-4 mt-auto border-t border-border bg-background flex-shrink-0 space-y-3">
+           <div className="p-3 mb-3 text-xs text-emerald-200 bg-emerald-900/30 border border-emerald-500/20 rounded-md">
+            <p className="font-semibold text-emerald-100">Workflow Reminder:</p>
             <p className="mt-1">
               Exported JSON files are saved to your computer's **Downloads folder**. Manually upload that file to your GitHub or server.
             </p>
@@ -93,7 +93,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
               onClick={onAddPolicyClick}
               disabled={isActionInProgress}
               title={'Add a new policy'}
-              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-all duration-200 ease-in-out bg-primary text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-all duration-200 ease-in-out bg-primary text-white hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary-dark disabled:bg-slate-600 disabled:text-slate-400 disabled:cursor-not-allowed"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
@@ -103,7 +103,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
              <button
               onClick={onLiveSyncClick}
               disabled={isActionInProgress}
-              className="w-full relative flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-white text-textSecondary border border-border hover:bg-slate-100 hover:text-textPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-primary-dark disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed"
+              className="w-full relative flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-slate-700 text-textSecondary border border-border hover:bg-slate-600 hover:text-textPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary-dark disabled:bg-slate-600 disabled:text-slate-400 disabled:cursor-not-allowed"
             >
               {getSyncStatusIndicator()}
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -116,7 +116,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
             <button
               onClick={handleImportClick}
               disabled={isActionInProgress}
-              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-white text-textSecondary border border-border hover:bg-slate-100 hover:text-textPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-primary-dark disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-slate-700 text-textSecondary border border-border hover:bg-slate-600 hover:text-textPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary-dark disabled:bg-slate-600 disabled:text-slate-400 disabled:cursor-not-allowed"
             >
               {isImporting ? (
                  <>
@@ -136,7 +136,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
             <button
               onClick={onExportAllJson}
               disabled={isActionInProgress}
-              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-white text-textSecondary border border-border hover:bg-slate-100 hover:text-textPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 focus:ring-primary-dark disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-lg font-semibold transition-colors duration-200 ease-in-out bg-slate-700 text-textSecondary border border-border hover:bg-slate-600 hover:text-textPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background focus:ring-primary-dark disabled:bg-slate-600 disabled:text-slate-400 disabled:cursor-not-allowed"
             >
               {isExportingJson ? (
                 <>

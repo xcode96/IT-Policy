@@ -16,8 +16,9 @@ interface PolicyDetailProps {
   onSave: (policyId: number, newContent: string) => void;
   onExportSingleJson: (policyId: number) => void;
   isExportingSingleJson: boolean;
-  onLoginClick: () => void;
   onLogout: () => void;
+  onLoginClick: () => void;
+  onBackClick: () => void;
 }
 
 const SecurityShieldIcon: React.FC<{ className?: string }> = ({ className = "h-8 w-8 text-primary" }) => (
@@ -36,8 +37,9 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     onSave, 
     onExportSingleJson,
     isExportingSingleJson,
+    onLogout,
     onLoginClick,
-    onLogout
+    onBackClick
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState('');
@@ -68,6 +70,15 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
       <div className="container mx-auto px-6 md:px-8 lg:px-10">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
+            <button
+                onClick={onBackClick}
+                className="mr-2 p-2 rounded-full text-textSecondary hover:bg-slate-700 md:hidden"
+                aria-label="Back to policy list"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
              <SecurityShieldIcon />
             <h1 className="ml-4 text-2xl font-bold text-textPrimary tracking-wider">
               POLICY<span className="font-light text-primary">PORTAL</span>
@@ -77,16 +88,15 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
             {isAdmin ? (
               <button 
                 onClick={onLogout} 
-                className="px-5 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-100 hover:text-textPrimary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark"
+                className="px-5 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-700 hover:text-textPrimary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark"
               >
                 Logout
               </button>
             ) : (
               <button 
-                onClick={onLoginClick}
-                className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark shadow-sm hover:shadow-md"
+                onClick={onLoginClick} 
+                className="px-5 py-2 text-sm font-semibold rounded-lg text-white bg-primary hover:bg-primary-dark transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark"
               >
-                <SecurityShieldIcon className="h-5 w-5" />
                 Admin Login
               </button>
             )}
@@ -109,8 +119,8 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     if (error) {
       return (
         <div className="flex flex-col items-center justify-center h-full text-center p-4">
-          <div className="bg-red-100 border border-red-400 text-red-700 p-6 rounded-lg max-w-lg shadow-lg" role="alert">
-            <h3 className="font-bold text-lg">An Error Occurred</h3>
+          <div className="bg-red-900/20 border border-red-500/30 text-red-300 p-6 rounded-lg max-w-lg shadow-lg" role="alert">
+            <h3 className="font-bold text-lg text-red-200">An Error Occurred</h3>
             <p className="mt-2 text-sm">{error}</p>
           </div>
         </div>
@@ -120,7 +130,7 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     if (!policy) {
         return (
             <div className="flex flex-col items-center justify-center h-full text-center p-8">
-              <div className="p-5 bg-amber-100 rounded-full text-primary-dark">
+              <div className="p-5 bg-emerald-900/30 rounded-full text-primary-light">
                  <SecurityShieldIcon className="h-16 w-16" />
               </div>
               <h3 className="mt-8 text-2xl font-semibold text-textPrimary">Organization IT Security & Compliance Policies</h3>
@@ -132,9 +142,9 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     if (isEditing) {
       return (
         <div className="h-full flex flex-col p-6 md:p-8 lg:p-10">
-          <h2 className="text-2xl font-bold text-textPrimary mb-4 flex-shrink-0">Editing: <span className="text-primary-dark">{policy.name}</span></h2>
+          <h2 className="text-2xl font-bold text-textPrimary mb-4 flex-shrink-0">Editing: <span className="text-primary-light">{policy.name}</span></h2>
           <textarea
-            className="w-full flex-grow p-4 font-mono text-sm border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition bg-slate-50 text-textPrimary"
+            className="w-full flex-grow p-4 font-mono text-sm border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary"
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
             aria-label={`Edit content for ${policy.name}`}
@@ -142,13 +152,13 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
           <div className="flex justify-end gap-3 mt-4 flex-shrink-0">
             <button 
               onClick={handleCancelClick}
-              className="px-5 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-100 hover:text-textPrimary transition-colors duration-200"
+              className="px-5 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-700 hover:text-textPrimary transition-colors duration-200"
             >
               Cancel
             </button>
             <button 
               onClick={handleSaveClick}
-              className="px-5 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark shadow-sm hover:shadow-md transition-all duration-200"
+              className="px-5 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark transition-all duration-200"
             >
               Save Changes
             </button>
@@ -166,7 +176,7 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                       <button
                           onClick={() => onExportSingleJson(policy.id)}
                           disabled={isExportingSingleJson}
-                          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark disabled:opacity-50 disabled:cursor-wait"
+                          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark disabled:opacity-50 disabled:cursor-wait"
                       >
                           {isExportingSingleJson ? (
                               <>
@@ -187,7 +197,7 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                       </button>
                        <button 
                           onClick={handleEditClick}
-                          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-primary-dark bg-amber-100 rounded-lg hover:bg-amber-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark"
+                          className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-primary-light bg-emerald-500/10 rounded-lg hover:bg-emerald-500/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark"
                       >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                               <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
@@ -200,12 +210,12 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
           </div>
           {content ? (
               <article 
-                className="prose prose-base lg:prose-lg max-w-none prose-p:leading-relaxed prose-a:text-primary-dark hover:prose-a:text-primary prose-blockquote:border-primary prose-code:text-primary-dark prose-li:marker:text-primary prose-table:border prose-table:border-border prose-thead:border-b-2 prose-thead:border-border prose-th:p-2 prose-th:font-semibold prose-td:border-border prose-td:p-2" 
+                className="prose prose-base lg:prose-lg prose-invert max-w-none prose-p:leading-relaxed prose-a:text-primary-light hover:prose-a:text-primary prose-blockquote:border-primary-light prose-code:text-primary-light prose-li:marker:text-primary-light prose-table:border prose-table:border-border prose-thead:border-b-2 prose-thead:border-border prose-th:p-2 prose-th:font-semibold prose-td:border-border prose-td:p-2" 
                 dangerouslySetInnerHTML={{ __html: marked.parse(content) }} 
               />
           ) : (
-              <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-border rounded-lg bg-slate-50 mt-8">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <div className="flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-border rounded-lg bg-background mt-8">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                   </svg>
                   <h3 className="mt-4 font-semibold text-lg text-textPrimary">This policy has no content.</h3>

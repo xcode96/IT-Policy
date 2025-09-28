@@ -2,8 +2,8 @@
 <html lang="en" class="font-sans">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjU5ZTBiIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNOSAxMi43NUwxMS4yNSAxNSAxNSA5Ljc1bS0zLTcuMDM2QTExLjk1OSAxMS45NTkgMCAwMTMuNTk4IDYgMTEuOTkgMTEuOTkgMCAwMDMgOS43NDljMCA1LjU5MiAzLjgyNCAxMC4yOSA5IDExLjYyMiA1LjE3Ni0xLjMzMiA5LTYuMDMgOS0xMS42MjIgMC0xLjMxLS4yMS0yLjU3MS0uNTk4LTMuNzUxaC0uMTUyYy0zLjE5NiAwLTYuMS0xLjI0OC04LjI1LTMuMjg2em0wIDEzLjAzNmgwLjAwOHYwLjAwOGgtLjAwOHYtLjAwOHoiIC8+PC9zdmc+">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTBiOTgxIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBkPSJNOSAxMi43NUwxMS4yNSAxNSAxNSA5Ljc1bS0zLTcuMDM2QTExLjk1OSAxMS45NTkgMCAwMTMuNTk4IDYgMTEuOTkgMTEuOTkgMCAwMDMgOS43NDljMCA1LjU5MiAzLjgyNCAxMC4yOSA5IDExLjYyMiA1LjE3Ni0xLjMzMiA5LTYuMDMgOS0xMS42MjIgMC0xLjMxLS4yMS0yLjU3MS0uNTk4LTMuNzUxaC0uMTUyYy0zLjE5NiAwLTYuMS0xLjI0OC04LjI1LTMuMjg2em0wIDEzLjAzNmgwLjAwOHYwLjAwOGgtLjAwOHYtLjAwOHoiIC8+PC9zdmc+">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IT Policy Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,22 +18,22 @@
             },
             colors: {
               primary: {
-                DEFAULT: '#f59e0b', // Amber 500
-                light: '#fbbf24', // Amber 400
-                dark: '#d97706', // Amber 600
+                DEFAULT: '#10b981', // Emerald 500
+                light: '#34d399', // Emerald 400
+                dark: '#059669', // Emerald 600
               },
-              background: '#f8fafc', // Slate 50
-              surface: '#ffffff',   // White
-              border: '#e2e8f0',   // Slate 200
-              textPrimary: '#0f172a',   // Slate 900
-              textSecondary: '#64748b', // Slate 500
-              textMuted: '#94a3b8',   // Slate 400
+              background: '#0f172a', // Slate 900
+              surface: '#1e293b',   // Slate 800
+              border: '#334155',   // Slate 700
+              textPrimary: '#e2e8f0',   // Slate 200
+              textSecondary: '#94a3b8', // Slate 400
+              textMuted: '#64748b',   // Slate 500
             },
             boxShadow: {
-              sm: '0 1px 2px 0 rgb(0 0 0 / 0.03)',
-              DEFAULT: '0 1px 3px 0 rgb(0 0 0 / 0.07), 0 1px 2px -1px rgb(0 0 0 / 0.07)',
-              md: '0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07)',
-              lg: '0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07)',
+              sm: '0 1px 2px 0 rgb(0 0 0 / 0.1)',
+              DEFAULT: '0 1px 3px 0 rgb(0 0 0 / 0.15), 0 1px 2px -1px rgb(0 0 0 / 0.15)',
+              md: '0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15)',
+              lg: '0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15)',
             },
             keyframes: {
               'fade-in': {
@@ -51,21 +51,21 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
       body {
-        background-color: #f8fafc;
+        background-color: #0f172a;
       }
       ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #f1f5f9;
+        background: #1e293b;
       }
       ::-webkit-scrollbar-thumb {
-        background: #e2e8f0;
+        background: #334155;
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #cbd5e1;
+        background: #475569;
       }
     </style>
   <script type="importmap">

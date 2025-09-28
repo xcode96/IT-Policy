@@ -39,14 +39,14 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
             return <p className="text-sm text-textSecondary truncate">Connected to: <span className="font-medium text-textPrimary">{syncUrl}</span></p>;
         }
          if (currentStatus === 'failed' && error) {
-            return <p className="text-sm text-red-600">{error}</p>;
+            return <p className="text-sm text-red-400">{error}</p>;
         }
         return <p className="text-sm text-textSecondary mt-1">Connect to a live server to sync policies from a JSON file.</p>;
     }
 
     return (
         <div 
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             aria-modal="true"
             role="dialog"
             onClick={onClose}
@@ -55,14 +55,14 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
                 className="bg-surface rounded-xl shadow-lg w-full max-w-lg animate-fade-in overflow-hidden border border-border" 
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="p-8 border-b border-border relative bg-slate-50">
+                <div className="p-8 border-b border-border relative bg-background">
                     <h2 className="text-2xl font-bold text-textPrimary">Live Policy Sync</h2>
                     {renderStatus()}
                     <button onClick={onClose} className="absolute top-4 right-4 text-textMuted hover:text-textPrimary transition-colors text-3xl">&times;</button>
                 </div>
 
                 <div className="p-8">
-                    <div className="text-sm text-textSecondary bg-slate-100 p-4 rounded-lg border border-border mb-6">
+                    <div className="text-sm text-textSecondary bg-slate-900/50 p-4 rounded-lg border border-border mb-6">
                         <h3 className="font-semibold text-textPrimary mb-2">How It Works:</h3>
                         <ol className="list-decimal list-inside space-y-1">
                             <li>Make changes in the app and use the <strong>"Export All JSON"</strong> button.</li>
@@ -80,7 +80,7 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
                                 id="syncUrl"
                                 value={url}
                                 onChange={(e) => setUrl(e.target.value)}
-                                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary disabled:bg-slate-100"
+                                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary disabled:bg-slate-800"
                                 placeholder="https://raw.githubusercontent.com/..."
                                 required
                                 disabled={currentStatus === 'connecting' || currentStatus === 'connected'}
@@ -93,7 +93,7 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
                                     <button
                                         type="button"
                                         onClick={handleDisconnect}
-                                        className="px-5 py-2 text-sm font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition-colors duration-200"
+                                        className="px-5 py-2 text-sm font-semibold text-red-400 bg-red-900/20 rounded-lg hover:bg-red-900/40 transition-colors duration-200"
                                     >
                                         Disconnect
                                     </button>
@@ -103,13 +103,13 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
                                 <button 
                                     type="button" 
                                     onClick={onClose} 
-                                    className="px-5 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-100 hover:text-textPrimary transition-colors duration-200"
+                                    className="px-5 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-700 hover:text-textPrimary transition-colors duration-200"
                                 >
                                     Close
                                 </button>
                                 <button 
                                     type="submit" 
-                                    className="px-5 py-2 w-40 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark shadow-sm hover:shadow-md disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-wait disabled:shadow-none transition-all duration-200"
+                                    className="px-5 py-2 w-40 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark disabled:bg-slate-600 disabled:text-slate-400 disabled:cursor-wait transition-all duration-200"
                                     disabled={!url.trim() || currentStatus === 'connecting' || currentStatus === 'connected'}
                                 >
                                     {currentStatus === 'connecting' ? (

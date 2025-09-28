@@ -2,9 +2,9 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Footer from './components/Footer';
 import PolicyList from './components/PolicyList';
 import PolicyDetail from './components/PolicyDetail';
-import LoginModal from './components/LoginModal';
 import AddPolicyModal from './components/AddPolicyModal';
 import LiveSyncModal from './components/LiveSyncModal';
+import LoginModal from './components/LoginModal';
 import { type Policy, type SyncStatus } from './types';
 import LoadingSpinner from './components/LoadingSpinner';
 
@@ -19,13 +19,11 @@ const App: React.FC = () => {
   const [policyContent, setPolicyContent] = useState<string>('');
   const [isLoadingContent, setIsLoadingContent] = useState<boolean>(false);
   
-  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('page') === 'admin';
-  });
-  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [showAddPolicyModal, setShowAddPolicyModal] = useState<boolean>(false);
   const [showLiveSyncModal, setShowLiveSyncModal] = useState<boolean>(false);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string>('');
   
   const [isExportingJson, setIsExportingJson] = useState<boolean>(false);
   const [isImporting, setIsImporting] = useState<boolean>(false);
@@ -56,7 +54,8 @@ const App: React.FC = () => {
             });
             setEditedContentCache(contentCache);
             
-            if (loadedPolicies.length > 0) {
+            // On desktop, select the first policy by default. On mobile, show the list first.
+            if (window.innerWidth >= 768 && loadedPolicies.length > 0) {
               const firstPolicy = loadedPolicies[0];
               setSelectedPolicy(firstPolicy);
               setPolicyContent(contentCache.get(firstPolicy.id) || '');
@@ -91,15 +90,23 @@ const App: React.FC = () => {
     setIsLoadingContent(false);
   }, [selectedPolicy, getPolicyContent]);
 
-  const handleLogin = (success: boolean) => {
-    if (success) {
-      setIsAdmin(true);
-    }
-    setShowLoginModal(false);
+  const handleMobileBack = () => {
+    setSelectedPolicy(null);
   };
 
   const handleLogout = () => {
     setIsAdmin(false);
+  };
+
+  const handleLogin = (username: string, password: string) => {
+    // NOTE: In a real application, this would be an API call to a secure backend.
+    if (username === 'admin' && password === 'password') {
+        setIsAdmin(true);
+        setShowLoginModal(false);
+        setLoginError('');
+    } else {
+        setLoginError('Invalid username or password.');
+    }
   };
 
   const handleAddNewPolicy = (policyName: string) => {
@@ -272,8 +279,8 @@ const App: React.FC = () => {
   if (appStatus === 'error') {
       return (
           <div className="flex h-screen items-center justify-center p-4 bg-background">
-              <div className="bg-red-100 border border-red-400 text-red-700 p-6 rounded-lg max-w-lg text-center shadow-lg" role="alert">
-                <h3 className="font-bold text-lg">An Error Occurred</h3>
+              <div className="bg-red-900/20 border border-red-500/30 text-red-300 p-6 rounded-lg max-w-lg text-center shadow-lg" role="alert">
+                <h3 className="font-bold text-lg text-red-200">An Error Occurred</h3>
                 <p className="mt-2 text-sm">{appError}</p>
               </div>
           </div>
@@ -282,8 +289,8 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="flex h-screen text-textPrimary font-sans antialiased overflow-hidden p-4 gap-4">
-        <aside className="w-1/3 max-w-sm flex-shrink-0">
+      <div className="flex h-screen text-textPrimary font-sans antialiased overflow-hidden md:p-4 md:gap-4 bg-background">
+        <aside className={`w-full md:w-1/3 md:max-w-sm flex-shrink-0 ${selectedPolicy ? 'hidden md:flex' : 'flex'} flex-col`}>
           <PolicyList
             policies={policies}
             selectedPolicyId={selectedPolicy?.id}
@@ -298,7 +305,7 @@ const App: React.FC = () => {
             syncStatus={syncStatus}
           />
         </aside>
-        <main className="flex flex-col flex-grow bg-surface rounded-xl overflow-y-auto border border-border shadow-sm">
+        <main className={`flex-grow ${selectedPolicy ? 'flex' : 'hidden md:flex'} flex-col bg-surface md:rounded-xl overflow-y-auto border border-border`}>
           <PolicyDetail
             policy={selectedPolicy}
             content={policyContent}
@@ -308,13 +315,13 @@ const App: React.FC = () => {
             onSave={handleSavePolicyContent}
             onExportSingleJson={handleExportSingleJson}
             isExportingSingleJson={isExportingSingleJson === selectedPolicy?.id}
-            onLoginClick={() => setShowLoginModal(true)}
             onLogout={handleLogout}
+            onLoginClick={() => setShowLoginModal(true)}
+            onBackClick={handleMobileBack}
           />
            <Footer />
         </main>
       </div>
-      {showLoginModal && <LoginModal onLogin={handleLogin} onClose={() => setShowLoginModal(false)} />}
       {showAddPolicyModal && <AddPolicyModal onAdd={handleAddNewPolicy} onClose={() => setShowAddPolicyModal(false)} />}
       {showLiveSyncModal && (
         <LiveSyncModal
@@ -323,6 +330,13 @@ const App: React.FC = () => {
             onDisconnect={handleDisconnect}
             syncStatus={syncStatus}
             syncUrl={syncUrl}
+        />
+      )}
+      {showLoginModal && (
+        <LoginModal
+            onClose={() => { setShowLoginModal(false); setLoginError(''); }}
+            onLogin={handleLogin}
+            error={loginError}
         />
       )}
     </>
