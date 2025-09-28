@@ -174,15 +174,22 @@ const App: React.FC = () => {
             let maxId = updatedPolicies.length > 0 ? Math.max(...updatedPolicies.map(p => p.id)) : 0;
 
             importedPolicies.forEach(importedPolicy => {
-                const existingPolicyIndex = updatedPolicies.findIndex(p => p.id === importedPolicy.id);
+                const policyToProcess = { ...importedPolicy };
+                const existingPolicyIndex = updatedPolicies.findIndex(p => p.id === policyToProcess.id);
+
                 if (existingPolicyIndex > -1) {
-                    updatedPolicies[existingPolicyIndex] = { id: importedPolicy.id, name: importedPolicy.name };
+                    // Update existing policy
+                    updatedPolicies[existingPolicyIndex] = { id: policyToProcess.id, name: policyToProcess.name };
                 } else {
-                    const newId = updatedPolicies.some(p => p.id === importedPolicy.id) ? ++maxId : importedPolicy.id;
-                    updatedPolicies.push({ id: newId, name: importedPolicy.name });
-                    if (newId > maxId) maxId = newId;
+                    // Add new policy, checking for ID collision first
+                    if (updatedPolicies.some(p => p.id === policyToProcess.id)) {
+                        policyToProcess.id = ++maxId;
+                    }
+                    updatedPolicies.push({ id: policyToProcess.id, name: policyToProcess.name });
+                    if (policyToProcess.id > maxId) maxId = policyToProcess.id;
                 }
-                newCache.set(importedPolicy.id, importedPolicy.content);
+                // Set cache using the final ID, whether it was original or newly generated
+                newCache.set(policyToProcess.id, policyToProcess.content);
             });
 
             setPolicies(updatedPolicies.sort((a, b) => a.name.localeCompare(b.name)));
