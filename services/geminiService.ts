@@ -1,16 +1,28 @@
 import { GoogleGenAI } from "@google/genai";
 
-const API_KEY = process.env.API_KEY;
+// Lazily initialize the AI client to avoid crashing the app on start if the API key is missing.
+let ai: GoogleGenAI | null = null;
 
-if (!API_KEY) {
-  // This will be handled by the environment, but as a safeguard:
-  console.error("API_KEY environment variable not set. AI features will not work.");
+function getAiClient(): GoogleGenAI {
+  if (ai) {
+    return ai;
+  }
+  
+  const API_KEY = process.env.API_KEY;
+  if (!API_KEY) {
+    // This error will be caught by the calling function and shown to the user.
+    throw new Error("AI service is not configured: API_KEY is missing.");
+  }
+  
+  ai = new GoogleGenAI({ apiKey: API_KEY });
+  return ai;
 }
 
-const ai = new GoogleGenAI({ apiKey: API_KEY! });
 
 export async function generatePolicyContent(policyName: string): Promise<string> {
   try {
+    const client = getAiClient();
+
     const prompt = `You are an expert in IT security and compliance. Write a comprehensive IT policy about "${policyName}".
 The policy should be well-structured and ready for a corporate environment.
 Use Markdown for formatting. Include the following sections:
@@ -25,7 +37,7 @@ Use Markdown for formatting. Include the following sections:
 
 Start the document with a level 3 markdown heading like this: '### Consensus Policy Resource Community' and include a disclaimer about free use for the internet community from the SANS institute.`;
 
-    const response = await ai.models.generateContent({
+    const response = await client.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
     });
@@ -33,6 +45,9 @@ Start the document with a level 3 markdown heading like this: '### Consensus Pol
     return response.text ?? '';
   } catch (error) {
     console.error("Error generating policy content:", error);
-    throw new Error("Failed to generate content from AI. Please check if your API key is configured correctly and try again.");
+    if (error instanceof Error && error.message.includes("API_KEY")) {
+         throw new Error("The AI service is not configured. Please contact the administrator to set the API key.");
+    }
+    throw new Error("Failed to generate content from AI. Please check the server configuration and try again.");
   }
 }
