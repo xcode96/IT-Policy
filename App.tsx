@@ -1,6 +1,7 @@
 
 
-import React, { useState, useCallback } from 'react';
+
+import React, { useState, useCallback, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PolicyList from './components/PolicyList';
@@ -9,25 +10,18 @@ import LoginModal from './components/LoginModal';
 import AddPolicyModal from './components/AddPolicyModal';
 import LiveSyncModal from './components/LiveSyncModal';
 import { type Policy, type SyncStatus } from './types';
-import initialPoliciesData from './policies.json';
+import LoadingSpinner from './components/LoadingSpinner';
 
 const App: React.FC = () => {
-  const [policies, setPolicies] = useState<Policy[]>(() => 
-    initialPoliciesData.map(({ id, name }) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name))
-  );
-  
-  const [editedContentCache, setEditedContentCache] = useState<Map<number, string>>(() => {
-    const contentCache = new Map<number, string>();
-    initialPoliciesData.forEach(({ id, content }) => {
-        contentCache.set(id, content);
-    });
-    return contentCache;
-  });
+  const [policies, setPolicies] = useState<Policy[]>([]);
+  const [editedContentCache, setEditedContentCache] = useState<Map<number, string>>(new Map());
+
+  const [appStatus, setAppStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [appError, setAppError] = useState<string | null>(null);
 
   const [selectedPolicy, setSelectedPolicy] = useState<Policy | null>(null);
   const [policyContent, setPolicyContent] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [isLoadingContent, setIsLoadingContent] = useState<boolean>(false);
   
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
@@ -41,6 +35,39 @@ const App: React.FC = () => {
   const [syncStatus, setSyncStatus] = useState<SyncStatus>('not-connected');
   const [syncUrl, setSyncUrl] = useState<string>('');
 
+  useEffect(() => {
+    const fetchPolicies = async () => {
+        try {
+            const response = await fetch('/policies.json');
+            if (!response.ok) {
+                throw new Error(`Server responded with status: ${response.status}`);
+            }
+            const data = await response.json();
+            
+            if (!Array.isArray(data) || !data.every(item => 'id' in item && 'name' in item && 'content' in item)) {
+              throw new Error('Invalid JSON format for policies.');
+            }
+
+            const loadedPolicies = data.map(({ id, name }) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name));
+            setPolicies(loadedPolicies);
+
+            const contentCache = new Map<number, string>();
+            data.forEach(({ id, content }) => {
+                contentCache.set(id, content);
+            });
+            setEditedContentCache(contentCache);
+            
+            setAppStatus('ready');
+        } catch (e) {
+            console.error("Failed to load policies:", e);
+            setAppError("Failed to fetch policies.json. Make sure the file exists in the public directory.");
+            setAppStatus('error');
+        }
+    };
+
+    fetchPolicies();
+  }, []);
+
   const getPolicyContent = useCallback(async (policy: Policy): Promise<string> => {
     return editedContentCache.get(policy.id) || '';
   }, [editedContentCache]);
@@ -51,13 +78,12 @@ const App: React.FC = () => {
     }
 
     setSelectedPolicy(policy);
-    setIsLoading(true);
-    setError(null);
+    setIsLoadingContent(true);
     setPolicyContent('');
 
     const content = await getPolicyContent(policy);
     setPolicyContent(content);
-    setIsLoading(false);
+    setIsLoadingContent(false);
   }, [selectedPolicy, getPolicyContent]);
 
   const handleLogin = (success: boolean) => {
@@ -227,6 +253,28 @@ const App: React.FC = () => {
     setSyncStatus('not-connected');
   };
 
+  if (appStatus === 'loading') {
+    return (
+        <div className="flex h-screen items-center justify-center bg-background">
+            <div className="text-center">
+                <LoadingSpinner />
+                <p className="mt-4 text-textPrimary font-semibold">Loading IT Policy Portal...</p>
+            </div>
+        </div>
+    );
+  }
+
+  if (appStatus === 'error') {
+      return (
+          <div className="flex h-screen items-center justify-center p-4 bg-background">
+              <div className="bg-red-50 border border-red-200 text-red-700 p-6 rounded-lg max-w-lg text-center shadow-md" role="alert">
+                <h3 className="font-bold text-lg text-red-800">An Error Occurred</h3>
+                <p className="mt-2 text-sm">{appError}</p>
+              </div>
+          </div>
+      );
+  }
+
   return (
     <>
       <div className="flex h-screen text-textPrimary font-sans antialiased overflow-hidden p-4 gap-4">
@@ -256,8 +304,8 @@ const App: React.FC = () => {
               <PolicyDetail
                 policy={selectedPolicy}
                 content={policyContent}
-                isLoading={isLoading}
-                error={error}
+                isLoading={isLoadingContent}
+                error={null}
                 isAdmin={isAdmin}
                 onSave={handleSavePolicyContent}
                 onExportSingleJson={handleExportSingleJson}
