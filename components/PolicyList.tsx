@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import { type Policy, type SyncStatus } from '../types';
 
@@ -6,7 +7,6 @@ interface PolicyListProps {
   selectedPolicyId: number | undefined;
   onSelectPolicy: (policy: Policy) => void;
   isAdmin: boolean;
-  isAiInitialized: boolean;
   onAddPolicyClick: () => void;
   onImportJsonFile: (file: File) => void;
   isImporting: boolean;
@@ -16,7 +16,7 @@ interface PolicyListProps {
   syncStatus: SyncStatus;
 }
 
-const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onSelectPolicy, isAdmin, isAiInitialized, onAddPolicyClick, onImportJsonFile, isImporting, onExportAllJson, isExportingJson, onLiveSyncClick, syncStatus }) => {
+const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onSelectPolicy, isAdmin, onAddPolicyClick, onImportJsonFile, isImporting, onExportAllJson, isExportingJson, onLiveSyncClick, syncStatus }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isActionInProgress = isImporting || isExportingJson;
 
@@ -90,8 +90,8 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={onAddPolicyClick}
-              disabled={isActionInProgress || !isAiInitialized}
-              title={!isAiInitialized ? 'Please set your API key in Settings to add a policy' : 'Add a new policy'}
+              disabled={isActionInProgress}
+              title={'Add a new policy'}
               className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-primary text-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary shadow-sm disabled:bg-slate-400 disabled:cursor-not-allowed"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
