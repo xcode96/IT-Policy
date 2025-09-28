@@ -2,11 +2,251 @@
   {
     "id": 1,
     "name": "Acceptable Encryption Policy",
-    "content": "Consensus Policy Resource Community\n Acceptable Encryption Policy \nFree Use Disclaimer: This policy was created by or for the SANS Institute for the \nInternet community. All or parts of this policy can be freely used for your organization. \nThere is no prior approval required. If you would like to contribute a new policy or \nupdated version of this policy, please send email to policy-resources@sans.org. \nLast Update Status: Updated June 2014 \n1. Overview \nSee Purpose. \n2. Purpose \nThe purpose of this policy is to provide guidance that limits the use of encryption to those \nalgorithms that have received substantial public review and have been proven to work \neffectively. Additionally, this policy provides direction to ensure that Federal regulations are \nfollowed, and legal authority is granted for the dissemination and use of encryption technologies \noutside of the United States. \n3. Scope \nThis policy applies to all <Company Name> employees and affiliates. \n4. Policy \n4.1 Algorithm Requirements \n4.1.1 Ciphers in use must meet or exceed the set defined as \"AES-compatible\" or \n\"partially AES-compatible\" according to the IETF/IRTF Cipher Catalog, or the \nset defined for use in the United States National Institute of Standards and \nTechnology (NIST) publication FIPS 140-2, or any superseding documents \naccording to the date of implementation. The use of the Advanced Encryption \nStandard (AES) is strongly recommended for symmetric encryption. \n4.1.2 Algorithms in use must meet the standards defined for use in NIST publication \nFIPS 140-2 or any superseding document, according to date of implementation. \nThe use of the RSA and Elliptic Curve Cryptography (ECC) algorithms is \nstrongly recommended for asymmetric encryption. \n4.1.3 Signature Algorithms  \nAlgorithm \nKey Length \n(min) \nAdditional Comment \nECDSA P-256 Consider RFC6090 to avoid patent \ninfringement.   \nRSA \n2048 \nMust use a secure padding scheme. PKCS#7 \npadding scheme is recommended. Message \nhashing required. \nLDWM \nSHA256 \nRefer to LDWM Hash-based Signatures Draft \n4.2 Hash Function Requirements \nIn general, <Company Name> adheres to the NIST Policy on Hash Functions.  \n4.3 Key Agreement and Authentication \n4.3.1 Key exchanges must use one of the following cryptographic protocols: Diffie\nHellman, IKE, or Elliptic curve Diffie-Hellman (ECDH). \n4.3.2 End points must be authenticated prior to the exchange or derivation of session \nkeys. \n4.3.3 Public keys used to establish trust must be authenticated prior to use.  Examples \nof authentication include transmission via cryptographically signed message or \nmanual verification of the public key hash. \n4.3.4 All servers used for authentication (for example, RADIUS or TACACS) must \nhave installed a valid certificate signed by a known trusted provider. \n4.3.5 All servers and applications using SSL or TLS must have the certificates signed \nby a known, trusted provider.  \n4.4 Key Generation \n4.4.1 Cryptographic keys must be generated and stored in a secure manner that prevents \nloss, theft, or compromise.  \n4.4.2 Key generation must be seeded from an industry standard random number \ngenerator (RNG). For examples, see NIST Annex C: Approved Random Number \nGenerators for FIPS PUB 140-2.   \n5. Policy Compliance \n5.1 Compliance Measurement \nThe Infosec team will verify compliance to this policy through various methods, including but \nnot limited to, business tool reports, internal and external audits, and feedback to the policy \nowner.  \n5.2 Exceptions \nAny exception to the policy must be approved by the Infosec team in advance.  \n5.3 Non-Compliance \nAn employee found to have violated this policy may be subject to disciplinary action, up to and \nincluding termination of employment.  \n6 Related Standards, Policies and Processes \nNational Institute of Standards and Technology (NIST) publication FIPS 140-2, \nNIST Policy on Hash Functions \n7 Definitions and Terms \nThe following definition and terms can be found in the SANS Glossary located at: \nhttps://www.sans.org/security-resources/glossary-of-terms/ \n• Proprietary Encryption \n8 Revision History \nDate of Change Responsible \nSummary of Change \nJune 2014 \nSANS Policy Team \nUpdated and converted to new format."
+    "content": "Consensus Policy Resource Community\n Acceptable Encryption Policy \nFree Use Disclaimer: This policy was created by or for the SANS Institute for the \nInternet community. All or parts of this policy can be freely used for your organization. \nThere is no prior approval required. If you would like to contribute a new policy or \nupdated version of this policy, please send email to policy-resources@sans.org. \nLast Update Status: Updated June 2014 \n1. Overview \nSee Purpose. \n2. Purpose \nThe purpose of this policy is to provide guidance that limits the use of encryption to those \nalgorithms that have received substantial public review and have been proven to work \neffectively. Additionally, this policy provides direction to ensure that Federal regulations are \nfollowed, and legal authority is granted for the dissemination and use of encryption technologies \noutside of the United States. \n3. Scope \nThis policy applies to all <Company Name> employees and affiliates. \n4. Policy \n4.1 Algorithm Requirements \n4.1.1 Ciphers in use must meet or exceed the set defined as \"AES-compatible\" or \n\"partially AES-compatible\" according to the IETF/IRTF Cipher Catalog, or the \nset defined for use in the United States National Institute of Standards and \nTechnology (NIST) publication FIPS 140-2, or any superseding documents \naccording to the date of implementation. The use of the Advanced Encryption \nStandard (AES) is strongly recommended for symmetric encryption. \n4.1.2 Algorithms in use must meet the standards defined for use in NIST publication \nFIPS 140-2 or any superseding document, according to date of implementation. \nThe use of the RSA and Elliptic Curve Cryptography (ECC) algorithms is \nstrongly recommended for asymmetric encryption. \n4.1.3 Signature Algorithms  \nAlgorithm \nKey Length \n(min) \nAdditional Comment \nECDSA P-256 Consider RFC6090 to avoid patent \ninfringement.   \nRSA \n2048 \nMust use a secure padding scheme. PKCS#7 \npadding scheme is recommended. Message \nhashing required. \nLDWM \nSHA256 \nRefer to LDWM Hash-based Signatures Draft \n4.2 Hash Function Requirements \nIn general, <Company Name> adheres to the NIST Policy on Hash Functions.  \n4.3 Key Agreement and Authentication \n4.3.1 Key exchanges must use one of the following cryptographic protocols: Diffie\nHellman, IKE, or Elliptic curve Diffie-Hellman (ECDH). \n4.3.2 End points must be authenticated prior to the exchange or derivation of session \nkeys. \n4.3.3 Public keys used to establish trust must be authenticated prior to use.  Examples \nof authentication include transmission via cryptographically signed message or \nmanual verification of the public key hash. \n4.3.4 All servers used for authentication (for example, RADIUS or TACACS) must \nhave installed a valid certificate signed by a known trusted provider. \n4.3.5 All servers and applications using SSL or TLS must have the certificates signed \nby a known, trusted provider.  \n4.4 Key Generation \n4.4.1 Cryptographic keys must be generated and stored in a secure manner that prevents \nloss, theft, or compromise.  \n4.4.2 Key generation must be seeded from an industry standard random number \ngenerator (RNG). For examples, see NIST Annex C: Approved Random Number \nGenerators for FIPS PUB 140-2.   \n5. Policy Compliance \n5.1 Compliance Measurement \nThe Infosec team will verify compliance to this policy through various methods, including but \nnot limited to, business tool reports, internal and external audits, and feedback to the policy \nowner.  \n5.2 Exceptions \nAny exception to the policy must be approved by the Infosec team in advance.  \n5.3 Non-Compliance \nAn employee found to have violated this policy may be subject to disciplinary action, up to and \nincluding termination of employment.  \n6 Related Standards, Policies and Processes \nNational Institute of Standards and Technology (NIST) publication FIPS 140-2, \nNIST Policy on Hash Functions \n7 Definitions and Terms \nThe following definition and terms can be found in the SANS Glossary located at: \nhttps://www.sans.org/security-resources/glossary-of-terms/ \n• Proprietary Encryption \n8 Revision History \nDate of Change Responsible \nSummary of Change \nJune 2014 \nSANS Policy Team \nUpdated and converted to new format.\n"
   },
   {
     "id": 2,
     "name": "Acceptable Use Policy",
-    "content": "# Policy Name\nAcceptable Use Policy\n\n# Policy ID\nCORP-IT-SEC-002\n\n# Version\n1.0\n\n# Effective Date\nYYYY-MM-DD\n\n# Purpose\nThis policy outlines the acceptable use of company information systems and resources to protect both the employee and the company.\n\n# Scope\nThis policy applies to all employees, contractors, and affiliates who have access to company systems.\n\n# Policy Statements\n- Company resources are for business purposes.\n- Unauthorized use is strictly prohibited.\n- Users must not engage in illegal activities.\n\n# Roles and Responsibilities\n- **Employees**: Adhere to this policy.\n- **IT Department**: Monitor and enforce compliance.\n\n# Enforcement\nViolations may result in disciplinary action, up to and including termination.\n\n# Related Documents\n- Data Security Policy\n- Code of Conduct"
+    "content": "As an IT policy expert and corporate writer, here is a comprehensive and professionally formatted \"Acceptable Use Policy\" document ready for corporate use.\n\n---\n\n# Acceptable Use Policy\n\n| **Policy Name:**      | Acceptable Use Policy                                |\n| :-------------------- | :--------------------------------------------------- |\n| **Policy ID:**        | CORP-IT-SEC-001                                      |\n| **Version:**          | 1.0                                                  |\n| **Effective Date:**   | 2023-10-27                                           |\n| **Review Date:**      | 2024-10-27                                           |\n\n---\n\n## 1. Purpose\n\nThe purpose of this Acceptable Use Policy (AUP) is to outline the acceptable and ethical use of [Company Name]'s information technology (IT) resources. This policy ensures the security, integrity, and availability of our IT systems and data, protects company assets, complies with legal and regulatory requirements, and promotes a productive, professional, and respectful work environment for all users.\n\n## 2. Scope\n\nThis policy applies to all employees, contractors, temporary staff, interns, consultants, and any third-party individuals or entities granted access to [Company Name]'s IT resources (collectively, \"Users\").\n\nIt covers all company-owned, leased, or managed IT resources, including but not limited to:\n*   Networks (wired and wireless)\n*   Servers, workstations, laptops, and other computing devices\n*   Software, applications, and operating systems\n*   Data, files, and databases\n*   Internet services, intranet, and cloud services\n*   Email, instant messaging, and other communication tools\n*   Mobile devices (company-issued or personal devices used for business purposes)\n*   Telecommunication services\n\nThis policy applies regardless of the physical location (on-site or remote) or the device used to access these resources.\n\n## 3. Policy Statements\n\n### 3.1 General Principles\n\nAll Users are expected to exercise good judgment and common sense in their use of [Company Name]'s IT resources. Use of these resources must be:\n*   Consistent with applicable laws and regulations.\n*   In line with [Company Name]'s ethical standards and values.\n*   Primarily for business-related purposes.\n*   Respectful of others and free from harassment or discrimination.\n\n### 3.2 Authorized and Prohibited Use\n\n#### 3.2.1 Authorized Use\n*   IT resources are provided primarily to facilitate the User's job duties and company business.\n*   Limited and occasional personal use is permissible, provided it does not interfere with job performance, consume excessive resources, violate any other company policies, or incur significant cost to [Company Name].\n\n#### 3.2.2 Prohibited Activities\nThe following activities are strictly prohibited when using [Company Name]'s IT resources:\n\n*   **Illegal Activities**: Engaging in or promoting any activity that is illegal under applicable local, national, or international laws.\n*   **Harassment or Offensive Content**: Creating, storing, transmitting, or displaying any content that is discriminatory, harassing, defamatory, sexually explicit, obscene, or otherwise offensive, hateful, or inappropriate.\n*   **Unauthorized Access**: Attempting to gain unauthorized access to any system, network, or data, or circumventing security controls, without explicit written permission from the IT Department. This includes \"hacking\" or attempting to exploit vulnerabilities.\n*   **Malware Distribution**: Introducing, installing, or distributing malware, viruses, worms, Trojan horses, ransomware, or other malicious code onto any IT resource.\n*   **Intellectual Property Infringement**: Downloading, copying, sharing, or distributing copyrighted material (e.g., software, music, videos, documents) without proper authorization, licensing, or legal right.\n*   **Excessive Personal Use**: Engaging in personal use that significantly impacts job performance, consumes excessive network bandwidth or storage, or incurs significant cost to the company.\n*   **Resource Abuse**: Deliberately consuming excessive network bandwidth, storage, processing power, or otherwise disrupting the availability or performance of IT resources.\n*   **Political Lobbying/Activism**: Using company IT resources for personal political lobbying, activism, or for the support of any non-company-approved external organizations.\n*   **Chain Letters/Spam**: Sending unsolicited mass emails (\"spam\") or participating in chain letters, pyramid schemes, or similar activities.\n*   **Gambling**: Accessing or engaging in online gambling.\n\n### 3.3 Data Handling and Confidentiality\n\n*   Users must handle company data in accordance with the [Company Name] Data Classification Policy and Data Privacy Policy.\n*   Confidential, proprietary, and sensitive data must be protected from unauthorized access, modification, or disclosure at all times.\n*   Company data must not be stored on personal devices or unapproved cloud services without explicit authorization and appropriate security measures.\n*   All data created or stored on company IT resources is the property of [Company Name].\n\n### 3.4 Security Responsibilities\n\n*   **Password Management**: Users are responsible for maintaining the confidentiality and integrity of their passwords and access credentials. Passwords must never be shared and must meet [Company Name]'s complexity requirements.\n*   **Device Protection**: Users are responsible for taking reasonable steps to protect company-issued devices (e.g., laptops, mobile phones) from loss, theft, and damage. Devices must be secured with passwords/PINs and encryption where required.\n*   **Reporting Incidents**: Any suspected security incidents, policy violations, system vulnerabilities, or unusual activity must be immediately reported to the IT Department.\n*   **Physical Security**: Ensure company devices and data are physically secure, especially when working in public spaces or unattended.\n*   **Remote Access**: Remote access to company networks must always be conducted using approved secure methods (e.g., VPN) and comply with all security protocols.\n\n### 3.5 Internet and Email Usage\n\n*   **Professional Conduct**: All internet and email communications must be professional and reflect positively on [Company Name].\n*   **Email for Business**: Company email accounts are primarily for business communication. Limited personal use is permissible if it does not violate any other policy, interfere with work, or create liability for the company.\n*   **No Illegal Downloads**: Do not download or distribute illegal or unauthorized content via the internet or email.\n*   **External Communications**: Users must exercise caution when clicking on links or opening attachments from unknown or suspicious sources.\n\n### 3.6 Software and Licensing\n\n*   Only authorized and properly licensed software may be installed on company-owned devices.\n*   Users must not install personal software on company devices without explicit approval from the IT Department.\n*   All software must be used in compliance with its licensing agreements.\n\n### 3.7 Mobile Devices\n\n*   Users accessing company resources via personal mobile devices (Bring Your Own Device - BYOD) must adhere to the [Company Name] Mobile Device Policy and ensure adequate security measures are in place as required by the company.\n*   Company-issued mobile devices must be used in accordance with this policy and the Mobile Device Policy.\n\n### 3.8 Privacy and Monitoring\n\n*   Users should have no expectation of privacy regarding their use of [Company Name]'s IT resources.\n*   [Company Name] reserves the right to monitor, log, and review all activity on its IT systems, networks, and data, including internet usage, email communications, instant messages, and file content, for security, operational, compliance, and investigative purposes, as permitted by law. This monitoring may occur without prior notice.\n\n## 4. Roles and Responsibilities\n\n*   **All Users**:\n    *   Read, understand, and comply with this policy and all related IT policies.\n    *   Use company IT resources responsibly, ethically, and lawfully.\n    *   Report any suspected policy violations, security incidents, or vulnerabilities to the IT Department immediately.\n    *   Protect company information and IT assets from unauthorized access, use, disclosure, modification, or destruction.\n*   **Management/Supervisors**:\n    *   Ensure their direct reports understand and adhere to this policy.\n    *   Address any known or suspected policy violations within their teams and report them to IT and HR.\n    *   Support the IT Department in enforcing this policy.\n*   **IT Department**:\n    *   Develop, maintain, and update this policy.\n    *   Implement and manage the IT infrastructure and security controls necessary to support this policy.\n    *   Provide guidance and training to Users on acceptable use practices.\n    *   Monitor IT resources for compliance and investigate suspected violations.\n    *   Report policy violations to appropriate management and Human Resources.\n*   **Human Resources Department**:\n    *   Consult with management and the IT Department on policy enforcement and disciplinary actions.\n    *   Ensure that disciplinary actions are consistent and compliant with company policy and labor laws.\n\n## 5. Enforcement\n\nAny violation of this Acceptable Use Policy may result in disciplinary action, up to and including termination of employment or contract, and may also include legal action, civil penalties, and restitution for any damages incurred by [Company Name]. [Company Name] reserves the right to suspend or revoke IT system access immediately for actual or suspected policy violations without prior notice.\n\n## 6. Related Documents\n\n*   Information Security Policy\n*   Data Classification Policy\n*   Data Privacy Policy\n*   Mobile Device Policy\n*   Remote Work Policy\n*   Incident Response Policy\n*   [Company Name] Code of Conduct\n\n---"
+  },
+  {
+    "id": 3,
+    "name": "Acquisition Assessment Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 4,
+    "name": "Analog ISDN Line Security Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 5,
+    "name": "Anti-Virus Guidelines",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 6,
+    "name": "Automatically Forwarded Email Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 7,
+    "name": "Bluetooth Baseline Requirements Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 8,
+    "name": "Clean Desk Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 9,
+    "name": "Communications Equipment Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 10,
+    "name": "Data Breach Response Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 11,
+    "name": "Database Credentials Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 12,
+    "name": "Dial-In Access Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 13,
+    "name": "Digital Signature Acceptance Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 14,
+    "name": "Disaster Recovery Plan Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 15,
+    "name": "DMZ Lab Security Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 16,
+    "name": "Email Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 17,
+    "name": "Email Retention Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 18,
+    "name": "Employee Internet Use Monitoring and Filtering Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 19,
+    "name": "End User Encryption Key Protection Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 20,
+    "name": "Ethics Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 21,
+    "name": "Extranet Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 22,
+    "name": "Information Logging Standard",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 23,
+    "name": "Internet DMZ Equipment Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 24,
+    "name": "Internet Usage Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 25,
+    "name": "Lab Anti-Virus Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 26,
+    "name": "Lab Security Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 27,
+    "name": "Mobile Device Encryption Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 28,
+    "name": "Mobile Employee Endpoint Responsibility Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 29,
+    "name": "Pandemic Response Planning Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 30,
+    "name": "Password Construction Guidelines",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 31,
+    "name": "Password Protection Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 32,
+    "name": "Personal Communication Devices and Voicemail Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 33,
+    "name": "Remote Access Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 34,
+    "name": "Remote Access Tools Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 35,
+    "name": "Remote Access, Mobile Computing, and Storage Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 36,
+    "name": "Removable Media Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 37,
+    "name": "Risk Assessment Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 38,
+    "name": "Router and Switch Security Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 39,
+    "name": "Security Response Plan Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 40,
+    "name": "Server Audit Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 41,
+    "name": "Server Malware Protection Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 42,
+    "name": "Server Security Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 43,
+    "name": "Social Engineering Awareness Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 44,
+    "name": "Software Installation Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 45,
+    "name": "Technology Equipment Disposal Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 46,
+    "name": "Virtual Private Network (VPN) Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 47,
+    "name": "Web Application Security Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 48,
+    "name": "Wireless Communication Policy",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 49,
+    "name": "Wireless Communication Standard",
+    "content": "Error: Could not generate content for this policy."
+  },
+  {
+    "id": 50,
+    "name": "Workstation Security for HIPAA Policy",
+    "content": "Error: Could not generate content for this policy."
   }
 ]
