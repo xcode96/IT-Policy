@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { type Policy } from '../types';
+import { type Policy, type SyncStatus } from '../types';
 
 interface PolicyListProps {
   policies: Policy[];
@@ -7,14 +7,17 @@ interface PolicyListProps {
   onSelectPolicy: (policy: Policy) => void;
   isAdmin: boolean;
   onAddPolicyClick: () => void;
-  onExportAll: () => void;
-  isExporting: boolean;
-  onImportFile: (file: File) => void;
+  onImportJsonFile: (file: File) => void;
   isImporting: boolean;
+  onExportAllJson: () => void;
+  isExportingJson: boolean;
+  onLiveSyncClick: () => void;
+  syncStatus: SyncStatus;
 }
 
-const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onSelectPolicy, isAdmin, onAddPolicyClick, onExportAll, isExporting, onImportFile, isImporting }) => {
+const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onSelectPolicy, isAdmin, onAddPolicyClick, onImportJsonFile, isImporting, onExportAllJson, isExportingJson, onLiveSyncClick, syncStatus }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isActionInProgress = isImporting || isExportingJson;
 
   const handleImportClick = () => {
     fileInputRef.current?.click();
@@ -23,11 +26,25 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      onImportFile(file);
+      onImportJsonFile(file);
     }
     // Reset the input value to allow re-uploading the same file
     if(event.target) {
       event.target.value = '';
+    }
+  };
+  
+  const getSyncStatusIndicator = () => {
+    switch (syncStatus) {
+      case 'connected':
+        return <span className="absolute top-2 right-2 h-3 w-3 rounded-full bg-green-500 border-2 border-surface" title="Sync Connected"></span>;
+      case 'connecting':
+        return <span className="absolute top-2 right-2 h-3 w-3 rounded-full bg-yellow-500 border-2 border-surface animate-pulse" title="Sync Connecting..."></span>;
+       case 'failed':
+         return <span className="absolute top-2 right-2 h-3 w-3 rounded-full bg-red-500 border-2 border-surface" title="Sync Failed"></span>;
+      case 'not-connected':
+      default:
+        return <span className="absolute top-2 right-2 h-3 w-3 rounded-full bg-red-500 border-2 border-surface" title="Sync Not Connected"></span>;
     }
   };
 
@@ -61,23 +78,36 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
-            accept=".txt"
+            accept="application/json"
             className="hidden"
           />
-          <button
-            onClick={onAddPolicyClick}
-            disabled={isExporting || isImporting}
-            className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-primary text-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary shadow-sm disabled:bg-slate-400 disabled:cursor-wait"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-            </svg>
-            <span>Add New Policy</span>
-          </button>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={onAddPolicyClick}
+              disabled={isActionInProgress}
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-primary text-white hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary shadow-sm disabled:bg-slate-400 disabled:cursor-wait"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+              </svg>
+              <span>Add New</span>
+            </button>
+             <button
+              onClick={onLiveSyncClick}
+              disabled={isActionInProgress}
+              className="w-full relative flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-slate-100 text-slate-700 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-slate-400 shadow-sm disabled:bg-slate-300 disabled:cursor-wait"
+            >
+              {getSyncStatusIndicator()}
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M15.55 5.55a8 8 0 10-11.1 0 1 1 0 011.41-1.41 6 6 0 018.28 0 1 1 0 11-1.41 1.41zM10 3a1 1 0 011 1v2a1 1 0 11-2 0V4a1 1 0 011-1z" clipRule="evenodd" />
+              </svg>
+              <span>Live Sync</span>
+            </button>
+          </div>
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={handleImportClick}
-              disabled={isExporting || isImporting}
+              disabled={isActionInProgress}
               className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-slate-100 text-slate-700 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-slate-400 shadow-sm disabled:bg-slate-300 disabled:cursor-wait"
             >
               {isImporting ? (
@@ -90,20 +120,17 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
                 </>
               ) : (
                 <>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
-                    <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
-                  </svg>
-                  <span>Import</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" /><path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" /></svg>
+                  <span>Import JSON</span>
                 </>
               )}
             </button>
             <button
-              onClick={onExportAll}
-              disabled={isExporting || isImporting}
-              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-slate-600 text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-slate-500 shadow-sm disabled:bg-slate-400 disabled:cursor-wait"
+              onClick={onExportAllJson}
+              disabled={isActionInProgress}
+              className="w-full flex items-center justify-center gap-2 p-3 text-sm rounded-md font-semibold transition-all duration-300 ease-in-out bg-slate-800 text-white hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-slate-600 shadow-sm disabled:bg-slate-400 disabled:cursor-wait"
             >
-              {isExporting ? (
+              {isExportingJson ? (
                 <>
                   <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -114,9 +141,9 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
               ) : (
                 <>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                    <path fillRule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM4 8h5v2H4V8zm0 3h5v2H4v-2z" clipRule="evenodd" />
                   </svg>
-                  <span>Export All</span>
+                  <span>Export All JSON</span>
                 </>
               )}
             </button>

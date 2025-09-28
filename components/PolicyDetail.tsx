@@ -15,11 +15,21 @@ interface PolicyDetailProps {
   error: string | null;
   isAdmin: boolean;
   onSave: (policyId: number, newContent: string) => void;
-  onExportSingle: (policyId: number) => void;
-  isExportingSingle: boolean;
+  onExportSingleJson: (policyId: number) => void;
+  isExportingSingleJson: boolean;
 }
 
-const PolicyDetail: React.FC<PolicyDetailProps> = ({ policy, content, isLoading, isStaticContent, error, isAdmin, onSave, onExportSingle, isExportingSingle }) => {
+const PolicyDetail: React.FC<PolicyDetailProps> = ({ 
+    policy, 
+    content, 
+    isLoading, 
+    isStaticContent, 
+    error, 
+    isAdmin, 
+    onSave, 
+    onExportSingleJson,
+    isExportingSingleJson
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState('');
 
@@ -136,12 +146,12 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({ policy, content, isLoading,
     <div className="h-full">
         {isAdmin && policy && !isLoading && (
             <div className="flex justify-end items-center gap-3 mb-6 -mt-2 -mr-2">
-                 <button
-                    onClick={() => onExportSingle(policy.id)}
-                    disabled={isExportingSingle}
+                <button
+                    onClick={() => onExportSingleJson(policy.id)}
+                    disabled={isExportingSingleJson}
                     className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 rounded-md hover:bg-slate-200 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 disabled:opacity-50 disabled:cursor-wait"
                 >
-                    {isExportingSingle ? (
+                    {isExportingSingleJson ? (
                         <>
                           <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -152,9 +162,9 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({ policy, content, isLoading,
                     ) : (
                         <>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                                <path fillRule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM4 8h5v2H4V8zm0 3h5v2H4v-2z" clipRule="evenodd" />
                             </svg>
-                            Export
+                            Export JSON
                         </>
                     )}
                 </button>

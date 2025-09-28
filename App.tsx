@@ -5,9 +5,10 @@ import PolicyList from './components/PolicyList';
 import PolicyDetail from './components/PolicyDetail';
 import LoginModal from './components/LoginModal';
 import AddPolicyModal from './components/AddPolicyModal';
+import LiveSyncModal from './components/LiveSyncModal';
 import { INITIAL_POLICIES } from './constants';
 import { STATIC_POLICIES } from './staticPolicies';
-import { type Policy } from './types';
+import { type Policy, type SyncStatus } from './types';
 import { generatePolicyContent } from './services/geminiService';
 
 const App: React.FC = () => {
@@ -21,10 +22,15 @@ const App: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showAddPolicyModal, setShowAddPolicyModal] = useState<boolean>(false);
+  const [showLiveSyncModal, setShowLiveSyncModal] = useState<boolean>(false);
+  
   const [editedContentCache, setEditedContentCache] = useState<Map<number, string>>(new Map());
-  const [isExporting, setIsExporting] = useState<boolean>(false);
+  const [isExportingJson, setIsExportingJson] = useState<boolean>(false);
   const [isImporting, setIsImporting] = useState<boolean>(false);
-  const [isExportingSingle, setIsExportingSingle] = useState<number | null>(null);
+  const [isExportingSingleJson, setIsExportingSingleJson] = useState<number | null>(null);
+
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>('not-connected');
+  const [syncUrl, setSyncUrl] = useState<string>('');
 
 
   useEffect(() => {
@@ -35,6 +41,21 @@ const App: React.FC = () => {
     }));
     setPolicies(policiesWithIds.sort((a, b) => a.name.localeCompare(b.name)));
   }, []);
+
+  const getPolicyContent = useCallback(async (policy: Policy): Promise<string> => {
+    if (editedContentCache.has(policy.id)) {
+        return editedContentCache.get(policy.id)!;
+    }
+    if (STATIC_POLICIES.has(policy.name)) {
+        return STATIC_POLICIES.get(policy.name)!;
+    }
+    try {
+        return await generatePolicyContent(policy.name);
+    } catch (err) {
+        console.error(`Failed to generate content for ${policy.name}`, err);
+        return `Error: Could not generate content for this policy.`;
+    }
+  }, [editedContentCache]);
 
   const handleSelectPolicy = useCallback(async (policy: Policy) => {
     if (selectedPolicy?.id === policy.id && policyContent && !editedContentCache.has(policy.id)) {
@@ -107,84 +128,54 @@ const App: React.FC = () => {
     setPolicyContent(newContent); // Update view immediately
   };
 
-  const handleExportAll = async () => {
-    setIsExporting(true);
-    let fullExportContent = `IT Policies Export - ${new Date().toLocaleString()}\n\n`;
-
-    // Use a sorted list for the export
-    const sortedPolicies = [...policies].sort((a, b) => a.name.localeCompare(b.name));
-
-    for (const policy of sortedPolicies) {
-        let content = '';
-        if (editedContentCache.has(policy.id)) {
-            content = editedContentCache.get(policy.id)!;
-        } else if (STATIC_POLICIES.has(policy.name)) {
-            content = STATIC_POLICIES.get(policy.name)!;
-        } else {
-            try {
-                content = await generatePolicyContent(policy.name);
-            } catch (err) {
-                console.error(`Failed to generate content for ${policy.name}`, err);
-                content = `Error: Could not generate content for this policy.`;
-            }
-        }
-        fullExportContent += `========================================\n`;
-        fullExportContent += `POLICY: ${policy.name}\n`;
-        fullExportContent += `========================================\n\n`;
-        fullExportContent += `${content.trim()}\n\n\n`;
-    }
-
-    const blob = new Blob([fullExportContent], { type: 'text/plain;charset=utf-8' });
+  const triggerDownload = (filename: string, content: string, mimeType: string) => {
+    const blob = new Blob([content], { type: mimeType });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'it_policies_export.txt';
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(link.href);
-    
-    setIsExporting(false);
   };
 
-   const handleExportSingle = async (policyId: number) => {
+  const handleExportAllJson = async () => {
+    setIsExportingJson(true);
+    const sortedPolicies = [...policies].sort((a, b) => a.name.localeCompare(b.name));
+    const exportData = [];
+
+    for (const policy of sortedPolicies) {
+        const content = await getPolicyContent(policy);
+        exportData.push({
+            id: policy.id,
+            name: policy.name,
+            content: content
+        });
+    }
+
+    triggerDownload('it_policies_export.json', JSON.stringify(exportData, null, 2), 'application/json');
+    setIsExportingJson(false);
+  };
+
+  const handleExportSingleJson = async (policyId: number) => {
     const policy = policies.find(p => p.id === policyId);
     if (!policy) return;
 
-    setIsExportingSingle(policy.id);
+    setIsExportingSingleJson(policy.id);
+    const content = await getPolicyContent(policy);
+    const exportData = {
+        id: policy.id,
+        name: policy.name,
+        content: content
+    };
 
-    let content = '';
-    let fullExportContent = `========================================\n`;
-    fullExportContent += `POLICY: ${policy.name}\n`;
-    fullExportContent += `========================================\n\n`;
-
-    if (editedContentCache.has(policy.id)) {
-        content = editedContentCache.get(policy.id)!;
-    } else if (STATIC_POLICIES.has(policy.name)) {
-        content = STATIC_POLICIES.get(policy.name)!;
-    } else {
-        try {
-            content = await generatePolicyContent(policy.name);
-        } catch (err) {
-            console.error(`Failed to generate content for ${policy.name}`, err);
-            content = `Error: Could not generate content for this policy.`;
-        }
-    }
-    
-    fullExportContent += `${content.trim()}\n\n\n`;
-
-    const blob = new Blob([fullExportContent], { type: 'text/plain;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `${policy.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_policy.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
-
-    setIsExportingSingle(null);
+    const filename = `${policy.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_policy.json`;
+    triggerDownload(filename, JSON.stringify(exportData, null, 2), 'application/json');
+    setIsExportingSingleJson(null);
   };
 
-  const handleImportFile = (file: File) => {
+
+  const handleImportJsonFile = (file: File) => {
     if (!file) return;
 
     setIsImporting(true);
@@ -196,45 +187,40 @@ const App: React.FC = () => {
             if (!text) {
                 throw new Error("File is empty.");
             }
+            const data = JSON.parse(text);
 
-            const newCache = new Map(editedContentCache);
-            let currentPolicies = [...policies];
-            const newPoliciesToAdd: Policy[] = [];
-            let maxId = currentPolicies.length > 0 ? Math.max(...currentPolicies.map(p => p.id)) : 0;
-
-            const policyChunks = text.split('========================================\nPOLICY: ').slice(1);
-
-            if (policyChunks.length === 0) {
-              throw new Error("No valid policies found in the file. Make sure the format is correct.");
+            if (!Array.isArray(data) || !data.every(item => 'id' in item && 'name' in item && 'content' in item)) {
+              throw new Error('Invalid JSON format. Expected an array of objects with id, name, and content.');
             }
+            
+            const importedPolicies: (Policy & { content: string })[] = data;
+            
+            const newCache = new Map(editedContentCache);
+            let updatedPolicies = [...policies];
+            let maxId = updatedPolicies.length > 0 ? Math.max(...updatedPolicies.map(p => p.id)) : 0;
 
-            policyChunks.forEach(chunk => {
-                const parts = chunk.split('\n========================================\n\n');
-                if (parts.length < 1) return;
+            importedPolicies.forEach(importedPolicy => {
+                const existingPolicyIndex = updatedPolicies.findIndex(p => p.id === importedPolicy.id);
 
-                const policyName = parts[0].trim();
-                const policyContent = parts.slice(1).join('\n========================================\n\n').trim();
-
-                if (!policyName) return;
-
-                let policy = currentPolicies.find(p => p.name.toLowerCase() === policyName.toLowerCase());
-
-                if (policy) {
-                    newCache.set(policy.id, policyContent);
+                if (existingPolicyIndex > -1) {
+                    // Policy exists, update it
+                    updatedPolicies[existingPolicyIndex] = {
+                        id: importedPolicy.id,
+                        name: importedPolicy.name,
+                    };
                 } else {
-                    maxId++;
-                    const newPolicy: Policy = { id: maxId, name: policyName };
-                    newPoliciesToAdd.push(newPolicy);
-                    currentPolicies.push(newPolicy); // Add to current list to avoid duplicates in the same file
-                    newCache.set(newPolicy.id, policyContent);
+                    // New policy, add it, ensuring ID is unique
+                    const newId = updatedPolicies.some(p => p.id === importedPolicy.id) ? ++maxId : importedPolicy.id;
+                    updatedPolicies.push({ id: newId, name: importedPolicy.name });
+                    if (newId > maxId) maxId = newId;
                 }
+                // Update cache for both new and existing
+                newCache.set(importedPolicy.id, importedPolicy.content);
             });
 
-            if (newPoliciesToAdd.length > 0) {
-                setPolicies(prev => [...prev, ...newPoliciesToAdd].sort((a, b) => a.name.localeCompare(b.name)));
-            }
+            setPolicies(updatedPolicies.sort((a, b) => a.name.localeCompare(b.name)));
             setEditedContentCache(newCache);
-            alert(`Import successful: ${policyChunks.length} policies were processed.`);
+            alert(`Import successful: ${importedPolicies.length} policies were processed.`);
 
         } catch (e) {
             console.error("Import failed:", e);
@@ -252,6 +238,46 @@ const App: React.FC = () => {
     reader.readAsText(file);
   };
 
+  const handleSync = async (url: string) => {
+    setSyncStatus('connecting');
+    setSyncUrl(url);
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        if (!Array.isArray(data) || !data.every(item => 'id' in item && 'name' in item && 'content' in item)) {
+          throw new Error('Invalid JSON format. Expected an array of objects with id, name, and content.');
+        }
+
+        const newPolicies: Policy[] = data.map(item => ({ id: item.id, name: item.name }));
+        const newCache = new Map<number, string>();
+        data.forEach(item => {
+            newCache.set(item.id, item.content);
+        });
+
+        setPolicies(newPolicies.sort((a, b) => a.name.localeCompare(b.name)));
+        setEditedContentCache(newCache);
+        setSelectedPolicy(null); // Deselect current policy
+        setPolicyContent(''); // Clear content panel
+        setSyncStatus('connected');
+        setShowLiveSyncModal(false);
+
+    } catch (error) {
+        console.error('Sync failed:', error);
+        setSyncStatus('failed');
+        // Do not clear the URL, so the user can retry
+        throw error; // Rethrow to be caught in the modal
+    }
+  };
+
+  const handleDisconnect = () => {
+    setSyncUrl('');
+    setSyncStatus('not-connected');
+  };
 
   return (
     <>
@@ -263,10 +289,12 @@ const App: React.FC = () => {
             onSelectPolicy={handleSelectPolicy}
             isAdmin={isAdmin}
             onAddPolicyClick={() => setShowAddPolicyModal(true)}
-            onExportAll={handleExportAll}
-            isExporting={isExporting}
-            onImportFile={handleImportFile}
+            onImportJsonFile={handleImportJsonFile}
             isImporting={isImporting}
+            onExportAllJson={handleExportAllJson}
+            isExportingJson={isExportingJson}
+            onLiveSyncClick={() => setShowLiveSyncModal(true)}
+            syncStatus={syncStatus}
           />
         </aside>
         <div className="flex flex-col flex-grow">
@@ -285,8 +313,8 @@ const App: React.FC = () => {
                 error={error}
                 isAdmin={isAdmin}
                 onSave={handleSavePolicyContent}
-                onExportSingle={handleExportSingle}
-                isExportingSingle={isExportingSingle === selectedPolicy?.id}
+                onExportSingleJson={handleExportSingleJson}
+                isExportingSingleJson={isExportingSingleJson === selectedPolicy?.id}
               />
             </main>
             <Footer />
@@ -295,6 +323,15 @@ const App: React.FC = () => {
       </div>
       {showLoginModal && <LoginModal onLogin={handleLogin} onClose={() => setShowLoginModal(false)} />}
       {showAddPolicyModal && <AddPolicyModal onAdd={handleAddNewPolicy} onClose={() => setShowAddPolicyModal(false)} />}
+      {showLiveSyncModal && (
+        <LiveSyncModal
+            onClose={() => setShowLiveSyncModal(false)}
+            onSync={handleSync}
+            onDisconnect={handleDisconnect}
+            syncStatus={syncStatus}
+            syncUrl={syncUrl}
+        />
+      )}
     </>
   );
 };
