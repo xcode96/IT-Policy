@@ -2,316 +2,316 @@
   {
     "id": 1,
     "name": "Acceptable Encryption Policy",
-    "content": "# Acceptable Encryption Policy\n\n**Consensus Policy Resource Community**\n\n---\n\n## 📝 Free Use Disclaimer\n\nThis policy was created by or for the [SANS Institute](https://www.sans.org/) for the Internet community. All or parts of this policy can be freely used for your organization — no prior approval is required.\n\nTo contribute a new or updated version of this policy, email: [policy-resources@sans.org](mailto:policy-resources@sans.org)\n\n**Last Update Status:** June 2014\n\n---\n\n## 1. Overview\n\nSee section [2. Purpose](#2-purpose).\n\n---\n\n## 2. Purpose\n\nThis policy aims to:\n\n- Limit the use of encryption to algorithms that have undergone substantial public review and proven effective.\n- Ensure compliance with **Federal regulations** and that legal authority is granted for the dissemination and use of encryption technologies outside the United States.\n\n---\n\n## 3. Scope\n\nThis policy applies to **all \\<Company Name\\> employees and affiliates**.\n\n---\n\n## 4. Policy\n\n### 4.1 Algorithm Requirements\n\n- **4.1.1 Symmetric Encryption**  \n  Ciphers in use must meet or exceed those defined as **\"AES-compatible\"** or **\"partially AES-compatible\"** per:\n  - [IETF/IRTF Cipher Catalog](https://datatracker.ietf.org/)\n  - [NIST FIPS 140-2](https://csrc.nist.gov/publications/detail/fips/140/2/final)\n  - Superseding documents\n\n  ✅ Use of **Advanced Encryption Standard (AES)** is strongly recommended.\n\n- **4.1.2 Asymmetric Encryption**  \n  Algorithms must align with [FIPS 140-2](https://csrc.nist.gov/publications/detail/fips/140/2/final) or successor standards.\n\n  ✅ Use of **RSA** and **Elliptic Curve Cryptography (ECC)** is strongly recommended.\n\n#### 4.1.3 Signature Algorithms\n\n| Algorithm | Key Length (Min) | Additional Comment |\n|----------|------------------|--------------------|\n| ECDSA    | P-256            | Consider [RFC 6090](https://datatracker.ietf.org/doc/html/rfc6090) to avoid patent infringement |\n| RSA      | 2048             | Use a secure padding scheme (e.g., PKCS#7). Message hashing is required. |\n| LDWM     | SHA256           | Refer to **LDWM Hash-based Signatures Draft** (currently draft-only; see IRTF/Internet Drafts) |\n\n---\n\n### 4.2 Hash Function Requirements\n\nIn general, \\<Company Name\\> adheres to the [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions).\n\n---\n\n### 4.3 Key Agreement and Authentication\n\n- **4.3.1** Use one of the following key exchange protocols:\n  - [Diffie-Hellman (DH)](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)\n  - [Internet Key Exchange (IKE)](https://datatracker.ietf.org/wg/ipsec/about/)\n  - [Elliptic Curve Diffie-Hellman (ECDH)](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie–Hellman)\n\n- **4.3.2** Authenticate endpoints prior to exchanging or deriving session keys.\n\n- **4.3.3** Authenticate public keys before use:\n  - Example: via cryptographically signed messages\n  - Or: manual verification of public key hash\n\n- **4.3.4** Authentication servers (e.g., RADIUS, TACACS) must have certificates signed by a trusted provider.\n\n- **4.3.5** All applications and servers using **SSL/TLS** must use certificates signed by a trusted Certificate Authority (CA).\n\n---\n\n### 4.4 Key Generation\n\n- **4.4.1** Keys must be securely generated and stored to prevent loss, theft, or compromise.\n\n- **4.4.2** Key generation must use a standard [Random Number Generator (RNG)](https://csrc.nist.gov/publications/detail/sp/800-90a/rev-1/final), for example from:\n  - [NIST Annex C: Approved RNGs for FIPS PUB 140-2](https://csrc.nist.gov/publications/detail/fips/140/2/final)\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement\n\nThe **Infosec Team** will verify policy compliance through:\n\n- Business tool reports  \n- Internal and external audits  \n- Feedback to the policy owner  \n\n### 5.2 Exceptions\n\nAny exception to this policy must be pre-approved by the **Infosec Team**.\n\n### 5.3 Non-Compliance\n\nViolations may result in disciplinary action, up to and including **termination of employment**.\n\n---\n\n## 6. Related Standards, Policies, and Processes\n\n- [NIST FIPS 140-2 Publication](https://csrc.nist.gov/publications/detail/fips/140/2/final)\n- [NIST Policy on Hash Functions](https://csrc.nist.gov/projects/hash-functions)\n\n---\n\n## 7. Definitions and Terms\n\nThe following definitions and terms can be found in the [SANS Glossary of Terms](https://www.sans.org/security-resources/glossary-of-terms/):\n\n- **Proprietary Encryption**\n\n---\n\n## 8. Revision History\n\n| Date       | Responsible     | Summary of Change                 |\n|------------|-----------------|----------------------------------|\n| June 2014  | SANS Policy Team| Updated and converted to new format |\n\n---\n\n© SANS Institute 2014 – All Rights Reserved\n"
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/1.%20acceptable_encryption_policy.pdf"
   },
   {
     "id": 2,
     "name": "Acceptable Use Policy",
-    "content": ""
+    "content": "# Acceptable Use Policy (AUP)\n\n> **Free Use Disclaimer**:  \n> This policy was created by or for the **SANS Institute** for the Internet community. All or parts of this policy may be freely used by your organization without prior approval.  \n> To contribute updates or new policies, email: **policy-resources@sans.org**  \n> **Last Updated**: June 2014\n\n---\n\n## 1. Overview\n\nInfosec’s intention in publishing this Acceptable Use Policy is not to impose restrictions contrary to `<Company Name>`’s culture of openness, trust, and integrity. Instead, it aims to protect `<Company Name>`’s employees, partners, and the company itself from illegal or damaging actions—whether intentional or accidental.\n\nAll Internet/Intranet/Extranet-related systems—including computer equipment, software, operating systems, storage media, email, web browsing, and FTP—are the **property of `<Company Name>`** and must be used primarily for **business purposes** in service of the company, its clients, and customers.\n\n> Refer to Human Resources policies for additional guidance.\n\nEffective security is a **shared responsibility**. Every employee and affiliate who handles information or uses information systems must understand and follow these guidelines.\n\n---\n\n## 2. Purpose\n\nThis policy defines the acceptable use of computing resources at `<Company Name>`. It exists to protect both employees and the organization from risks such as:\n- Virus and malware infections  \n- Network or system compromise  \n- Legal liability and regulatory violations  \n\n---\n\n## 3. Scope\n\nThis policy applies to:\n- All information, electronic devices, and network resources used to conduct `<Company Name>` business  \n- Devices **owned, leased, or personally owned** (when used for company purposes)  \n\nIt covers **all employees, contractors, consultants, temporary staff, and third-party personnel** affiliated with `<Company Name>` or its subsidiaries.\n\nAll users must exercise sound judgment in accordance with company policies, standards, and applicable laws.\n\n> Exceptions require prior approval (see Section 5.2).\n\n---\n\n## 4. Policy\n\n### 4.1 General Use and Ownership\n\n4.1.1 **Proprietary information** stored on any device—whether company-owned, personal, or third-party—remains the sole property of `<Company Name>`. You must protect it per the **Data Protection Standard**.\n\n4.1.2 Report **loss, theft, or unauthorized disclosure** of company data **immediately**.\n\n4.1.3 Access or share company data **only when authorized and necessary** for your job duties.\n\n4.1.4 **Personal use** of company systems must be reasonable and infrequent. Departments may issue specific guidelines; otherwise, consult your manager if uncertain.\n\n4.1.5 Authorized personnel may **monitor systems and network traffic** at any time for security and maintenance (per the Audit Policy).\n\n4.1.6 `<Company Name>` reserves the right to **audit systems periodically** to ensure compliance.\n\n---\n\n### 4.2 Security and Proprietary Information\n\n4.2.1 All devices connecting to the internal network must comply with the **Minimum Access Policy**.\n\n4.2.2 Passwords must follow the **Password Policy**. **Sharing accounts or passwords is prohibited**.\n\n4.2.3 All devices must use a **password-protected screensaver** that activates within **10 minutes or less**. **Lock or log off** when unattended.\n\n4.2.4 Posts from a `<Company Name>` email address to newsgroups must include:  \n> *“Opinions expressed are my own and not necessarily those of `<Company Name>`.”*  \n(Unless posted as part of official duties.)\n\n4.2.5 Exercise **extreme caution** with email attachments from unknown senders—they may contain **malware**.\n\n> 🔍 **Crimeware**: A type of malware used by cybercriminals to monetize infected systems (e.g., keyloggers, botnets for DDoS).  \n> *(Source: [SANS Glossary](https://www.sans.org/security-resources/glossary-of-terms/))*\n\n---\n\n### 4.3 Unacceptable Use\n\nThe following activities are **prohibited**, except when required for legitimate job functions (e.g., system administration).\n\n> **No employee may use company resources for any activity illegal under local, state, federal, or international law.**\n\n#### 4.3.1 System and Network Activities (Strictly Prohibited)\n\n1. **Copyright/trade secret violations** (e.g., using unlicensed or “pirated” software).  \n2. Unauthorized copying/distribution of copyrighted material (music, images, books, software).  \n3. Accessing data, servers, or accounts **outside business purposes**, even with valid access.  \n4. **Export control violations** (e.g., exporting encryption tech without authorization).  \n5. Introducing **malicious programs** (viruses, worms, Trojan horses, email bombs).  \n6. Sharing your password or allowing others (including family) to use your account.  \n7. Transmitting content that violates **sexual harassment** or **hostile workplace** laws.  \n8. Making **fraudulent offers** from a company account.  \n9. Issuing unauthorized **warranty statements**.  \n10. Causing **security breaches or disruptions**, such as:\n    - Accessing data not intended for you  \n    - Logging into unauthorized systems  \n    - **Network sniffing**, **ping floods**, **packet spoofing**, **denial of service (DoS)**, forged routing  \n11. Performing **port scanning** or **security scanning** without **prior notice to Infosec**.  \n12. Intercepting network data not intended for your host (unless part of your job).  \n13. **Circumventing authentication** or security controls.  \n14. Deploying **honeypots** or **honeynets** on the company network.  \n15. **Denying service** to other users (e.g., DoS attacks).  \n16. Disabling or interfering with another user’s terminal session.  \n17. Disclosing **employee information** to external parties.\n\n> 🔍 Definitions:  \n> - **Honeypot**: A decoy system designed to attract and trap attackers.  \n> - **Honeynet**: A network of honeypots used for monitoring attacker behavior.  \n> *(Source: [SANS Glossary](https://www.sans.org/security-resources/glossary-of-terms/))*\n\n#### 4.3.2 Email and Communication Activities\n\nWhen representing the company online, always clarify:  \n> *“Views are my own.”*\n\nProhibited:\n1. Sending **unsolicited bulk email** (**spam**).  \n2. **Harassment** via email, phone, or messaging (by language, frequency, or volume).  \n3. **Forging email headers**.  \n4. Soliciting replies to a third-party address to harass or collect responses.  \n5. Forwarding **chain letters**, **Ponzi schemes**, or **pyramid schemes**.  \n6. Using company systems to send spam on behalf of external services.  \n7. **Newsgroup spam** (posting identical non-business messages to many groups).\n\n> 🔍 **Spam**: Unsolicited bulk electronic messages, typically sent for advertising or phishing.  \n> *(Source: [SANS Glossary](https://www.sans.org/security-resources/glossary-of-terms/))*\n\n#### 4.3.3 Blogging and Social Media\n\n1. Limited, occasional blogging on company systems is allowed if:\n   - Professional and responsible  \n   - Compliant with all policies  \n   - Not detrimental to `<Company Name>`  \n   - Does not interfere with work  \n   > ⚠️ Subject to monitoring.\n\n2. **Never disclose** confidential, proprietary, or trade secret information.\n\n> 🔍 **Proprietary Information**: Information owned by an organization that is not publicly known and provides a competitive advantage.  \n> *(Source: [SANS Glossary](https://www.sans.org/security-resources/glossary-of-terms/))*\n\n3. Do not post content that harms `<Company Name>`’s reputation or violates anti-harassment policies.\n\n4. **Do not attribute personal opinions** to `<Company Name>`. Clearly state you are speaking as an individual.\n\n5. **Do not use** company trademarks, logos, or intellectual property in personal blogs.\n\n> 🔍 **Blogging**: Publishing regular entries of commentary, events, or other content on a website.  \n> *(Source: [SANS Glossary](https://www.sans.org/security-resources/glossary-of-terms/))*\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement  \nVerified via:\n- Business tool reports  \n- Internal/external audits  \n- Feedback mechanisms  \n\n### 5.2 Exceptions  \nRequire **advance written approval** from the Infosec team.\n\n### 5.3 Non-Compliance  \nMay result in **disciplinary action**, up to and including **termination**.\n\n---\n\n## 6. Related Policies\n\n- Data Classification Policy  \n- Data Protection Standard  \n- Social Media Policy  \n- Minimum Access Policy  \n- Password Policy  \n\n---\n\n## 7. Key Definitions (from SANS Glossary)\n\n| Term | Definition |\n|------|-----------|\n| **Blogging** | Publishing regular entries of commentary, descriptions of events, or other content on a website. |\n| **Honeypot** | A decoy system designed to attract and trap attackers. |\n| **Honeynet** | A network of honeypots used for monitoring attacker behavior. |\n| **Proprietary Information** | Information owned by an organization that is not publicly known and provides a competitive advantage. |\n| **Spam** | Unsolicited bulk electronic messages. |\n| **Crimeware** | Malware used by cybercriminals to monetize infected systems (e.g., keyloggers, botnets). |\n\n> Full glossary: [SANS Security Glossary of Terms](https://www.sans.org/security-resources/glossary-of-terms/)\n\n---\n\n## 8. Revision History\n\n| Date | Responsible | Change |\n|------|-------------|--------|\n| June 2014 | SANS Policy Team | Updated and converted to new format |\n\n---\n\n> © 2014 SANS Institute – All Rights Reserved  \n> Part of the **Consensus Policy Resource Community**"
   },
   {
     "id": 3,
     "name": "Acquisition Assessment Policy",
-    "content": ""
+    "content": "# Acquisition Assessment Policy\n\n> **Free Use Disclaimer**:  \n> This policy was created by or for the **SANS Institute** for the Internet community. All or parts of this policy may be freely used by your organization without prior approval.  \n> To contribute updates or new policies, email: **policy-resources@sans.org**  \n> **Last Updated**: June 2014\n\n---\n\n## 1. Overview\n\nIntegrating a newly acquired company can significantly impact the security posture of both the parent (`<Company Name>`) and the acquired entity. Differences in network architecture, security controls, and organizational culture may introduce substantial risk.\n\nThe goals of the security acquisition assessment and integration process are to:\n\n- Assess the acquired company’s security landscape, posture, and policies  \n- Protect both `<Company Name>` and the acquired company from increased security risks  \n- Educate the acquired company on `<Company Name>` policies and standards  \n- Adopt and implement `<Company Name>` Security Policies and Standards  \n- Fully integrate the acquired company into the corporate environment  \n- Ensure **continuous monitoring and auditing** post-acquisition  \n\n---\n\n## 2. Purpose\n\nThis policy establishes **Infosec responsibilities** during corporate acquisitions and defines the **minimum security requirements** for an Infosec acquisition assessment.\n\n---\n\n## 3. Scope\n\nApplies to:\n- All companies acquired by `<Company Name>`  \n- All systems, networks, labs, test equipment, hardware, software, and firmware owned or operated by the acquired company  \n\n---\n\n## 4. Policy\n\n### 4.1 General\n\nAcquisition assessments ensure that an acquired company **does not introduce security risks** to `<Company Name>`’s networks, systems, or sensitive data.\n\nThe **Infosec Team** will:\n- Participate as active members of the acquisition team throughout the process  \n- Identify and evaluate information security risks  \n- Develop remediation plans with stakeholders  \n- Work with the acquisitions team to implement risk mitigations **before** any network connectivity is permitted  \n\n> **No acquired systems may connect to `<Company Name>` networks until security requirements are met or formally waived.**\n\n### 4.2 Requirements\n\n#### 4.2.1 Hosts\n- **4.2.1.1** All hosts (servers, desktops, laptops) must either:\n  - Be **replaced or re-imaged** with a `<Company Name>` standard image, **or**  \n  - Comply with `<Company Name>`’s **minimum end-user device standards**  \n- **4.2.1.2** Business-critical production servers that cannot be re-imaged must undergo a **security audit** and receive a **waiver from Infosec**  \n- **4.2.1.3** All PC-based hosts must have **`<Company Name>`-approved antivirus software** installed **before** network connection\n\n> 🔍 **Business Critical Production Server**: A server essential to core business operations whose failure would result in significant operational, financial, or reputational impact.  \n> *(Source: [SANS Glossary](https://www.sans.org/security-resources/glossary-of-terms/))*\n\n#### 4.2.2 Networks\n- **4.2.2.1** All network devices (routers, switches, firewalls) must be **replaced or re-imaged** with a `<Company Name>` standard configuration  \n- **4.2.2.2** Wireless access points must be configured to `<Company Name>` security standards  \n\n#### 4.2.3 Internet\n- **4.2.3.1** All existing Internet connections of the acquired company **must be terminated**  \n- **4.2.3.2** If a business-justified **air-gapped Internet connection** is required, it must undergo **Infosec review and approval**\n\n#### 4.2.4 Remote Access\n- **4.2.4.1** All existing remote access solutions (e.g., VPNs, RDP gateways) **must be disabled**  \n- **4.2.4.2** Remote access to the production network will be provided exclusively by `<Company Name>`  \n\n#### 4.2.5 Labs\n- **4.2.5.1** Lab equipment must be **physically secured and separated** from non-lab areas  \n- **4.2.5.2** The lab network must be **firewalled** from the corporate production network  \n- **4.2.5.3** Any direct external connections (analog, ISDN, T1, etc.) to customers or partners require **review and approval by the Lab Security Group (LabSec)**  \n- **4.2.5.4** All acquired labs must comply with **LabSec policy** or obtain a **waiver from LabSec**  \n- **4.2.5.5** If acquired systems **fail to meet these requirements**, the **`<Company Name>` Chief Information Officer (CIO)** must **formally acknowledge and approve** the associated risk before network integration\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement  \nThe Infosec team verifies compliance through:\n- Business tool reports  \n- Internal and external audits  \n- Feedback to the policy owner  \n\n### 5.2 Exceptions  \nAll exceptions require **advance written approval** from the Infosec team.\n\n### 5.3 Non-Compliance  \nViolations may result in **disciplinary action**, up to and including **termination of employment**.\n\n---\n\n## 6. Related Standards, Policies and Processes\n\n_None._\n\n---\n\n## 7. Definitions and Terms\n\nThe following term is defined in the **[SANS Glossary of Terms](https://www.sans.org/security-resources/glossary-of-terms/)**:\n\n- **Business Critical Production Server**\n\n---\n\n## 8. Revision History\n\n| Date       | Responsible        | Summary of Change               |\n|------------|--------------------|----------------------------------|\n| June 2014  | SANS Policy Team   | Updated and converted to new format |\n\n---\n\n> © 2014 SANS Institute – All Rights Reserved  \n> Part of the **Consensus Policy Resource Community**"
   },
   {
     "id": 4,
     "name": "Analog ISDN Line Security Policy",
-    "content": ""
+    "content": "# Analog/ISDN Line Security Policy\n\n> **Free Use Disclaimer**:  \n> This policy was created by or for the **SANS Institute** for the Internet community. All or parts of this policy may be freely used by your organization without prior approval.  \n> To contribute updates or new policies, email: **policy-resources@sans.org**  \n> **Status**: Retired  \n> **Last Updated**: December 2013\n\n---\n\n## 1. Overview\n\nSee **Purpose**.\n\n---\n\n## 2. Purpose\n\nThis policy defines the acceptable use, approval requirements, and security procedures for **analog and ISDN lines** at `<Company Name>`. It covers two distinct use cases:\n- Lines used **exclusively for fax transmission/reception**  \n- Lines **connected to computers or intelligent devices**\n\n---\n\n## 3. Scope\n\nThis policy applies **only** to analog/ISDN lines connected **inside `<Company Name>` buildings or testing sites**.\n\nIt **does not apply** to:\n- Lines connected to **employee homes**  \n- **PBX desktop phones**  \n- Lines used by **Telecom for emergency or non-corporate purposes**\n\n---\n\n## 4. Policy\n\n### 4.1 Security Scenarios & Business Impact\n\nTwo primary threat scenarios justify this policy:\n\n1. **External Attack via Modem**:  \n   An attacker dials analog numbers hoping to reach a computer with an **auto-answering modem**. If successful, they may:\n   - Bypass network monitoring  \n   - Compromise internal systems  \n   - Steal sensitive corporate data (potentially worth millions)\n\n2. **Internal Physical Access + Data Exfiltration**:  \n   An intruder with physical access uses a **modem-equipped computer** to:\n   - Connect to `<Company Name>`’s trusted network via Ethernet  \n   - Dial out via modem to an external site  \n   - **Exfiltrate data** to an unmonitored location\n\nThese risks necessitate strict controls on analog/ISDN line usage.\n\n---\n\n### 4.2 Facsimile (Fax) Machines\n\n#### General Rules:\n- Fax lines are approved **for departmental use only**  \n- **No personal fax lines** permitted  \n- **No analog lines in personal cubicles**  \n- Fax machines must be placed in a **centralized administrative area**, **away from computer equipment**  \n- **Computers must not be used as fax devices** over analog lines\n\n> **Waivers** may be granted case-by-case based on business need, data sensitivity, and security posture.\n\n#### Conditions for Use:\nIf approved, the authorized user **must** ensure:\n- The line is used **only as specified in the request**  \n- **Only authorized personnel** have access  \n- When **not in use**, the line is **physically disconnected** from the computer  \n- When **in use**, the computer is **disconnected from `<Company Name>`’s internal network**  \n- Use is **strictly for company business** (no personal use)  \n- All downloaded material is **scanned with an approved, up-to-date antivirus utility** (e.g., McAfee VirusScan) before introduction to company systems\n\n---\n\n### 4.3 Computer-to-Analog/ISDN Line Connections\n\n- **General Rule**: **No approval** will be granted to connect computers or intelligent devices to analog/ISDN lines due to **significant security risks**.  \n- **Waivers** are considered **only on a case-by-case basis**.  \n- **Replacement lines** (e.g., after a move) are treated as **new requests** and subject to the same review.\n\n> ⚠️ Active attacks against such lines have been documented in the wild.\n\n---\n\n### 4.4 Requesting an Analog/ISDN Line\n\nAfter **manager approval**, the requester must submit the following to **Telecom**:\n\n#### Required Information:\n- A **detailed business case** explaining why secure alternatives (e.g., corporate Internet, dial-out pools) cannot be used  \n- The **business purpose** of the line  \n- **Hardware and software** to be connected  \n- **External systems** the line will access  \n\n#### Business Case Must Address:\n- What business function requires this line?  \n- Why can’t a standard `<Company Name>` desktop with Internet fulfill this need?  \n- Why can’t the existing corporate **dial-out access pool** be used?\n\n#### Security Profile Questions (Must Be Answered):\n- Will the machine be **physically disconnected** from the internal network when using the line?  \n- Where will the line be installed? (Cubicle? Lab?)  \n- Is **dial-in access from outside** required?  \n- How many lines/users? Frequency of use?  \n- What is the **earliest termination date**? (Line must be disconnected when no longer needed)  \n- What **additional controls** prevent unauthorized use?  \n- If a replacement line: What was the **original purpose**?  \n- What **protocols** will run over the line?  \n- Will an **approved antivirus scanner** be installed and maintained?\n\n> 📝 **All requests must use the official _Analog/ISDN Line Request Form_**.\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement  \nThe Infosec team verifies compliance through:\n- Business tool reports  \n- Internal and external audits  \n- Feedback to the policy owner  \n\n### 5.2 Exceptions  \nAll exceptions require **advance written approval** from the Infosec team.\n\n### 5.3 Non-Compliance  \nViolations may result in **disciplinary action**, up to and including **termination of employment**.\n\n---\n\n## 6. Related Standards, Policies and Processes\n\n_None._\n\n---\n\n## 7. Definitions and Terms\n\n_None._\n\n---\n\n## 8. Revision History\n\n| Date       | Responsible        | Summary of Change               |\n|------------|--------------------|----------------------------------|\n| Dec 2013   | SANS Policy Team   | Converted format and retired     |\n\n---\n\n> © 2013 SANS Institute – All Rights Reserved  \n> Part of the **Consensus Policy Resource Community**  \n> ⚠️ **This policy is retired and provided for reference only.**"
   },
   {
     "id": 5,
-    "name": "Anti-Virus Guidelines",
-    "content": ""
+    "name": "Anti‑Virus Guidelines",
+    "content": "# Anti-Virus Guidelines\n\n> **Free Use Disclaimer**:  \n> This policy was created by or for the **SANS Institute** for the Internet community. All or parts of this policy may be freely used by your organization without prior approval.  \n> To contribute updates or new policies, email: **policy-resources@sans.org**  \n> **Status**: Retired  \n> **Last Updated**: December 2013\n\n---\n\n## Overview\n\nThese guidelines provide recommended practices to help prevent virus infections and limit their impact across `<Company Name>` systems and networks. While retired, they remain useful as foundational hygiene practices in endpoint security.\n\n---\n\n## Recommended Anti-Virus Practices\n\nTo reduce the risk of malware infection, all users **must** follow these procedures:\n\n- ✅ **Use corporate-standard anti-virus software**:  \n  Always run the **approved, supported anti-virus solution** available from the corporate download site. Keep both the software and its virus definitions **up to date**.\n\n- 🚫 **Never open email attachments from unknown or suspicious sources**:  \n  Delete such messages **immediately**, and **empty your Trash/Recycle Bin** (“double delete”) to ensure permanent removal.\n\n- 🗑️ **Do not forward spam, chain letters, or junk email**:  \n  Delete these messages in accordance with `<Company Name>`’s **Acceptable Use Policy**.\n\n- 🌐 **Avoid downloading files from untrusted websites or sources**:  \n  Only download software or data from verified, legitimate sources.\n\n- 💾 **Limit direct disk sharing with read/write access**:  \n  Enable shared drives or folders with write permissions **only when absolutely required for business purposes**.\n\n- 📼 **Scan external media before use**:  \n  Always scan floppy disks, USB drives, or other removable media from **unknown sources** for viruses before opening any files.\n\n- 💾 **Back up critical data regularly**:  \n  Maintain frequent backups of important files and system configurations, and store them in a **secure, offline location**.\n\n- 🧪 **Lab testing exception**:  \n  If anti-virus software interferes with lab testing:\n  1. Run a full scan to confirm the system is clean  \n  2. **Temporarily disable** the anti-virus software  \n  3. Perform the lab test  \n  4. **Re-enable** anti-virus protection immediately after  \n  > ⚠️ While disabled, **do not use email, web browsers, file sharing, or any network-connected applications** that could introduce malware.\n\n- 🔁 **Stay informed**:  \n  New viruses emerge daily. **Periodically review** the Lab Anti-Virus Policy and this guideline list for updates—even though this document is retired, the principles remain relevant.\n\n---\n\n## Related Standards, Policies and Processes\n\n_None._\n\n---\n\n## Definitions and Terms\n\n_None._\n\n---\n\n## Revision History\n\n| Date       | Responsible        | Summary of Change               |\n|------------|--------------------|----------------------------------|\n| Dec 2013   | SANS Policy Team   | Converted format and retired     |\n\n---\n\n> © 2013 SANS Institute – All Rights Reserved  \n> Part of the **Consensus Policy Resource Community**  \n> ⚠️ **This document is retired and provided for historical or reference purposes only.**"
   },
   {
     "id": 6,
     "name": "Automatically Forwarded Email Policy",
-    "content": ""
+    "content": "# Automatically Forwarded Email Policy\n\n> **Free Use Disclaimer**:  \n> This policy was created by or for the **SANS Institute** for the Internet community. All or parts of this policy may be freely used by your organization without prior approval.  \n> To contribute updates or new policies, email: **policy-resources@sans.org**  \n> **Status**: Retired  \n> **Last Updated**: July 2014\n\n---\n\n## 1. Overview\n\nSee **Purpose**.\n\n---\n\n## 2. Purpose\n\nTo prevent the **unauthorized or inadvertent disclosure of sensitive company information** through automatic email forwarding.\n\n---\n\n## 3. Scope\n\nThis policy applies to:\n- All **employees**, **vendors**, and **agents** acting on behalf of `<Company Name>`  \n- Any configuration that enables **automatic forwarding** of `<Company Name>` email to external destinations  \n\n---\n\n## 4. Policy\n\n- Employees must exercise **utmost caution** when sending email from `<Company Name>` systems to external networks.  \n- **Automatic forwarding** of `<Company Name>` email to **external destinations is prohibited**, unless **explicitly approved** by the employee’s manager **and** Infosec.  \n- **Sensitive Information** (as defined in the **Data Classification and Protection Policy**) **must not be forwarded** via email unless:\n  - The communication is **critical to business operations**, **and**  \n  - The email is **encrypted in accordance with the Acceptable Encryption Policy**\n\n> 🔍 Relevant terms defined in the [SANS Glossary](https://www.sans.org/security-resources/glossary-of-terms/):  \n> - **Email**: Electronic mail; a method of exchanging digital messages over a network.  \n> - **SMTP**: Simple Mail Transfer Protocol—the standard protocol for sending email across the Internet.  \n> - **Forwarded Email**: An email message that is automatically or manually sent from one recipient to another.  \n> - **Sensitive Information**: Data that must be protected from unauthorized access to safeguard the privacy or security of an individual or organization.  \n> - **Unauthorized Disclosure**: The release of information to parties not approved to receive it.\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement  \nThe Infosec team verifies compliance through:\n- Periodic walk-throughs  \n- Video monitoring  \n- Business tool reports  \n- Internal and external audits  \n- Feedback to the policy owner  \n\n### 5.2 Exceptions  \nAll exceptions require **advance written approval** from the **Infosec team**.\n\n### 5.3 Non-Compliance  \nViolations may result in **disciplinary action**, up to and including **termination of employment**.\n\n---\n\n## 6. Related Standards, Policies and Processes\n\n- Acceptable Encryption Policy  \n- Data Classification and Protection Policy  \n\n---\n\n## 7. Definitions and Terms\n\nThe following terms are defined in the **[SANS Glossary of Terms](https://www.sans.org/security-resources/glossary-of-terms/)**:\n- Email  \n- SMTP  \n- Forwarded Email  \n- Sensitive Information  \n- Unauthorized Disclosure  \n\n---\n\n## 8. Revision History\n\n| Date       | Responsible        | Summary of Change         |\n|------------|--------------------|----------------------------|\n| July 2014  | SANS Policy Team   | Converted to new format    |\n\n---\n\n> © 2013 SANS Institute – All Rights Reserved  \n> Part of the **Consensus Policy Resource Community**  \n> ⚠️ **This policy is retired and provided for reference only.**"
   },
   {
     "id": 7,
     "name": "Bluetooth Baseline Requirements Policy",
-    "content": ""
+    "content": "# Bluetooth Baseline Requirements Policy\n\n> **Free Use Disclaimer**:  \n> This policy was created by or for the **SANS Institute** for the Internet community. All or parts of this policy may be freely used by your organization without prior approval.  \n> To contribute updates or new policies, email: **policy-resources@sans.org**  \n> **Last Updated**: June 2014\n\n---\n\n## 1. Overview\n\nBluetooth-enabled devices are proliferating rapidly, and their connectivity range has increased significantly. Insecure Bluetooth configurations can introduce serious security risks—including data interception, device spoofing, and unauthorized access. This policy establishes a **minimum security baseline** to mitigate these threats.\n\n---\n\n## 2. Purpose\n\nTo define the **minimum baseline standards** for connecting Bluetooth-enabled devices to `<Company Name>` networks or company-owned equipment, ensuring adequate protection of:\n- **Personally Identifiable Information (PII)**  \n- **Confidential and sensitive `<Company Name>` data**\n\n---\n\n## 3. Scope\n\nApplies to **all Bluetooth-enabled devices** that:\n- Connect to `<Company Name>` networks, **or**  \n- Interface with `<Company Name>`-owned devices  \n\nThis includes employee-owned, contractor-provided, and company-issued devices used in a business context.\n\n---\n\n## 4. Policy\n\n### 4.1 Bluetooth Version\n- **No Bluetooth device** may be deployed on `<Company Name>` equipment unless it supports **Bluetooth v2.1 or higher**.  \n- Devices purchased **before this policy’s effective date** are exempt from the version requirement but **must comply with all other provisions** of this policy.  \n- Exceptions require **written authorization from the Infosec Team**.\n\n### 4.2 PINs and Pairing\n- Perform initial pairing **only in private, secure locations** to prevent PIN exposure.  \n- If a **previously paired device prompts for a PIN again**, **do not accept** the pairing request.  \n  > 🚨 **Immediately report** such incidents to Infosec via the Help Desk—this may indicate a **Bluejacking**, **Bluesnarfing**, or **man-in-the-middle attack**.\n\n### 4.3 Device Security Settings\nAll Bluetooth devices **must** be configured as follows:\n- ✅ Use **Security Mode 3** (enforces **encryption in both directions**)  \n- ✅ Set a **minimum PIN length of 8 characters** (longer = stronger)  \n- ✅ Enable **non-discoverable (hidden) mode** when not actively pairing  \n- ✅ **Activate Bluetooth only when needed**—disable when idle  \n- ✅ Keep **device firmware updated** to the latest vendor-recommended version\n\n### 4.4 Security Audits\n- The Infosec Team may conduct **random compliance audits**.  \n- During audits, team members **will not eavesdrop on voice conversations** or access user data beyond what is necessary to verify policy adherence.\n\n### 4.5 Unauthorized Use\nThe following activities are **strictly prohibited**:\n- Eavesdropping on, spoofing, or launching **DoS attacks** against other Bluetooth devices  \n- Using `<Company Name>`-owned Bluetooth equipment with **non-company devices**  \n- **Modifying** Bluetooth devices (hardware or software) without authorization\n\n### 4.6 User Responsibilities\nBluetooth users **must**:\n- Comply with all requirements in this policy  \n- **Turn off Bluetooth** when not in use  \n- **Never transmit or store** PII, confidential, or sensitive `<Company Name>` data on Bluetooth-enabled devices  \n- Access company systems **only via approved** Bluetooth hardware, software, and connections  \n- Ensure all Bluetooth solutions **meet this policy’s standards** before deployment  \n- **Protect** information, network access, passwords, cryptographic keys, and devices  \n- **Immediately report** any:\n  - Misuse  \n  - Loss  \n  - Theft  \n  of Bluetooth devices or systems to Infosec\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement  \nThe Infosec Team verifies compliance through:\n- Periodic walk-throughs  \n- Video monitoring  \n- Business tool reports  \n- Internal and external audits  \n- Feedback to the policy owner  \n\n### 5.2 Exceptions  \nAll exceptions require **advance written approval** from the **Infosec Team**.\n\n### 5.3 Non-Compliance  \nViolations may result in **disciplinary action**, up to and including **termination of employment**.\n\n---\n\n## 6. Related Standards, Policies and Processes\n\n_None._\n\n---\n\n## 7. Definitions and Terms\n\n_None._\n\n---\n\n## 8. Revision History\n\n| Date       | Responsible        | Summary of Change               |\n|------------|--------------------|----------------------------------|\n| June 2014  | SANS Policy Team   | Updated and converted to new format |\n\n---\n\n> © 2014 SANS Institute – All Rights Reserved  \n> Part of the **Consensus Policy Resource Community**"
   },
   {
     "id": 8,
     "name": "Clean Desk Policy",
-    "content": ""
+    "content": "# Clean Desk Policy\n\n> **Free Use Disclaimer**:  \n> This policy was created by or for the **SANS Institute** for the Internet community. All or parts of this policy may be freely used by your organization without prior approval.  \n> To contribute updates or new policies, email: **policy-resources@sans.org**  \n> **Last Updated**: June 2014\n\n---\n\n## 1. Overview\n\nA Clean Desk Policy is a critical physical security control that helps ensure all **sensitive or confidential materials**—whether physical or digital—are **secured and out of sight** when not in use or when an employee leaves their workstation.  \n\nThis policy:\n- Reduces the risk of **unauthorized access**, **data theft**, and **security breaches**  \n- Increases employee **awareness of information protection responsibilities**  \n- Supports compliance with standards such as **ISO/IEC 27001** and **ISO/IEC 27002 (formerly 17799)**  \n\n---\n\n## 2. Purpose\n\nTo establish **minimum requirements** for maintaining a “clean desk” environment where sensitive information—including data about employees, intellectual property, customers, and vendors—is **securely stored** and **not visible** to unauthorized individuals.\n\n---\n\n## 3. Scope\n\nApplies to **all `<Company Name>` employees and affiliates**, including contractors, consultants, and temporary staff, regardless of work location (office, remote, or hybrid).\n\n---\n\n## 4. Policy Requirements\n\nAll personnel **must** comply with the following:\n\n- **4.1** Secure all **sensitive/confidential information** (hardcopy or electronic) in locked storage at the **end of each workday** and whenever **away for an extended period**.  \n- **4.2** **Lock computer workstations** whenever the workspace is unoccupied—even briefly.  \n- **4.3** **Shut down computers completely** at the end of the workday (unless business continuity requires otherwise with Infosec approval).  \n- **4.4** Remove all **Restricted or Sensitive information** from desks and **lock it in a drawer** when unattended or at day’s end.  \n- **4.5** Keep **file cabinets containing sensitive data closed and locked** when not in active use or unattended.  \n- **4.6** **Never leave keys** to locked drawers, cabinets, or offices **on or near an unattended desk**.  \n- **4.7** **Secure laptops** using a **locking cable** or store them in a **locked drawer or cabinet**.  \n- **4.8** **Do not write down passwords** on sticky notes, paper, or in unsecured digital files. Passwords must **never be visible** on or under devices.  \n- **4.9** **Immediately retrieve printouts** containing Restricted or Sensitive information from printers.  \n- **4.10** Dispose of sensitive documents only in **official shredder bins** or **locked confidential disposal bins**—**never in regular trash**.  \n- **4.11** **Erase whiteboards** that display Restricted or Sensitive information when no longer needed.  \n- **4.12** **Lock away portable computing devices** (e.g., laptops, tablets) when not in use.  \n- **4.13** Treat **removable media** (USB drives, CDs, DVDs) as sensitive and store them in **locked drawers**.  \n\n> 🖨️ **Additional Guidance**:  \n> All printers and fax machines must be **cleared of output immediately** to prevent unauthorized access to sensitive documents left in output trays.\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement  \nThe Infosec team verifies compliance through:\n- Periodic **walk-throughs**  \n- **Video monitoring** (where permitted)  \n- **Business tool reports**  \n- **Internal and external audits**  \n- **Feedback to the policy owner**\n\n### 5.2 Exceptions  \nAll exceptions require **advance written approval** from the **Infosec team**.\n\n### 5.3 Non-Compliance  \nViolations may result in **disciplinary action**, up to and including **termination of employment**.\n\n---\n\n## 6. Related Standards, Policies and Processes\n\n_None._\n\n---\n\n## 7. Definitions and Terms\n\n_None._\n\n---\n\n## 8. Revision History\n\n| Date       | Responsible        | Summary of Change               |\n|------------|--------------------|----------------------------------|\n| June 2014  | SANS Policy Team   | Updated and converted to new format |\n\n---\n\n> © 2014 SANS Institute – All Rights Reserved  \n> Part of the **Consensus Policy Resource Community**"
   },
   {
     "id": 9,
     "name": "Communications Equipment Policy",
-    "content": ""
+    "content": "# Communications Equipment Policy\n\n> **Free Use Disclaimer**:  \n> This policy was created by or for the **SANS Institute** for the Internet community. All or parts of this policy may be freely used by your organization without prior approval.  \n> To contribute updates or new policies, email: **policy-resources@sans.org**  \n> **Status**: Retired  \n> **Last Updated**: December 2013\n\n---\n\n## 1. Overview\n\nThis policy establishes security configuration requirements for all communication equipment integrated into `<Company Name>`’s data network to protect against unauthorized access, data interception, and system compromise.\n\n---\n\n## 2. Purpose\n\nTo define the minimum security standards for the configuration, access control, and monitoring of **communication equipment** (e.g., routers, switches, firewalls, gateways) used within `<Company Name>`.\n\n---\n\n## 3. Scope\n\nApplies to **all communication equipment** that is part of `<Company Name>`’s **data network infrastructure**, regardless of vendor, location, or ownership.\n\n---\n\n## 4. Policy\n\n### 4.1 Security Configuration & Role-Based Access\n- All required **security features must be enabled** before equipment is placed into service.  \n- Only two user roles are permitted:\n  - **Monitoring**: Read-only access  \n  - **Administrator**: Full configuration privileges  \n- **All user commands and security-relevant events** must be **logged** for audit and incident response.\n\n### 4.2 Centralized Authentication\n- **Local user accounts are prohibited** on communication equipment.  \n- All users **must authenticate** through a **central user repository** (e.g., RADIUS, TACACS+, LDAP) using a protocol that **minimizes identity theft risk** (e.g., avoiding plaintext protocols like Telnet).\n\n### 4.3 Encrypted Communications\n- **All data transmitted** from the device (e.g., management traffic, logs, configuration backups) **must be encrypted** using a **strong encryption algorithm** to prevent:\n  - **Eavesdropping**  \n  - **Man-in-the-middle (MitM) attacks**\n\n> 🔍 **Key Definitions** (from [SANS Glossary](https://www.sans.org/security-resources/glossary-of-terms/)):  \n> - **Eavesdropping**: Unauthorized interception of data transmitted over a network.  \n> - **Man-in-the-middle Attack**: An attack where the attacker secretly relays and possibly alters communication between two parties who believe they are directly communicating with each other.  \n> - **Strong Encryption**: Cryptographic methods that are computationally infeasible to break with current technology (e.g., AES-256, TLS 1.2+).\n\n### 4.4 Log Retention & Integrity\n- **Event logs** must be stored on media included in the organization’s **regular backup process**.  \n- Backup procedures **must preserve log integrity**—logs **must not be altered or tampered with**.\n\n### 4.5 Administrator Password Management\n- The **local administrator password** must **not be known** by any operational staff.  \n- If emergency access is required:\n  1. Submit a formal request to the **Internal Security Division**  \n  2. Include **business justification** and complete required forms  \n  3. After use, the password **must be immediately reset** by the highest-level administrator  \n\n> This ensures **break-glass** access is **auditable, justified, and temporary**.\n\n---\n\n## 5. Policy Compliance\n\n### 5.1 Compliance Measurement  \nThe Infosec Team verifies compliance through:\n- Periodic walk-throughs  \n- Video monitoring (where applicable)  \n- Business tool reports  \n- Internal and external audits  \n- Feedback to the policy owner  \n\n### 5.2 Exceptions  \nAll exceptions require **advance written approval** from the **Infosec Team**.\n\n### 5.3 Non-Compliance  \nViolations may result in **disciplinary action**, up to and including **termination of employment**.\n\n---\n\n## 6. Related Standards, Policies and Processes\n\n_None._\n\n---\n\n## 7. Definitions and Terms\n\nThe following terms are defined in the **[SANS Glossary of Terms](https://www.sans.org/security-resources/glossary-of-terms/)**:\n- **Eavesdropping**  \n- **Man-in-the-middle Attack**  \n- **Strong Encryption**\n\n---\n\n## 8. Revision History\n\n| Date       | Responsible        | Summary of Change                     |\n|------------|--------------------|----------------------------------------|\n| Dec 2013   | SANS Policy Team   | Converted to new format and retired    |\n\n---\n\n> © 2013 SANS Institute – All Rights Reserved  \n> Part of the **Consensus Policy Resource Community**  \n> ⚠️ **This policy is retired and provided for reference only.**"
   },
   {
     "id": 10,
     "name": "Data Breach Response Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/10.%20data_breach_response.pdf"
   },
   {
     "id": 11,
     "name": "Database Credentials Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/11.%20database_credentials_policy.pdf"
   },
   {
     "id": 12,
-    "name": "Dial-In Access Policy",
-    "content": ""
+    "name": "Dial‑In Access Policy",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/12.%20dial_in_access_policy.pdf"
   },
   {
     "id": 13,
     "name": "Digital Signature Acceptance Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/13.%20digital_signature_acceptance_policy.pdf"
   },
   {
     "id": 14,
     "name": "Disaster Recovery Plan Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/14.%20disaster_recovery_plan_policy.pdf"
   },
   {
     "id": 15,
     "name": "DMZ Lab Security Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/15.%20dmz_lab_security_policy.pdf"
   },
   {
     "id": 16,
     "name": "Email Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/16.%20email_policy.pdf"
   },
   {
     "id": 17,
     "name": "Email Retention Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/17.%20email_retention_policy.pdf"
   },
   {
     "id": 18,
     "name": "Employee Internet Use Monitoring and Filtering Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/18.%20employee_internet_use_monitoring_and_filtering_policy.pdf"
   },
   {
     "id": 19,
     "name": "End User Encryption Key Protection Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/19.%20end_user_encryption_key_protection_policy.pdf"
   },
   {
     "id": 20,
     "name": "Ethics Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/20.%20ethics_policy.pdf"
   },
   {
     "id": 21,
     "name": "Extranet Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/21.%20extranet_policy.pdf"
   },
   {
     "id": 22,
-    "name": "Incident Handling - Chain Of Custody Form",
-    "content": ""
+    "name": "Incident Handling – Chain Of Custody Form",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/22.%20Incident_Handling_-_Chain_Of_Custody_Form.pdf"
   },
   {
     "id": 23,
-    "name": "Incident Handling Forms - Incident Communication Log",
-    "content": ""
+    "name": "Incident Handling Forms – Incident Communication Log",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/23.%20Incident_Handling_Forms_-_Incident_Communication_Log.pdf"
   },
   {
     "id": 24,
-    "name": "Incident Handling Forms - Incident Contacts List",
-    "content": ""
+    "name": "Incident Handling Forms – Incident Contacts List",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/24.%20Incident_Handling_Forms_-_Incident_Contacts_List.pdf"
   },
   {
     "id": 25,
-    "name": "Incident Handling Forms - Incident Containment",
-    "content": ""
+    "name": "Incident Handling Forms – Incident Containment",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/25.%20Incident_Handling_Forms_-_Incident_Containment.pdf"
   },
   {
     "id": 26,
-    "name": "Incident Handling Forms - Incident Eradication",
-    "content": ""
+    "name": "Incident Handling Forms – Incident Eradication",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/26.%20Incident_Handling_Forms_-_Incident_Eradication.pdf"
   },
   {
     "id": 27,
-    "name": "Incident Handling Forms - Incident Identification",
-    "content": ""
+    "name": "Incident Handling Forms – Incident Identification",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/27.%20Incident_Handling_Forms_-_Incident_Identification.pdf"
   },
   {
     "id": 28,
-    "name": "Incident Handling Forms - Incident Survey",
-    "content": ""
+    "name": "Incident Handling Forms – Incident Survey",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/28.%20Incident_Handling_Forms_-_Incident_Survey.pdf"
   },
   {
     "id": 29,
     "name": "Information Logging Standard",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/29.%20information_logging_standard.pdf"
   },
   {
     "id": 30,
-    "name": "Intellectual Property Incident Handling Forms - Incident Communication Log",
-    "content": ""
+    "name": "Intellectual Property Incident Handling – Incident Communication Log",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/30.%20Intellectual_Property_Incident_Handling_Forms_-_Incident_Communication_Log.pdf"
   },
   {
     "id": 31,
-    "name": "Intellectual Property Incident Handling Forms - Incident Contacts",
-    "content": ""
+    "name": "Intellectual Property Incident Handling – Incident Contacts",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/31.%20Intellectual_Property_Incident_Handling_Forms_-_Incident_Contacts.pdf"
   },
   {
     "id": 32,
-    "name": "Intellectual Property Incident Handling Forms - Incident Containment",
-    "content": ""
+    "name": "Intellectual Property Incident Handling – Incident Containment",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/32.%20Intellectual_Property_Incident_Handling_Forms_-_Incident_Containment.pdf"
   },
   {
     "id": 33,
-    "name": "Intellectual Property Incident Handling Forms - Incident Eradication",
-    "content": ""
+    "name": "Intellectual Property Incident Handling – Incident Eradication",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/33.%20Intellectual_Property_Incident_Handling_Forms_-_Incident_Eradication.pdf"
   },
   {
     "id": 34,
-    "name": "Intellectual Property Incident Handling Forms - Incident Form Checklist",
-    "content": ""
+    "name": "Intellectual Property Incident Handling – Incident Form Checklist",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/34.%20Intellectual_Property_Incident_Handling_Forms_-_Incident_Form_Checklist.pdf"
   },
   {
     "id": 35,
-    "name": "Intellectual Property Incident Handling Forms - Incident Identification",
-    "content": ""
+    "name": "Intellectual Property Incident Handling – Incident Identification",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/35.%20Intellectual_Property_Incident_Handling_Forms_-_Incident_Identification.pdf"
   },
   {
     "id": 36,
     "name": "Internet DMZ Equipment Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/36.%20internet_dmz_equipment_policy.pdf"
   },
   {
     "id": 37,
     "name": "Internet Usage Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/37.%20internet_usage_policy.pdf"
   },
   {
     "id": 38,
-    "name": "Lab Anti-Virus Policy",
-    "content": ""
+    "name": "Lab Anti‑Virus Policy",
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/38.%20lab_anti_virus_policy.pdf"
   },
   {
     "id": 39,
     "name": "Lab Security Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/39.%20lab_security_policy.pdf"
   },
   {
     "id": 40,
     "name": "Mobile Device Encryption Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/40.%20mobile_device_encryption_policy.pdf"
   },
   {
     "id": 41,
     "name": "Mobile Employee Endpoint Responsibility Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/41.%20mobile_employee_endpoint_responsibility_policy.pdf"
   },
   {
     "id": 42,
     "name": "Pandemic Response Planning Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/42.%20pandemic_response_planning_policy.pdf"
   },
   {
     "id": 43,
     "name": "Password Construction Guidelines",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/43.%20password_construction_guidelines.pdf"
   },
   {
     "id": 44,
     "name": "Password Protection Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/44.%20password_protection_policy.pdf"
   },
   {
     "id": 45,
     "name": "Personal Communication Devices and Voicemail Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/45.%20personal_communication_devices_and_voicemail_policy.pdf"
   },
   {
     "id": 47,
     "name": "Remote Access Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/47.%20remote_access_policy.pdf"
   },
   {
     "id": 48,
     "name": "Remote Access Tools Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/48.%20remote_access_tools_policy.pdf"
   },
   {
     "id": 46,
     "name": "Remote Access, Mobile Computing, and Storage Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/46.%20remote_access_mobile_computing_storage.pdf"
   },
   {
     "id": 49,
     "name": "Removable Media Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/49.%20removable_media_policy.pdf"
   },
   {
     "id": 50,
     "name": "Risk Assessment Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/50.%20risk_assessment_policy.pdf"
   },
   {
     "id": 51,
     "name": "Router and Switch Security Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/51.%20router_and_switch_security_policy.pdf"
   },
   {
     "id": 52,
     "name": "Security Response Plan Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/52.%20security_response_plan_policy.pdf"
   },
   {
     "id": 53,
     "name": "Server Audit Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/53.%20server_audit_policy.pdf"
   },
   {
     "id": 54,
     "name": "Server Malware Protection Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/54.%20server_malware_protection_policy.pdf"
   },
   {
     "id": 55,
     "name": "Server Security Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/55.%20server_security_policy.pdf"
   },
   {
     "id": 56,
     "name": "Social Engineering Awareness Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/56.%20social_engineering_awareness_policy.pdf"
   },
   {
     "id": 57,
     "name": "Software Installation Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/57.%20software_installation_policy.pdf"
   },
   {
     "id": 58,
     "name": "Technology Equipment Disposal Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/58.%20technology_equipment_disposal_policy.pdf"
   },
   {
     "id": 59,
     "name": "Virtual Private Network (VPN) Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/59.%20virtual_private_network_policy.pdf"
   },
   {
     "id": 60,
     "name": "Web Application Security Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/60.%20web_application_security_policy.pdf"
   },
   {
     "id": 61,
     "name": "Wireless Communication Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/61.%20wireless_communication_policy.pdf"
   },
   {
     "id": 62,
     "name": "Wireless Communication Standard",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/62.%20wireless_communication_standard.pdf"
   },
   {
     "id": 63,
     "name": "Workstation Security for HIPAA Policy",
-    "content": ""
+    "content": "https://raw.githubusercontent.com/deepanshusood/SANS-Security-Policy-Templates/main/63.%20workstation_security_for_hipaa_policy.pdf"
   }
 ]
