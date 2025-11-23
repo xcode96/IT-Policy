@@ -46,7 +46,8 @@ const App: React.FC = () => {
               throw new Error('Invalid JSON format for policies.');
             }
 
-            const loadedPolicies = data.map(({ id, name }) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name));
+            // Removed sorting to respect JSON order
+            const loadedPolicies = data.map(({ id, name }) => ({ id, name }));
             setPolicies(loadedPolicies);
 
             const contentCache = new Map<number, string>();
@@ -114,7 +115,8 @@ const App: React.FC = () => {
             id: policies.length > 0 ? Math.max(...policies.map(p => p.id)) + 1 : 1,
             name: policyName.trim(),
         };
-        const newPolicies = [...policies, newPolicy].sort((a, b) => a.name.localeCompare(b.name));
+        // Prepend new policy to the top of the list
+        const newPolicies = [newPolicy, ...policies];
         setPolicies(newPolicies);
         
         const newCache = new Map(editedContentCache);
@@ -130,9 +132,10 @@ const App: React.FC = () => {
     const trimmedName = newName.trim();
     if (!trimmedName) return;
 
+    // Map without sorting to preserve order
     const updatedPolicies = policies.map(p => 
         p.id === policyId ? { ...p, name: trimmedName } : p
-    ).sort((a, b) => a.name.localeCompare(b.name));
+    );
     
     setPolicies(updatedPolicies);
 
@@ -165,6 +168,16 @@ const App: React.FC = () => {
     setPolicyToDelete(null);
   };
 
+  const handlePinToTop = (policyId: number) => {
+    const index = policies.findIndex(p => p.id === policyId);
+    if (index > 0) {
+        const newPolicies = [...policies];
+        const [movedPolicy] = newPolicies.splice(index, 1);
+        newPolicies.unshift(movedPolicy);
+        setPolicies(newPolicies);
+    }
+  };
+
   const handleSavePolicyContent = (policyId: number, newContent: string) => {
     const newCache = new Map(editedContentCache);
     newCache.set(policyId, newContent);
@@ -185,7 +198,8 @@ const App: React.FC = () => {
 
   const handleExportAllJson = async () => {
     setIsExportingJson(true);
-    const sortedPolicies = [...policies].sort((a, b) => a.name.localeCompare(b.name));
+    // Export in current display order
+    const sortedPolicies = [...policies];
     const exportData = [];
 
     for (const policy of sortedPolicies) {
@@ -249,7 +263,8 @@ const App: React.FC = () => {
                 newCache.set(policyToProcess.id, policyToProcess.content);
             });
 
-            setPolicies(updatedPolicies.sort((a, b) => a.name.localeCompare(b.name)));
+            // Do not sort imported policies, keep them appended or as is
+            setPolicies(updatedPolicies);
             setEditedContentCache(newCache);
             alert(`Import successful: ${importedPolicies.length} policies were processed.`);
         } catch (e) {
@@ -282,7 +297,8 @@ const App: React.FC = () => {
         const newCache = new Map<number, string>();
         data.forEach(item => newCache.set(item.id, item.content));
 
-        setPolicies(newPolicies.sort((a, b) => a.name.localeCompare(b.name)));
+        // Use source order
+        setPolicies(newPolicies);
         setEditedContentCache(newCache);
         setSelectedPolicy(null);
         setPolicyContent('');
@@ -377,6 +393,7 @@ const App: React.FC = () => {
             onBackClick={handleMobileBack}
             onUpdateName={handleUpdatePolicyName}
             onDeleteClick={(policy) => setPolicyToDelete(policy)}
+            onPinToTop={handlePinToTop}
           />
         </main>
       </div>

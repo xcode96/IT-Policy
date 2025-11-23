@@ -22,6 +22,7 @@ interface PolicyDetailProps {
   onBackClick: () => void;
   onUpdateName: (policyId: number, newName: string) => void;
   onDeleteClick: (policy: Policy) => void;
+  onPinToTop: (policyId: number) => void;
 }
 
 const SecurityShieldIcon: React.FC<{ className?: string }> = ({ className = "h-8 w-8 text-primary" }) => (
@@ -44,6 +45,7 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     onBackClick,
     onUpdateName,
     onDeleteClick,
+    onPinToTop,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState('');
@@ -95,6 +97,34 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     } finally {
         setIsGenerating(false);
     }
+  };
+
+  const getHighlightedHtml = (markdownContent: string) => {
+    let html = marked.parse(markdownContent);
+
+    // Apply Green Highlight to "Simple"
+    html = html.replace(
+      /<strong>(.*?)Simple:(.*?)<\/strong>/g, 
+      '<strong class="!text-emerald-700 !bg-emerald-50 !border-emerald-200 border px-1.5 py-0.5 rounded-md mx-1 shadow-sm inline-block">$1Simple:$2</strong>'
+    );
+
+    // Apply Orange Highlight to "Live Example" or "Example"
+    html = html.replace(
+      /<strong>(.*?)Live Example:(.*?)<\/strong>/g, 
+      '<strong class="!text-orange-700 !bg-orange-50 !border-orange-200 border px-1.5 py-0.5 rounded-md mx-1 shadow-sm inline-block">$1Live Example:$2</strong>'
+    );
+     html = html.replace(
+      /<strong>(.*?)Example:(.*?)<\/strong>/g, 
+      '<strong class="!text-orange-700 !bg-orange-50 !border-orange-200 border px-1.5 py-0.5 rounded-md mx-1 shadow-sm inline-block">$1Example:$2</strong>'
+    );
+
+    // Apply Red Highlight to "Punishment" (handling potential variations like "Punishment (if refusing):")
+    html = html.replace(
+      /<strong>(.*?)Punishment(.*?):(.*?)<\/strong>/g, 
+      '<strong class="!text-red-700 !bg-red-50 !border-red-200 border px-1.5 py-0.5 rounded-md mx-1 shadow-sm inline-block">$1Punishment$2:$3</strong>'
+    );
+
+    return html;
   };
 
   const headerContent = (
@@ -297,6 +327,16 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                     </button>
                     <div className="h-6 w-px bg-slate-200 mx-2"></div>
                     <button
+                        onClick={() => onPinToTop(policy.id)}
+                        className="flex items-center gap-2 px-3 py-2 text-xs font-bold rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors"
+                        title="Move to top of list"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                            <path fillRule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clipRule="evenodd" />
+                        </svg>
+                        Pin to Top
+                    </button>
+                    <button
                         onClick={() => onExportSingleJson(policy.id)}
                         disabled={isExportingSingleJson}
                         className="flex items-center gap-2 px-3 py-2 text-xs font-bold rounded-lg text-textSecondary hover:bg-slate-100 hover:text-textPrimary transition-colors"
@@ -327,23 +367,25 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
           {content ? (
               <article 
                 className="prose prose-slate max-w-none 
-                prose-headings:font-bold prose-headings:text-slate-900 prose-headings:tracking-tight
-                prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl 
+                prose-headings:font-bold prose-headings:text-indigo-900 prose-headings:tracking-tight
+                prose-h1:text-3xl prose-h1:text-indigo-800
+                prose-h2:text-2xl prose-h2:text-fuchsia-700 prose-h2:border-b prose-h2:border-fuchsia-100 prose-h2:pb-2
+                prose-h3:text-xl 
                 prose-p:text-slate-600 prose-p:leading-7 
                 prose-li:text-slate-600
-                prose-strong:text-slate-900 prose-strong:font-bold
-                prose-code:text-primary prose-code:bg-indigo-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
+                prose-strong:text-indigo-700 prose-strong:bg-indigo-50 prose-strong:px-1.5 prose-strong:py-0.5 prose-strong:rounded-md prose-strong:font-extrabold
+                prose-code:text-fuchsia-600 prose-code:bg-fuchsia-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
                 prose-pre:bg-slate-900 prose-pre:text-slate-50
-                prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-slate-50 prose-blockquote:py-2 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-slate-700
-                prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                prose-blockquote:border-l-4 prose-blockquote:border-fuchsia-400 prose-blockquote:bg-fuchsia-50 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:rounded-r-xl prose-blockquote:not-italic prose-blockquote:text-slate-700 prose-blockquote:shadow-sm
+                prose-a:text-indigo-600 prose-a:font-semibold prose-a:no-underline hover:prose-a:text-fuchsia-600 hover:prose-a:underline
                 prose-th:text-slate-900 prose-th:bg-slate-50 prose-th:p-3 prose-td:p-3 prose-tr:border-b prose-tr:border-slate-100" 
-                dangerouslySetInnerHTML={{ __html: marked.parse(content) }} 
+                dangerouslySetInnerHTML={{ __html: getHighlightedHtml(content) }} 
               />
           ) : (
             <div className="flex flex-col items-center justify-center py-20 px-4 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
                 <div className="bg-white p-4 rounded-full mb-4 shadow-sm border border-slate-100">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                     </svg>
                 </div>
                 <h3 className="text-xl font-bold text-slate-800 mb-2">Policy Content Missing</h3>
@@ -390,15 +432,13 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
         )}
       </div>
     );
-  }
+  };
 
   return (
-    <>
-      {headerContent}
-      <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
+    <div className="h-full w-full overflow-y-auto bg-surface relative">
+        {!isEditing && headerContent}
         {mainContent()}
-      </div>
-    </>
+    </div>
   );
 };
 

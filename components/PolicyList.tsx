@@ -105,9 +105,9 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
                 }`}
             >
                 <div className="flex items-center justify-between">
-                    <span className="truncate pr-2">{policy.name}</span>
+                    <span className="pr-2 font-medium leading-snug">{policy.name}</span>
                     {selectedPolicyId === policy.id && (
-                         <div className="h-2 w-2 rounded-full bg-primary animate-fade-in"></div>
+                         <div className="h-2 w-2 rounded-full bg-primary animate-fade-in flex-shrink-0"></div>
                     )}
                 </div>
             </button>
