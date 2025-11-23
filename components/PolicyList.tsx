@@ -62,7 +62,11 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
         <div className="absolute bottom-0 left-0 -ml-8 -mb-8 w-24 h-24 rounded-full bg-white opacity-10 blur-lg"></div>
 
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-4">
+          <div 
+            className="flex items-center gap-3 mb-4 cursor-pointer transition-opacity hover:opacity-90 group/header"
+            onClick={() => setSearchTerm('')}
+            title="Click to show all documents"
+          >
               <div className="bg-white/20 p-2 rounded-xl backdrop-blur-md border border-white/20 shadow-sm">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-white">
                       <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clipRule="evenodd" />
@@ -70,7 +74,12 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
               </div>
               <div>
                 <h2 className="text-xl font-bold tracking-tight">Policy<span className="font-light opacity-90">Portal</span></h2>
-                <p className="text-xs text-indigo-100 font-medium opacity-90">{policies.length} documents stored</p>
+                <p className="text-xs text-indigo-100 font-medium opacity-90 group-hover/header:text-white transition-colors">
+                    {searchTerm 
+                        ? `Showing ${filteredPolicies.length} of ${policies.length}`
+                        : `${policies.length} documents stored`
+                    }
+                </p>
               </div>
           </div>
           
@@ -85,8 +94,19 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
                   placeholder="Search policies..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-sm text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 transition-all duration-200 shadow-sm backdrop-blur-sm"
+                  className="w-full pl-9 pr-8 py-2.5 bg-white/10 border border-white/20 rounded-xl text-sm text-white placeholder-indigo-200 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 transition-all duration-200 shadow-sm backdrop-blur-sm"
               />
+              {searchTerm && (
+                <button 
+                    onClick={() => setSearchTerm('')}
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-indigo-200 hover:text-white transition-colors"
+                    aria-label="Clear search"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                    </svg>
+                </button>
+              )}
           </div>
         </div>
       </div>
@@ -105,7 +125,7 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
                 }`}
             >
                 <div className="flex items-center justify-between">
-                    <span className="pr-2 font-medium leading-snug">{policy.name}</span>
+                    <span className="flex-1 pr-2 font-medium leading-snug whitespace-normal">{policy.name}</span>
                     {selectedPolicyId === policy.id && (
                          <div className="h-2 w-2 rounded-full bg-primary animate-fade-in flex-shrink-0"></div>
                     )}
@@ -120,7 +140,11 @@ const PolicyList: React.FC<PolicyListProps> = ({ policies, selectedPolicyId, onS
                   </svg>
                 </div>
                 <p className="text-sm font-medium">No results found</p>
-                <p className="text-xs mt-1">Try a different search term</p>
+                <p className="text-xs mt-1">
+                    <button onClick={() => setSearchTerm('')} className="text-primary hover:underline">
+                        Show all policies
+                    </button>
+                </p>
             </div>
         )}
       </nav>

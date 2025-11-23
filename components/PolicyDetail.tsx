@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { type Policy } from '../types';
 import LoadingSpinner from './LoadingSpinner';
@@ -129,18 +130,8 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
 
   const headerContent = (
      <header className="flex-shrink-0 border-b border-border bg-white/80 backdrop-blur-xl sticky top-0 z-20 transition-all duration-200">
-      <div className="flex items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-4 min-w-0">
-            {/* Mobile Back Button */}
-            <button
-                onClick={onBackClick}
-                className="p-2 rounded-full text-textSecondary hover:bg-slate-100 hover:text-textPrimary md:hidden transition-colors"
-                aria-label="Back to policy list"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
+      <div className="flex items-center justify-between px-4 md:px-6 py-4">
+          <div className="flex items-center gap-3 md:gap-4 min-w-0">
             
             {/* Breadcrumb / Title */}
             <div className="flex items-center gap-3 overflow-hidden">
@@ -152,7 +143,7 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                  {policy && (
                     <>
                         <span className="text-slate-300 hidden md:inline">/</span>
-                        <div className="truncate font-semibold text-textPrimary">
+                        <div className="truncate font-semibold text-textPrimary text-sm md:text-base">
                             {policy.name}
                         </div>
                     </>
@@ -161,27 +152,29 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
           </div>
 
           <div className="flex items-center gap-3">
-            {isAdmin ? (
-              <div className="flex items-center gap-4">
-                <span className="text-[10px] font-bold tracking-wider text-emerald-600 uppercase hidden sm:inline-block px-2.5 py-1 bg-emerald-50 rounded-full border border-emerald-100">Admin Mode</span>
+            <div className="mr-12 md:mr-0 flex items-center gap-3">
+                {isAdmin ? (
+                <div className="flex items-center gap-4">
+                    <span className="text-[10px] font-bold tracking-wider text-emerald-600 uppercase hidden sm:inline-block px-2.5 py-1 bg-emerald-50 rounded-full border border-emerald-100">Admin Mode</span>
+                    <button 
+                        onClick={onLogout} 
+                        className="p-2 text-textSecondary hover:text-red-500 transition-colors hover:bg-red-50 rounded-full"
+                        title="Logout"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                        </svg>
+                    </button>
+                </div>
+                ) : (
                 <button 
-                    onClick={onLogout} 
-                    className="p-2 text-textSecondary hover:text-red-500 transition-colors hover:bg-red-50 rounded-full"
-                    title="Logout"
+                    onClick={onLoginClick} 
+                    className="px-4 md:px-5 py-2 text-xs font-bold rounded-xl text-primary bg-primary-subtle border border-primary-light/20 hover:bg-primary/10 transition-all duration-200"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                    </svg>
+                    Log In
                 </button>
-              </div>
-            ) : (
-              <button 
-                onClick={onLoginClick} 
-                className="px-5 py-2 text-xs font-bold rounded-xl text-primary bg-primary-subtle border border-primary-light/20 hover:bg-primary/10 transition-all duration-200"
-              >
-                Log In
-              </button>
-            )}
+                )}
+            </div>
           </div>
       </div>
     </header>
@@ -272,19 +265,19 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     }
 
     return (
-      <div className="mx-auto max-w-4xl px-8 py-12 w-full bg-white min-h-full">
+      <div className="mx-auto max-w-4xl px-4 md:px-8 py-12 w-full bg-white min-h-full">
           {/* Policy Title Section */}
           <div className="mb-12">
             <div className="flex justify-between items-start gap-4 group">
                  {!isEditingName ? (
                     <div className="flex items-center gap-3 w-full">
-                         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                         <h1 className="text-2xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight break-words">
                             {policy.name}
                         </h1>
                          {isAdmin && (
                             <button
                                 onClick={() => setIsEditingName(true)}
-                                className="opacity-0 group-hover:opacity-100 p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-indigo-50 transition-all"
+                                className="opacity-0 group-hover:opacity-100 p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-indigo-50 transition-all flex-shrink-0"
                                 title="Rename Policy"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
@@ -294,20 +287,22 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                         )}
                     </div>
                 ) : (
-                    <div className="flex-grow flex items-center gap-3 animate-fade-in">
+                    <div className="flex-grow flex flex-col md:flex-row items-start md:items-center gap-3 animate-fade-in w-full">
                          <input
                             type="text"
                             value={editedName}
                             onChange={(e) => setEditedName(e.target.value)}
-                            className="w-full text-3xl font-bold bg-transparent border-b-2 border-primary focus:outline-none text-slate-900 py-1"
+                            className="w-full text-2xl md:text-3xl font-bold bg-transparent border-b-2 border-primary focus:outline-none text-slate-900 py-1"
                             autoFocus
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') handleSaveName();
                                 if (e.key === 'Escape') setIsEditingName(false);
                             }}
                         />
-                        <button onClick={handleSaveName} className="text-xs bg-primary text-white px-3 py-1.5 rounded-lg font-bold shadow-md">Save</button>
-                         <button onClick={() => setIsEditingName(false)} className="text-xs text-slate-500 hover:text-slate-800 px-3 py-1.5">Cancel</button>
+                        <div className="flex gap-2">
+                            <button onClick={handleSaveName} className="text-xs bg-primary text-white px-3 py-1.5 rounded-lg font-bold shadow-md whitespace-nowrap">Save</button>
+                            <button onClick={() => setIsEditingName(false)} className="text-xs text-slate-500 hover:text-slate-800 px-3 py-1.5 whitespace-nowrap">Cancel</button>
+                        </div>
                     </div>
                 )}
             </div>
@@ -437,6 +432,19 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
   return (
     <div className="h-full w-full overflow-y-auto bg-surface relative">
         {!isEditing && headerContent}
+        
+        {/* Mobile Floating Menu Button (Fixed Top Right) */}
+        <button
+            onClick={onBackClick}
+            className="mobile-nav-toggle md:hidden fixed top-3 right-3 z-50 p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-transform active:scale-90 flex items-center justify-center"
+            aria-label="Show Policy List"
+            title="Show all policies"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </button>
+
         {mainContent()}
     </div>
   );
