@@ -308,7 +308,7 @@ const App: React.FC = () => {
         <div className="flex h-screen items-center justify-center bg-background">
             <div className="text-center">
                 <LoadingSpinner />
-                <p className="mt-4 text-textPrimary font-semibold">Loading IT Policy Portal...</p>
+                <p className="mt-4 text-textSecondary font-light tracking-wide animate-pulse">Initializing Portal...</p>
             </div>
         </div>
     );
@@ -317,9 +317,9 @@ const App: React.FC = () => {
   if (appStatus === 'error') {
       return (
           <div className="flex h-screen items-center justify-center p-4 bg-background">
-              <div className="bg-red-900/20 border border-red-500/30 text-red-300 p-6 rounded-lg max-w-lg text-center shadow-lg" role="alert">
-                <h3 className="font-bold text-lg text-red-200">An Error Occurred</h3>
-                <p className="mt-2 text-sm">{appError}</p>
+              <div className="bg-red-950/40 border border-red-500/20 text-red-200 p-8 rounded-2xl max-w-lg text-center shadow-2xl backdrop-blur-xl" role="alert">
+                <h3 className="font-bold text-xl text-red-100 mb-2">System Error</h3>
+                <p className="text-sm text-red-300/80">{appError}</p>
               </div>
           </div>
       );
@@ -327,8 +327,9 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="flex h-screen text-textPrimary font-sans antialiased overflow-hidden md:p-4 md:gap-4 bg-background">
-        <aside className={`w-full md:w-1/3 md:max-w-sm flex-shrink-0 ${selectedPolicy ? 'hidden md:flex' : 'flex'} flex-col`}>
+      <div className="flex h-screen w-screen text-textPrimary font-sans antialiased overflow-hidden bg-background md:p-6 md:gap-6 selection:bg-primary/30 selection:text-primary-light">
+        {/* Sidebar */}
+        <aside className={`w-full md:w-[360px] flex-shrink-0 ${selectedPolicy ? 'hidden md:flex' : 'flex'} flex-col h-full bg-surface/50 backdrop-blur-xl border border-border/50 md:rounded-2xl shadow-2xl overflow-hidden transition-all duration-300`}>
           <PolicyList
             policies={policies}
             selectedPolicyId={selectedPolicy?.id}
@@ -343,7 +344,9 @@ const App: React.FC = () => {
             syncStatus={syncStatus}
           />
         </aside>
-        <main className={`flex-grow ${selectedPolicy ? 'flex' : 'hidden md:flex'} flex-col bg-surface md:rounded-xl overflow-y-auto border border-border`}>
+
+        {/* Main Content Area */}
+        <main className={`flex-grow ${selectedPolicy ? 'flex' : 'hidden md:flex'} flex-col h-full bg-surface/80 backdrop-blur-2xl md:rounded-2xl border border-border/50 shadow-2xl overflow-hidden relative`}>
           <PolicyDetail
             policy={selectedPolicy}
             content={policyContent}
@@ -362,6 +365,7 @@ const App: React.FC = () => {
            <Footer />
         </main>
       </div>
+
       {showAddPolicyModal && <AddPolicyModal onAdd={handleAddNewPolicy} onClose={() => setShowAddPolicyModal(false)} />}
       {showLiveSyncModal && (
         <LiveSyncModal
