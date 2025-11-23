@@ -158,10 +158,8 @@ const App: React.FC = () => {
         if (newPolicies.length === 0) {
             setSelectedPolicy(null);
         } else if (currentIndex >= newPolicies.length) {
-            // If last item was deleted, select the new last item
             handleSelectPolicy(newPolicies[newPolicies.length - 1]);
         } else {
-            // Otherwise, select the item at the same index
             handleSelectPolicy(newPolicies[currentIndex]);
         }
     }
@@ -308,7 +306,7 @@ const App: React.FC = () => {
         <div className="flex h-screen items-center justify-center bg-background">
             <div className="text-center">
                 <LoadingSpinner />
-                <p className="mt-4 text-textSecondary font-light tracking-wide animate-pulse">Initializing Portal...</p>
+                <p className="mt-4 text-primary font-medium tracking-wide animate-pulse">Loading Portal...</p>
             </div>
         </div>
     );
@@ -317,9 +315,14 @@ const App: React.FC = () => {
   if (appStatus === 'error') {
       return (
           <div className="flex h-screen items-center justify-center p-4 bg-background">
-              <div className="bg-red-950/40 border border-red-500/20 text-red-200 p-8 rounded-2xl max-w-lg text-center shadow-2xl backdrop-blur-xl" role="alert">
-                <h3 className="font-bold text-xl text-red-100 mb-2">System Error</h3>
-                <p className="text-sm text-red-300/80">{appError}</p>
+              <div className="bg-white border border-red-200 text-slate-800 p-8 rounded-2xl max-w-lg text-center shadow-xl" role="alert">
+                <div className="bg-red-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <h3 className="font-bold text-xl mb-2">System Error</h3>
+                <p className="text-sm text-slate-500">{appError}</p>
               </div>
           </div>
       );
@@ -327,9 +330,17 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="flex h-screen w-screen text-textPrimary font-sans antialiased overflow-hidden bg-background md:p-6 md:gap-6 selection:bg-primary/30 selection:text-primary-light">
+      {/* Main Layout Container */}
+      <div className="flex h-screen w-screen overflow-hidden bg-background text-textPrimary md:p-6 md:gap-6 selection:bg-primary/20 selection:text-primary-dark font-sans">
+        
         {/* Sidebar */}
-        <aside className={`w-full md:w-[360px] flex-shrink-0 ${selectedPolicy ? 'hidden md:flex' : 'flex'} flex-col h-full bg-surface/50 backdrop-blur-xl border border-border/50 md:rounded-2xl shadow-2xl overflow-hidden transition-all duration-300`}>
+        <aside 
+          className={`
+            fixed inset-0 z-30 flex flex-col transition-all duration-300 md:relative md:inset-auto md:translate-x-0 md:w-80 lg:w-[24rem] flex-shrink-0
+            ${selectedPolicy ? 'translate-x-[-100%] md:translate-x-0' : 'translate-x-0'}
+            bg-surface border border-white/50 md:rounded-3xl shadow-soft overflow-hidden
+          `}
+        >
           <PolicyList
             policies={policies}
             selectedPolicyId={selectedPolicy?.id}
@@ -346,7 +357,13 @@ const App: React.FC = () => {
         </aside>
 
         {/* Main Content Area */}
-        <main className={`flex-grow ${selectedPolicy ? 'flex' : 'hidden md:flex'} flex-col h-full bg-surface/80 backdrop-blur-2xl md:rounded-2xl border border-border/50 shadow-2xl overflow-hidden relative`}>
+        <main 
+          className={`
+            fixed inset-0 z-20 flex flex-col transition-all duration-300 md:relative md:inset-auto md:translate-x-0 flex-1
+            ${selectedPolicy ? 'translate-x-0' : 'translate-x-[100%] md:translate-x-0'}
+            bg-surface border border-white/50 md:rounded-3xl shadow-soft overflow-hidden
+          `}
+        >
           <PolicyDetail
             policy={selectedPolicy}
             content={policyContent}

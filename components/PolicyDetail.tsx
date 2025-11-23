@@ -98,52 +98,61 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
   };
 
   const headerContent = (
-     <header className="flex-shrink-0 border-b border-border/50 bg-surface/80 backdrop-blur-md sticky top-0 z-20 transition-all duration-200">
-      <div className="container mx-auto px-6 md:px-8 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+     <header className="flex-shrink-0 border-b border-border bg-white/80 backdrop-blur-xl sticky top-0 z-20 transition-all duration-200">
+      <div className="flex items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-4 min-w-0">
+            {/* Mobile Back Button */}
             <button
                 onClick={onBackClick}
-                className="p-2 -ml-2 rounded-full text-textSecondary hover:bg-slate-800 hover:text-textPrimary md:hidden transition-colors"
+                className="p-2 rounded-full text-textSecondary hover:bg-slate-100 hover:text-textPrimary md:hidden transition-colors"
                 aria-label="Back to policy list"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-             <div className="flex items-center gap-3">
-                 <div className="p-2 bg-primary/10 rounded-lg">
-                    <SecurityShieldIcon className="h-6 w-6 text-primary" />
-                 </div>
-                 <div>
-                    <h1 className="text-lg font-bold text-textPrimary tracking-wide leading-tight">
-                    POLICY<span className="text-primary">PORTAL</span>
+            
+            {/* Breadcrumb / Title */}
+            <div className="flex items-center gap-3 overflow-hidden">
+                 <div className="flex-col hidden md:flex">
+                    <h1 className="text-xs font-bold text-textMuted tracking-wider uppercase">
+                        {policy ? 'Policy Details' : 'Overview'}
                     </h1>
-                    <p className="text-[10px] text-textSecondary uppercase tracking-widest font-semibold">Enterprise Security</p>
                  </div>
+                 {policy && (
+                    <>
+                        <span className="text-slate-300 hidden md:inline">/</span>
+                        <div className="truncate font-semibold text-textPrimary">
+                            {policy.name}
+                        </div>
+                    </>
+                 )}
             </div>
           </div>
+
           <div className="flex items-center gap-3">
             {isAdmin ? (
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-emerald-400 font-medium hidden sm:inline-block px-2 py-1 bg-emerald-950/50 rounded border border-emerald-900">Admin Mode</span>
+              <div className="flex items-center gap-4">
+                <span className="text-[10px] font-bold tracking-wider text-emerald-600 uppercase hidden sm:inline-block px-2.5 py-1 bg-emerald-50 rounded-full border border-emerald-100">Admin Mode</span>
                 <button 
                     onClick={onLogout} 
-                    className="text-xs font-medium text-textSecondary hover:text-textPrimary transition-colors hover:underline"
+                    className="p-2 text-textSecondary hover:text-red-500 transition-colors hover:bg-red-50 rounded-full"
+                    title="Logout"
                 >
-                    Logout
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                    </svg>
                 </button>
               </div>
             ) : (
               <button 
                 onClick={onLoginClick} 
-                className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg text-white bg-primary hover:bg-primary-dark shadow-glow transition-all duration-300 hover:scale-105"
+                className="px-5 py-2 text-xs font-bold rounded-xl text-primary bg-primary-subtle border border-primary-light/20 hover:bg-primary/10 transition-all duration-200"
               >
-                Admin Login
+                Log In
               </button>
             )}
           </div>
-        </div>
       </div>
     </header>
   );
@@ -153,7 +162,7 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
       return (
         <div className="flex flex-col items-center justify-center h-full text-center">
           <LoadingSpinner />
-          <p className="mt-4 text-textSecondary animate-pulse text-sm font-medium">Fetching secure content...</p>
+          <p className="mt-4 text-textSecondary text-sm font-medium tracking-wide">Loading document...</p>
         </div>
       );
     }
@@ -161,12 +170,12 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     if (error) {
       return (
         <div className="flex flex-col items-center justify-center h-full text-center p-8">
-          <div className="bg-red-950/40 border border-red-500/20 text-red-200 p-8 rounded-2xl max-w-lg shadow-2xl backdrop-blur-xl" role="alert">
+          <div className="bg-red-50 border border-red-100 text-red-800 p-8 rounded-3xl max-w-lg shadow-sm" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 mx-auto text-red-500 mb-4 opacity-80">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
             </svg>
-            <h3 className="font-bold text-lg text-red-100 mb-2">Error Loading Policy</h3>
-            <p className="text-sm text-red-300/70">{error}</p>
+            <h3 className="font-bold text-lg mb-2">Error Loading Policy</h3>
+            <p className="text-sm text-red-600/80">{error}</p>
           </div>
         </div>
       );
@@ -174,46 +183,58 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     
     if (!policy) {
         return (
-            <div className="flex flex-col items-center justify-center h-full text-center p-8 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-radial from-primary/5 to-transparent opacity-50 pointer-events-none"></div>
-              <div className="p-6 bg-slate-900/50 border border-slate-800 rounded-3xl backdrop-blur-sm relative z-10 shadow-2xl">
-                 <SecurityShieldIcon className="h-24 w-24 mx-auto text-slate-700 mb-4" />
-                 <h3 className="text-2xl font-bold text-textPrimary mb-2">Select a Policy</h3>
-                 <p className="max-w-md text-textSecondary text-sm leading-relaxed">
-                    Choose a policy from the sidebar to view its details, compliance requirements, and revision history.
-                 </p>
-              </div>
+            <div className="flex flex-col items-center justify-center h-full text-center p-8 relative overflow-hidden bg-white">
+               <div className="bg-gradient-to-br from-indigo-50 to-fuchsia-50 p-8 rounded-full mb-6 relative">
+                 <div className="bg-white rounded-full p-6 shadow-xl shadow-indigo-100/50">
+                    <SecurityShieldIcon className="h-16 w-16 text-indigo-500" />
+                 </div>
+               </div>
+               
+               <h3 className="text-2xl font-bold text-textPrimary mb-3">No Policy Selected</h3>
+               <p className="max-w-md text-textSecondary text-sm leading-relaxed mb-8">
+                  Select a policy from the sidebar to view details, or create a new one to get started with our AI-powered drafting tools.
+               </p>
+               
+               {isAdmin && (
+                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-500">
+                        <strong className="text-slate-700">Pro Tip:</strong> Use the "New Policy" button to get started.
+                   </div>
+               )}
             </div>
           );
     }
 
     if (isEditing) {
       return (
-        <div className="h-full flex flex-col relative">
-          <div className="flex-shrink-0 px-8 py-4 border-b border-border/50 flex justify-between items-center bg-surface/50">
-             <h2 className="text-lg font-bold text-textPrimary">Editing: <span className="text-primary font-mono">{policy.name}</span></h2>
+        <div className="h-full flex flex-col relative bg-white">
+          <div className="flex-shrink-0 px-6 py-3 border-b border-border flex justify-between items-center bg-slate-50/50">
+             <div className="flex items-center gap-2 text-sm">
+                <span className="text-textSecondary font-medium">Editing:</span>
+                <span className="text-primary font-bold bg-indigo-50 px-2 py-0.5 rounded text-xs uppercase tracking-wide">{policy.name}</span>
+             </div>
              <div className="flex gap-3">
                 <button 
-                onClick={handleCancelClick}
-                className="px-4 py-2 text-sm font-medium rounded-lg text-textSecondary hover:text-textPrimary hover:bg-slate-800 transition-colors"
+                    onClick={handleCancelClick}
+                    className="px-4 py-2 text-xs font-semibold rounded-lg text-textSecondary hover:bg-slate-200/50 transition-colors"
                 >
-                Cancel
+                    Discard
                 </button>
                 <button 
-                onClick={handleSaveClick}
-                className="px-6 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark shadow-glow transition-all"
+                    onClick={handleSaveClick}
+                    className="px-5 py-2 text-xs font-bold text-white bg-primary rounded-lg hover:bg-primary-dark shadow-lg shadow-primary/20 transition-all active:scale-95"
                 >
-                Save Changes
+                    Save Changes
                 </button>
              </div>
           </div>
           <div className="flex-grow relative">
              <textarea
-                className="w-full h-full p-8 font-mono text-sm bg-background/50 text-textPrimary resize-none focus:outline-none leading-relaxed custom-scrollbar"
+                className="w-full h-full p-8 font-mono text-sm bg-white text-slate-800 resize-none focus:outline-none leading-relaxed custom-scrollbar selection:bg-indigo-100 selection:text-indigo-900"
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
                 placeholder="# Enter markdown content here..."
                 autoFocus
+                spellCheck={false}
              />
           </div>
         </div>
@@ -221,17 +242,19 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
     }
 
     return (
-      <div className="mx-auto max-w-4xl px-8 py-10 w-full">
-          {/* Policy Header */}
-          <div className="mb-10 pb-6 border-b border-border/50">
-            <div className="flex justify-between items-start gap-4">
+      <div className="mx-auto max-w-4xl px-8 py-12 w-full bg-white min-h-full">
+          {/* Policy Title Section */}
+          <div className="mb-12">
+            <div className="flex justify-between items-start gap-4 group">
                  {!isEditingName ? (
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight group flex items-baseline gap-4">
-                        {policy.name}
+                    <div className="flex items-center gap-3 w-full">
+                         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                            {policy.name}
+                        </h1>
                          {isAdmin && (
                             <button
                                 onClick={() => setIsEditingName(true)}
-                                className="opacity-0 group-hover:opacity-100 p-1.5 rounded-md text-slate-500 hover:text-primary hover:bg-slate-800 transition-all"
+                                className="opacity-0 group-hover:opacity-100 p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-indigo-50 transition-all"
                                 title="Rename Policy"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
@@ -239,32 +262,32 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                                 </svg>
                             </button>
                         )}
-                    </h1>
+                    </div>
                 ) : (
-                    <div className="flex-grow flex items-center gap-3">
+                    <div className="flex-grow flex items-center gap-3 animate-fade-in">
                          <input
                             type="text"
                             value={editedName}
                             onChange={(e) => setEditedName(e.target.value)}
-                            className="w-full text-3xl font-bold bg-transparent border-b-2 border-primary focus:outline-none text-white py-1"
+                            className="w-full text-3xl font-bold bg-transparent border-b-2 border-primary focus:outline-none text-slate-900 py-1"
                             autoFocus
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') handleSaveName();
                                 if (e.key === 'Escape') setIsEditingName(false);
                             }}
                         />
-                        <button onClick={handleSaveName} className="text-sm bg-primary text-white px-3 py-1 rounded">Save</button>
-                         <button onClick={() => setIsEditingName(false)} className="text-sm text-slate-400 hover:text-white px-3 py-1">Cancel</button>
+                        <button onClick={handleSaveName} className="text-xs bg-primary text-white px-3 py-1.5 rounded-lg font-bold shadow-md">Save</button>
+                         <button onClick={() => setIsEditingName(false)} className="text-xs text-slate-500 hover:text-slate-800 px-3 py-1.5">Cancel</button>
                     </div>
                 )}
             </div>
             
-            {/* Toolbar */}
+            {/* Action Bar */}
              {isAdmin && !isEditingName && (
-                <div className="flex flex-wrap items-center gap-2 mt-6">
+                <div className="flex flex-wrap items-center gap-2 mt-6 pb-6 border-b border-slate-100">
                     <button 
                         onClick={handleEditClick}
-                        className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-primary rounded-lg hover:bg-primary-dark transition-colors shadow-lg shadow-emerald-900/20"
+                        className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-primary rounded-lg hover:bg-primary-dark transition-colors shadow-lg shadow-indigo-200 active:translate-y-0.5"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                              <path d="M5.433 13.917l1.262-3.155A4 4 0 017.58 9.42l6.92-6.918a2.121 2.121 0 013 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 01-.65-.65z" />
@@ -272,11 +295,11 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                         </svg>
                         Edit Content
                     </button>
-                    <div className="h-6 w-px bg-border mx-2"></div>
+                    <div className="h-6 w-px bg-slate-200 mx-2"></div>
                     <button
                         onClick={() => onExportSingleJson(policy.id)}
                         disabled={isExportingSingleJson}
-                        className="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg text-textSecondary hover:bg-slate-800 hover:text-textPrimary transition-colors"
+                        className="flex items-center gap-2 px-3 py-2 text-xs font-bold rounded-lg text-textSecondary hover:bg-slate-100 hover:text-textPrimary transition-colors"
                     >
                          {isExportingSingleJson ? (
                             <span className="animate-spin">⟳</span>
@@ -289,7 +312,7 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                     </button>
                     <button 
                         onClick={() => onDeleteClick(policy)}
-                        className="flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg text-red-400 hover:bg-red-950/30 hover:text-red-300 transition-colors ml-auto"
+                        className="flex items-center gap-2 px-3 py-2 text-xs font-bold rounded-lg text-red-500 hover:bg-red-50 transition-colors ml-auto"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                             <path fillRule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clipRule="evenodd" />
@@ -303,34 +326,35 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
           {/* Markdown Content */}
           {content ? (
               <article 
-                className="prose prose-invert prose-emerald max-w-none 
-                prose-headings:font-bold prose-headings:text-white 
+                className="prose prose-slate max-w-none 
+                prose-headings:font-bold prose-headings:text-slate-900 prose-headings:tracking-tight
                 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl 
-                prose-p:text-slate-300 prose-p:leading-7 
-                prose-li:text-slate-300
-                prose-strong:text-white prose-strong:font-semibold
-                prose-code:text-emerald-300 prose-code:bg-emerald-950/30 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-                prose-blockquote:border-l-4 prose-blockquote:border-emerald-500 prose-blockquote:bg-slate-900/50 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:not-italic prose-blockquote:text-slate-400
-                prose-a:text-emerald-400 prose-a:no-underline hover:prose-a:underline
-                prose-th:text-white prose-th:bg-slate-800 prose-th:p-3 prose-td:p-3 prose-tr:border-b prose-tr:border-slate-800" 
+                prose-p:text-slate-600 prose-p:leading-7 
+                prose-li:text-slate-600
+                prose-strong:text-slate-900 prose-strong:font-bold
+                prose-code:text-primary prose-code:bg-indigo-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
+                prose-pre:bg-slate-900 prose-pre:text-slate-50
+                prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-slate-50 prose-blockquote:py-2 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-slate-700
+                prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                prose-th:text-slate-900 prose-th:bg-slate-50 prose-th:p-3 prose-td:p-3 prose-tr:border-b prose-tr:border-slate-100" 
                 dangerouslySetInnerHTML={{ __html: marked.parse(content) }} 
               />
           ) : (
-            <div className="flex flex-col items-center justify-center py-20 px-4 border border-dashed border-slate-700 rounded-2xl bg-slate-900/20">
-                <div className="bg-slate-800 p-4 rounded-full mb-4 shadow-inner">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="flex flex-col items-center justify-center py-20 px-4 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+                <div className="bg-white p-4 rounded-full mb-4 shadow-sm border border-slate-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                     </svg>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">Empty Policy</h3>
-                <p className="text-slate-400 text-center max-w-sm mb-8">This policy document is currently empty. You can write it manually or use AI to generate a standard template.</p>
+                <h3 className="text-xl font-bold text-slate-800 mb-2">Policy Content Missing</h3>
+                <p className="text-slate-500 text-center max-w-sm mb-8">This policy document is currently empty. You can write it manually or use AI to generate a standard template.</p>
                 
                 {isAdmin ? (
-                   <div className="flex gap-4">
+                   <div className="flex flex-col sm:flex-row gap-4">
                        <button
                           onClick={handleGenerateContent}
                           disabled={isGenerating}
-                          className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-xl hover:from-emerald-500 hover:to-emerald-400 shadow-lg shadow-emerald-900/40 transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-wait disabled:hover:translate-y-0"
+                          className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl hover:from-indigo-500 hover:to-purple-500 shadow-lg shadow-indigo-200 transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-wait disabled:hover:translate-y-0"
                       >
                           {isGenerating ? (
                               <>
@@ -352,14 +376,14 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
                       </button>
                       <button 
                           onClick={handleEditClick}
-                          className="px-6 py-3 text-sm font-bold text-slate-300 bg-slate-800 rounded-xl hover:bg-slate-700 hover:text-white transition-all duration-200 border border-slate-700"
+                          className="px-6 py-3 text-sm font-bold text-slate-600 bg-white rounded-xl hover:bg-slate-50 transition-all duration-200 border border-slate-200 hover:border-slate-300"
                       >
                           Write Manually
                       </button>
                    </div>
                 ) : (
-                   <span className="inline-block px-4 py-2 rounded-lg bg-slate-800 text-slate-400 text-sm">
-                        Waiting for administrator input.
+                   <span className="inline-block px-4 py-2 rounded-lg bg-slate-100 text-slate-500 text-sm font-medium">
+                        Admin access required to edit.
                    </span>
                 )}
             </div>
@@ -371,7 +395,7 @@ const PolicyDetail: React.FC<PolicyDetailProps> = ({
   return (
     <>
       {headerContent}
-      <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+      <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
         {mainContent()}
       </div>
     </>

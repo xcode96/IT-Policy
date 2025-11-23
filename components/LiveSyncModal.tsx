@@ -36,51 +36,56 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
 
     const renderStatus = () => {
         if (currentStatus === 'connected') {
-            return <p className="text-sm text-textSecondary truncate">Connected to: <span className="font-medium text-textPrimary">{syncUrl}</span></p>;
+            return <p className="text-sm text-emerald-600 font-medium truncate bg-emerald-50 px-3 py-1 rounded-lg inline-block mt-2">Connected to: {syncUrl}</p>;
         }
          if (currentStatus === 'failed' && error) {
-            return <p className="text-sm text-red-400">{error}</p>;
+            return <p className="text-sm text-red-500 mt-2 font-medium">{error}</p>;
         }
-        return <p className="text-sm text-textSecondary mt-1">Connect to a live server to sync policies from a JSON file.</p>;
+        return <p className="text-sm text-slate-500 mt-1">Sync policies from a remote JSON file.</p>;
     }
 
     return (
         <div 
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             aria-modal="true"
             role="dialog"
             onClick={onClose}
         >
             <div 
-                className="bg-surface rounded-xl shadow-lg w-full max-w-lg animate-fade-in overflow-hidden border border-border" 
+                className="bg-white rounded-2xl shadow-2xl w-full max-w-lg animate-fade-in overflow-hidden border border-slate-100" 
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="p-8 border-b border-border relative bg-background">
-                    <h2 className="text-2xl font-bold text-textPrimary">Live Policy Sync</h2>
+                <div className="p-8 border-b border-slate-100 relative">
+                    <h2 className="text-2xl font-bold text-slate-800">Live Policy Sync</h2>
                     {renderStatus()}
-                    <button onClick={onClose} className="absolute top-4 right-4 text-textMuted hover:text-textPrimary transition-colors text-3xl">&times;</button>
+                    <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors text-2xl leading-none">&times;</button>
                 </div>
 
                 <div className="p-8">
-                    <div className="text-sm text-textSecondary bg-slate-900/50 p-4 rounded-lg border border-border mb-6">
-                        <h3 className="font-semibold text-textPrimary mb-2">How It Works:</h3>
-                        <ol className="list-decimal list-inside space-y-1">
-                            <li>Make changes in the app and use the <strong>"Export All JSON"</strong> button.</li>
-                            <li>Manually upload the exported file to your server (like a GitHub repository).</li>
-                            <li>Get the <strong>"Raw" URL</strong> for the uploaded JSON file.</li>
-                            <li>Paste the URL below and click <strong>"Connect & Sync"</strong> to load your policies.</li>
+                    <div className="text-sm text-slate-600 bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6">
+                        <h3 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                            </svg>
+                            Instructions
+                        </h3>
+                        <ol className="list-decimal list-inside space-y-1 ml-1">
+                            <li>Export your policies using <strong>"Export All JSON"</strong>.</li>
+                            <li>Upload the file to a server (e.g., GitHub Gist).</li>
+                            <li>Get the <strong>"Raw" URL</strong>.</li>
+                            <li>Paste the URL below to sync.</li>
                         </ol>
                     </div>
                     
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
-                            <label htmlFor="syncUrl" className="block text-sm font-medium text-textSecondary mb-2">Server "Raw" URL</label>
+                            <label htmlFor="syncUrl" className="block text-sm font-bold text-slate-700 mb-2">Server "Raw" URL</label>
                             <input
                                 type="url"
                                 id="syncUrl"
                                 value={url}
                                 onChange={(e) => setUrl(e.target.value)}
-                                className="w-full px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition bg-background text-textPrimary disabled:bg-slate-800"
+                                className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition bg-slate-50 text-slate-900 disabled:bg-slate-100 disabled:text-slate-500"
                                 placeholder="https://raw.githubusercontent.com/..."
                                 required
                                 disabled={currentStatus === 'connecting' || currentStatus === 'connected'}
@@ -93,7 +98,7 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
                                     <button
                                         type="button"
                                         onClick={handleDisconnect}
-                                        className="px-5 py-2 text-sm font-semibold text-red-400 bg-red-900/20 rounded-lg hover:bg-red-900/40 transition-colors duration-200"
+                                        className="px-5 py-2.5 text-sm font-bold text-red-600 bg-red-50 rounded-xl hover:bg-red-100 transition-colors duration-200"
                                     >
                                         Disconnect
                                     </button>
@@ -103,13 +108,13 @@ const LiveSyncModal: React.FC<LiveSyncModalProps> = ({ onClose, onSync, onDiscon
                                 <button 
                                     type="button" 
                                     onClick={onClose} 
-                                    className="px-5 py-2 text-sm font-semibold rounded-lg border border-border text-textSecondary bg-surface hover:bg-slate-700 hover:text-textPrimary transition-colors duration-200"
+                                    className="px-5 py-2.5 text-sm font-semibold rounded-xl text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-900 transition-colors duration-200"
                                 >
                                     Close
                                 </button>
                                 <button 
                                     type="submit" 
-                                    className="px-5 py-2 w-40 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface focus:ring-primary-dark disabled:bg-slate-600 disabled:text-slate-400 disabled:cursor-wait transition-all duration-200"
+                                    className="px-5 py-2.5 w-40 text-sm font-bold text-white bg-primary rounded-xl hover:bg-primary-dark shadow-lg shadow-primary/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-wait"
                                     disabled={!url.trim() || currentStatus === 'connecting' || currentStatus === 'connected'}
                                 >
                                     {currentStatus === 'connecting' ? (
