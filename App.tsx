@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import Footer from './components/Footer';
 import PolicyList from './components/PolicyList';
 import PolicyDetail from './components/PolicyDetail';
 import AddPolicyModal from './components/AddPolicyModal';
@@ -379,7 +378,6 @@ const App: React.FC = () => {
             onUpdateName={handleUpdatePolicyName}
             onDeleteClick={(policy) => setPolicyToDelete(policy)}
           />
-           <Footer />
         </main>
       </div>
 
